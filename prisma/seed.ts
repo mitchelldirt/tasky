@@ -45,7 +45,8 @@ async function seed() {
       title: 'Code a React app using Remix',
       description: '',
       priority: 3,
-      projectId: codingProject.id
+      projectId: codingProject.id,
+      userId: user.id
     }
   });
 
@@ -54,7 +55,8 @@ async function seed() {
       title: 'Learn cypress',
       description: 'This will help you take full advantage of the indie stack and ship better code!',
       priority: 4,
-      projectId: codingProject.id
+      projectId: codingProject.id,
+      userId: user.id
     }
   })
 
@@ -63,7 +65,8 @@ async function seed() {
       title: 'Create the user interface',
       description: 'Make sure to do mobile-first design and test different breakpoints using responsively',
       priority: 3,
-      projectId: codingProject.id
+      projectId: codingProject.id,
+      userId: user.id
     }
   })
 
@@ -72,7 +75,8 @@ async function seed() {
       title: 'Do Yoga',
       description: 'Find a YouTube video focused on rock climbers yoga',
       priority: 5,
-      projectId: personalProject.id
+      projectId: personalProject.id,
+      userId: user.id
     }
   })
 
@@ -81,7 +85,8 @@ async function seed() {
       title: 'Do Laundry',
       description: 'Two baskets',
       priority: 3,
-      projectId: personalProject.id
+      projectId: personalProject.id,
+      userId: user.id
     }
   })
 
@@ -90,7 +95,8 @@ async function seed() {
       title: 'Finish your DuoLingo lesson',
       description: '',
       priority: 2,
-      projectId: personalProject.id
+      projectId: personalProject.id,
+      userId: user.id
     }
   })
 
