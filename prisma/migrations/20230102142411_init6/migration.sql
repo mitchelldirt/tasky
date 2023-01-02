@@ -19,6 +19,7 @@ CREATE TABLE "Task" (
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "priority" INTEGER NOT NULL,
+    "completed" BOOLEAN NOT NULL DEFAULT false,
     "dueDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
     "projectId" TEXT NOT NULL,
