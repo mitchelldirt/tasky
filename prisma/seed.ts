@@ -27,7 +27,7 @@ async function seed() {
   const codingProject = await prisma.project.create({
     data: {
       name: 'Coding',
-      color: '#BADA55',
+      color: 'green',
       userId: user.id
     }
   })
@@ -35,7 +35,7 @@ async function seed() {
   const personalProject = await prisma.project.create({
     data: {
       name: 'Personal',
-      color: '#BADA99',
+      color: 'blue',
       userId: user.id
     }
   })
