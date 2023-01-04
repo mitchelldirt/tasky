@@ -72,7 +72,7 @@ export default function Home() {
               />
             </svg>
           </button>
-          <div className="dropdown dropdown-end">
+          <div className="dropdown-end dropdown">
             <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
               <div className="h-8 w-8 rounded-full">
                 <img
@@ -100,7 +100,18 @@ export default function Home() {
         </div>
       </div>
 
-      <ProjectList projects={data.projects} />
+      <main className="flex flex-col items-center">
+        <div className="flex flex-col mb-6">
+          <button className="text-white btn-wide border-0 btn hover:border-slate-200 rounded-b-none border-b-2 border-slate-400 justify-start">
+            🗂 &nbsp; All Tasks
+          </button>
+          <button className="text-white btn-wide border-0 btn hover:border-slate-200 rounded-none border-b-2 border-slate-400 justify-start">📆 &nbsp; Today's Tasks</button>
+          <button className="text-white btn-wide border-0 btn rounded-t-none hover:border-slate-200 hover:border-b-2 justify-start">✅ &nbsp; Completed Tasks</button>
+        </div>
+        <div className="border-2 border-gray-300 w-fit rounded-md p-7">
+          <ProjectList projects={data.projects} />
+        </div>
+      </main>
     </>
   );
 }
