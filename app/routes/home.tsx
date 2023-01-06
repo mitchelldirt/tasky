@@ -1,5 +1,5 @@
 import ProjectList from "~/components/Projects";
-import { useCatch, useLoaderData, Form } from "@remix-run/react";
+import { useCatch, useLoaderData, Form, Link } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 
 import { getUserId } from "~/session.server";
@@ -28,14 +28,14 @@ export default function Home() {
     <>
       <div className="navbar">
         <div className="navbar-start">
-          <div className="alert alert-success w-fit shadow-lg">
+          <div className="alert alert-success bg-green-400 absolute bottom-0 left-0 w-full rounded-none shadow-lg sm:static sm:alert sm:w-fit sm:alert-success">
             <div>
-              <span>🚀 15 tasks completed today!</span>
+              <span className="text-base">🚀 15 tasks completed today!</span>
             </div>
           </div>
         </div>
         <div className="navbar-center">
-          <p className="btn-ghost btn text-xl normal-case text-green-500">
+          <p className="btn-ghost btn hover:bg-transparent text-xl normal-case text-green-400">
             To.Do
           </p>
         </div>
@@ -43,7 +43,7 @@ export default function Home() {
           <button className="btn-ghost btn-circle btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="h-8 w-8"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -63,7 +63,7 @@ export default function Home() {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="h-6 w-6"
+              className="h-8 w-8 text-green-400"
             >
               <path
                 strokeLinecap="round"
@@ -75,10 +75,20 @@ export default function Home() {
           <div className="dropdown-end dropdown">
             <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
               <div className="h-8 w-8 rounded-full">
-                <img
-                  alt="placeholder"
-                  src="https://placeimg.com/80/80/people"
-                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-8 w-8"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
               </div>
             </label>
             <ul
@@ -86,13 +96,13 @@ export default function Home() {
               className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
             >
               <li>
-                <a href="/home" className="justify-between">
+                <Link to={'/profile'} className="justify-between">
                   Profile
-                </a>
+                </Link>
               </li>
               <li>
-                <Form action="/logout" method="post">
-                  <button>Logout</button>
+                <Form className="p-0" action="/logout" method="post">
+                  <button className="text-left w-full py-2 px-4">Logout</button>
                 </Form>
               </li>
             </ul>
@@ -101,14 +111,18 @@ export default function Home() {
       </div>
 
       <main className="flex flex-col items-center">
-        <div className="flex flex-col mb-6">
-          <button className="text-white btn-wide border-0 btn hover:border-slate-200 rounded-b-none border-b-2 border-slate-400 justify-start">
+        <div className="mb-6 flex flex-col">
+          <button className="btn-wide btn justify-start rounded-b-none border-0 border-b-2 border-slate-400 text-white hover:border-slate-200">
             🗂 &nbsp; All Tasks
           </button>
-          <button className="text-white btn-wide border-0 btn hover:border-slate-200 rounded-none border-b-2 border-slate-400 justify-start">📆 &nbsp; Today's Tasks</button>
-          <button className="text-white btn-wide border-0 btn rounded-t-none hover:border-slate-200 hover:border-b-2 justify-start">✅ &nbsp; Completed Tasks</button>
+          <button className="btn-wide btn justify-start rounded-none border-0 border-b-2 border-slate-400 text-white hover:border-slate-200">
+            📆 &nbsp; Today's Tasks
+          </button>
+          <button className="btn-wide btn justify-start rounded-t-none border-0 text-white hover:border-b-2 hover:border-slate-200">
+            ✅ &nbsp; Completed Tasks
+          </button>
         </div>
-        <div className="border-2 border-gray-300 w-fit rounded-md p-7">
+        <div className="w-fit rounded-md">
           <ProjectList projects={data.projects} />
         </div>
       </main>
