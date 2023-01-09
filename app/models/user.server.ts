@@ -1,4 +1,5 @@
 import type { Password, User } from "@prisma/client";
+import { createProject } from "./project.server";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "~/db.server";
@@ -16,7 +17,7 @@ export async function getUserByEmail(email: User["email"]) {
 export async function createUser(email: User["email"], password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  return prisma.user.create({
+  const user = await  prisma.user.create({
     data: {
       email,
       password: {
@@ -26,6 +27,11 @@ export async function createUser(email: User["email"], password: string) {
       },
     },
   });
+
+  const personal = await createProject({userId: user.id}, 'Personal', 'blue');
+  const work = await createProject({userId: user.id}, 'Work', 'red');
+
+  return user;
 }
 
 export async function deleteUserByEmail(email: User["email"]) {

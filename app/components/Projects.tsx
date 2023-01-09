@@ -12,7 +12,6 @@ export default function ProjectList({ projects }: projectList) {
       <div className="flex flex-col">
         {projects.map((project, index) => {
           const textColorClass = createTailwindTextColor(project.color)
-          console.log(textColorClass)
 
           if (index === 0) {
             return (

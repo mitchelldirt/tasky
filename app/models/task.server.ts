@@ -22,58 +22,18 @@ export function getProjects({ userId }: { userId: User['id'] }) {
 
 export function getProjectTasks({ id, userId }: Pick<Project, 'id'> & { userId: User['id'] }) {
   return prisma.project.findMany({
-    where: {id, userId},
-    select: {tasks: true}
-})
+    where: { id, userId },
+    select: { tasks: true }
+  })
 }
 
-// KEEPING FOR REFERENCE FOR A BIT ⬇️
-
-// export function getNote({
-//   id,
-//   userId,
-// }: Pick<Note, "id"> & {
-//   userId: User["id"];
-// }) {
-//   return prisma.note.findFirst({
-//     select: { id: true, body: true, title: true },
-//     where: { id, userId },
-//   });
-// }
-
-// export function getNoteListItems({ userId }: { userId: User["id"] }) {
-//   return prisma.note.findMany({
-//     where: { userId },
-//     select: { id: true, title: true },
-//     orderBy: { updatedAt: "desc" },
-//   });
-// }
-
-// export function createNote({
-//   body,
-//   title,
-//   userId,
-// }: Pick<Note, "body" | "title"> & {
-//   userId: User["id"];
-// }) {
-//   return prisma.note.create({
-//     data: {
-//       title,
-//       body,
-//       user: {
-//         connect: {
-//           id: userId,
-//         },
-//       },
-//     },
-//   });
-// }
-
-// export function deleteNote({
-//   id,
-//   userId,
-// }: Pick<Note, "id"> & { userId: User["id"] }) {
-//   return prisma.note.deleteMany({
-//     where: { id, userId },
-//   });
-// }
+export function createTask({ userId }: { userId: User['id'] }, title: string, description: string, priority: number) {
+  return prisma.task.create({
+    data: {
+      userId: userId,
+      title: title,
+      description: description,
+      priority: priority
+    }
+  })
+}

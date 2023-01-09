@@ -17,8 +17,6 @@ export async function loader({ request }: LoaderArgs) {
 export default function Profile() {
   const data = useLoaderData<typeof loader>();
 
-  console.log(data);
-
   return (
     <>
       <Link className="absolute top-4 left-4 text-green-400" to={"/home"}>
