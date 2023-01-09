@@ -60,3 +60,23 @@ export async function verifyLogin(
 
   return userWithoutPassword;
 }
+
+export async function updateEmail(userId: User["id"], newEmail: string) {
+  const isDuplicateEmail = await prisma.user.findFirst({
+    where: { email: newEmail }
+  });
+
+  if (isDuplicateEmail) {
+    return {
+      error: 'This email already exists'
+    }
+  }
+
+
+  const response = await prisma.user.update({
+    where: { id: userId },
+    data: { email: newEmail }
+  })
+
+  return response
+}

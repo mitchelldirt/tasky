@@ -1,22 +1,34 @@
 import { Form, Link, useActionData, useCatch } from "@remix-run/react";
 import { badRequest, validateEmail } from "~/utils";
+import { getUserId } from "~/session.server";
+import { updateEmail } from "~/models/user.server";
 
-import { ActionArgs, redirect } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 
 export default function ChangeEmail() {
   const data = useActionData<typeof action>();
 
   return (
     <>
-      <Form className="w-3/4" method="patch">
+      <Form className="flex w-3/4 flex-col items-center" method="patch">
         <h2 className="text-bold border-t-2 border-green-200 pt-4 text-center text-2xl">
           Update Email Address
         </h2>
         <div>
-        {data ? (
-            <p className="form-validation-error text-red-500" role="alert">
-              {data.formError}
-            </p>
+          {data ? (
+            <>
+              <span className="mt-4 flex">
+                <p
+                  className="form-validation-error text-center text-red-500"
+                  role="alert"
+                >
+                  {data.formError}
+                </p>
+                <span className="relative left-3 inline-flex h-3 w-3 animate-ping rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500"></span>
+              </span>
+            </>
           ) : null}
         </div>
         <div className="form-control w-full max-w-xs">
@@ -28,6 +40,7 @@ export default function ChangeEmail() {
             type="text"
             placeholder="Type new email here"
             className="input-bordered input w-full max-w-xs"
+            defaultValue={data?.fields?.email ? data.fields.email : ""}
           />
         </div>
 
@@ -43,7 +56,7 @@ export default function ChangeEmail() {
           />
         </div>
 
-        <div className="mt-4 flex flex-row justify-evenly">
+        <div className="mt-4 flex flex-row gap-10">
           <Link to={"/profile"}>
             <button className="btn-error btn">Cancel</button>
           </Link>
@@ -62,19 +75,52 @@ export async function action({ request }: ActionArgs) {
 
   if (validateEmail(email) === false || validateEmail(confirmEmail) === false) {
     return badRequest({
-      fieldErrors: null,
       fields: null,
-      formError: `Form not submitted correctly.`,
+      formError: `Invalid Email`,
     });
   }
 
-  // if (email !== confirmEmail)
+  if (email !== confirmEmail) {
+    return badRequest({
+      fields: {
+        email: email,
+      },
+      formError: `Emails do not match`,
+    });
+  }
 
-  console.log(email, confirmEmail);
-  return redirect(`/profile`)
+  const userId = await getUserId(request);
+  if (userId === undefined) return redirect("/login");
+
+  if (validateEmail(email)) {
+    const query = await updateEmail(userId, email);
+    console.log(query, 'hello2')
+
+    if ("error" in query) {
+      console.log("error af");
+      return badRequest({
+        fields: null,
+        formError: query.error,
+      });
+    }
+
+    return redirect(`/profile`);
+  }
+
+  throw new Response("Uh oh something went wrong", {
+    status: 400,
+  });
 }
 
-// email already exists
-// export function CatchBoundary() {
-//   const caught = useCatch();
-// }
+export function CatchBoundary() {
+  const caught = useCatch();
+  return (
+    <div>
+      <h1>Caught</h1>
+      <p>Status: {caught.status}</p>
+      <pre>
+        <code>{JSON.stringify(caught.data, null, 2)}</code>
+      </pre>
+    </div>
+  );
+}
