@@ -80,3 +80,38 @@ export async function updateEmail(userId: User["id"], newEmail: string) {
 
   return response
 }
+
+export async function isCurrentPassword(id: User['id'], currentPassword: string) {
+  const userWithPassword = await prisma.user.findUnique({
+    where: { id },
+    include: {
+      password: true,
+    },
+  });
+
+  if (!userWithPassword || !userWithPassword.password) {
+    return false;
+  }
+
+  const isValid = await bcrypt.compare(
+    currentPassword,
+    userWithPassword.password.hash
+  );
+
+  if (!isValid) {
+    return false;
+  }
+
+  return true;
+}
+
+export async function updatePassword(userId: User["id"], newPassword: string) {
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  const response = await prisma.password.update({
+    where: { userId: userId },
+    data: { hash: hashedPassword }
+  })
+
+  return response;
+}
