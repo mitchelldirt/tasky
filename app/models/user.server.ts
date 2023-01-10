@@ -1,5 +1,6 @@
 import type { Password, User } from "@prisma/client";
 import { createProject } from "./project.server";
+import { createTask } from "./task.server";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "~/db.server";
@@ -17,7 +18,7 @@ export async function getUserByEmail(email: User["email"]) {
 export async function createUser(email: User["email"], password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await  prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       email,
       password: {
@@ -28,8 +29,17 @@ export async function createUser(email: User["email"], password: string) {
     },
   });
 
-  const personal = await createProject({userId: user.id}, 'Personal', 'blue');
-  const work = await createProject({userId: user.id}, 'Work', 'red');
+  const personal = await createProject({ userId: user.id }, 'Personal', 'blue');
+  const work = await createProject({ userId: user.id }, 'Work', 'red');
+
+  // personal tasks
+  await createTask({ userId: user.id }, 'Do yoga', 'Choose a yoga video with a focus on hip flexibility', 5, { projectId: personal.id });
+  await createTask({ userId: user.id }, 'Vacuum', '', 5, { projectId: personal.id });
+  await createTask({ userId: user.id }, 'Plan vacation', 'Figure out how much it will cost for a 5 night stay in Minneapolis', 5, { projectId: personal.id });
+
+  // work tasks
+  await createTask({ userId: user.id }, 'Do yoga', '', 5, { projectId: work.id });
+  await createTask({ userId: user.id }, 'Do yoga', '', 5, { projectId: work.id });
 
   return user;
 }

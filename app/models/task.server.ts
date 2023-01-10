@@ -27,13 +27,14 @@ export function getProjectTasks({ id, userId }: Pick<Project, 'id'> & { userId: 
   })
 }
 
-export function createTask({ userId }: { userId: User['id'] }, title: string, description: string, priority: number) {
+export function createTask({ userId }: { userId: User['id'] }, title: string, description: string, priority: number, { projectId }: { projectId: Project['id'] }) {
   return prisma.task.create({
     data: {
       userId: userId,
       title: title,
       description: description,
-      priority: priority
+      priority: priority,
+      projectId: projectId
     }
   })
 }
