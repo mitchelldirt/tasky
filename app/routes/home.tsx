@@ -1,5 +1,5 @@
 import ProjectList from "~/components/Projects";
-import { useCatch, useLoaderData, Form, Link } from "@remix-run/react";
+import { useCatch, useLoaderData, Form, Link, LiveReload } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import HomeNavBar from "~/components/HomeNavBar";
 import ViewsMenu from "~/components/Views";
@@ -7,6 +7,7 @@ import { getUserId } from "~/session.server";
 import { getProjects } from "~/models/project.server";
 
 import type { LoaderArgs } from "@remix-run/node";
+import ProjectsHeader from "~/components/ProjectsHeader";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -28,10 +29,11 @@ export default function Home() {
   return (
     <>
       <HomeNavBar />
-
+    <LiveReload />
       <main className="flex flex-col items-center">
         <ViewsMenu />
         <div className="w-fit rounded-md">
+          <ProjectsHeader />
           <ProjectList projects={data.projects} />
         </div>
       </main>

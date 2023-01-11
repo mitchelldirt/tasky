@@ -38,8 +38,9 @@ export async function createUser(email: User["email"], password: string) {
   await createTask({ userId: user.id }, 'Plan vacation', 'Figure out how much it will cost for a 5 night stay in Minneapolis', 5, { projectId: personal.id });
 
   // work tasks
-  await createTask({ userId: user.id }, 'Do yoga', '', 5, { projectId: work.id });
-  await createTask({ userId: user.id }, 'Do yoga', '', 5, { projectId: work.id });
+  await createTask({ userId: user.id }, 'Clean off desk', '', 2, { projectId: work.id });
+  
+  await createTask({ userId: user.id }, 'Ship version 1.0 of app', '', 5, { projectId: work.id });
 
   return user;
 }
