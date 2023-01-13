@@ -1,5 +1,10 @@
 import ProjectList from "~/components/Projects";
-import { useCatch, useLoaderData, Form, Link, LiveReload } from "@remix-run/react";
+import {
+  useCatch,
+  useLoaderData,
+  LiveReload,
+  Outlet,
+} from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import HomeNavBar from "~/components/HomeNavBar";
 import ViewsMenu from "~/components/Views";
@@ -29,11 +34,12 @@ export default function Home() {
   return (
     <>
       <HomeNavBar />
-    <LiveReload />
+      <LiveReload />
       <main className="flex flex-col items-center">
         <ViewsMenu />
         <div className="w-fit rounded-md">
           <ProjectsHeader />
+          <Outlet />
           <ProjectList projects={data.projects} />
         </div>
       </main>
