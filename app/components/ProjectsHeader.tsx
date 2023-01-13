@@ -52,7 +52,7 @@ export default function ProjectsHeader() {
               <option disabled selected>
                 Pick one
               </option>
-              <option>Red</option>
+              <option className="text-red-400">Red</option>
               <option>Blue</option>
               <option>Green</option>
             </select>
