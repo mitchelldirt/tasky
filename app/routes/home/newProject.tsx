@@ -1,11 +1,14 @@
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, useActionData } from "@remix-run/react";
 import { createProject } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
 
 import type { ActionArgs } from "@remix-run/node";
+import { badRequest } from "~/utils";
 
-export default function newProjectModal() {
+export default function NewProjectModal() {
+  const actionData = useActionData<typeof action>();
+
   return (
     <>
       <input
@@ -13,6 +16,7 @@ export default function newProjectModal() {
         id="createProjectModal"
         className="modal-toggle"
         checked
+        readOnly
       />
       <div className="modal">
         <div className="modal-box relative">
@@ -28,6 +32,17 @@ export default function newProjectModal() {
             Create Project
           </h3>
           <Form method="post">
+            {actionData ? (
+              <span className="mt-4 flex justify-center">
+                <p
+                  className="form-validation-error text-center text-red-500"
+                  role="alert"
+                >
+                  {actionData.formError}
+                </p>
+              </span>
+            ) : null}
+
             <div className="form-control w-full max-w-xs">
               <label className="label">
                 <span className="label-text">Name</span>
@@ -37,14 +52,16 @@ export default function newProjectModal() {
                 placeholder="Type here"
                 className="input-bordered input w-full max-w-xs"
                 name="name"
+                minLength={3}
+                maxLength={27}
               />
             </div>
 
             <div className="w-full max-w-xs">
-            <label className="label">
+              <label className="label">
                 <span className="label-text">Color</span>
               </label>
-              <div className="input mb-6 grid w-full grid-cols-5 gap-4 justify-items-center">
+              <div className="input mb-6 grid w-full grid-cols-5 justify-items-center gap-4">
                 <input
                   value={"red"}
                   type="radio"
@@ -121,6 +138,7 @@ export default function newProjectModal() {
                   value={"lime"}
                   type="radio"
                   name="color"
+                  required
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-lime-400 bg-lime-400 text-lime-400 checked:border-white"
                 />
@@ -141,7 +159,19 @@ export default function newProjectModal() {
 }
 
 export async function action({ request }: ActionArgs) {
-  console.log("jello");
+  const allowedColors = [
+    "red",
+    "blue",
+    "yellow",
+    "orange",
+    "green",
+    "purple",
+    "pink",
+    "white",
+    "lime",
+    "teal",
+  ];
+  
   const data = await request.formData();
   const name = data.get("name");
   const color = data.get("color");
@@ -149,8 +179,26 @@ export async function action({ request }: ActionArgs) {
   const userId = await getUserId(request);
   if (userId === undefined) return redirect("/login");
 
-  if (typeof name !== "string" || typeof color !== "string") {
-    return new Response("bad");
+  if (!color) {
+    return badRequest({
+      formError: "Please select a color",
+    });
+  }
+
+  if (
+    typeof name !== "string" ||
+    typeof color !== "string" ||
+    allowedColors.includes(color) === false
+  ) {
+    return badRequest({
+      formError: "Form submitted incorrectly, please try again.",
+    });
+  }
+
+  if (name.length < 3 || name.length > 27) {
+    return badRequest({
+      formError: "The name of the project must be between 3 and 27 characters",
+    });
   }
 
   switch (request.method) {
@@ -159,4 +207,8 @@ export async function action({ request }: ActionArgs) {
       return redirect("/home");
     }
   }
+
+  return badRequest({
+    formError: "Uh oh - something went wrong on our end.",
+  });
 }
