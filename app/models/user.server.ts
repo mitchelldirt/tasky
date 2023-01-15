@@ -29,8 +29,8 @@ export async function createUser(email: User["email"], password: string) {
     },
   });
 
-  const personal = await createProject({ userId: user.id }, 'Personal', 'blue');
-  const work = await createProject({ userId: user.id }, 'Work', 'red');
+  const personal = await createProject({ userId: user.id }, 'PERSONAL', 'blue');
+  const work = await createProject({ userId: user.id }, 'WORK', 'red');
 
   // personal tasks
   await createTask({ userId: user.id }, 'Do yoga', 'Choose a yoga video with a focus on hip flexibility', 5, { projectId: personal.id });

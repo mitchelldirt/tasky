@@ -15,7 +15,7 @@ export function createProject({ userId }: { userId: User['id'] }, name: string, 
   return prisma.project.create({
     data: {
       userId: userId,
-      name: name,
+      name: name.toUpperCase(),
       color: color
     }
   })
