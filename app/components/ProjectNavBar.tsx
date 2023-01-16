@@ -1,19 +1,30 @@
 import { Form, Link } from '@remix-run/react'
 
-export default function HomeNavBar() {
+export default function ProjectNavBar({name}: any) {
   return (
     <div className="navbar">
       <div className="navbar-start">
-        <section id="completedTasksCount" className="alert alert-success fixed bottom-0 left-0 w-full rounded-none bg-green-400 shadow-lg sm:static sm:alert sm:w-fit sm:alert-success">
-          <div>
-            <span className="text-base">🚀 15 tasks completed today!</span>
-          </div>
-        </section>
+      <Link className="absolute top-4 left-4 text-green-400" to={"/home"}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="h-6 w-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+          />
+        </svg>
+      </Link>
+
+      <h1>{name}</h1>
       </div>
       <div className="navbar-center">
-        <p className="btn-ghost btn text-xl normal-case text-green-400 hover:bg-transparent">
-          To.Do
-        </p>
+      
       </div>
       <div className="navbar-end">
         <button className="btn-ghost btn-circle btn">
