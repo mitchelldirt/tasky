@@ -1,31 +1,29 @@
-import { Form, Link } from '@remix-run/react'
+import { Form, Link } from "@remix-run/react";
 
-export default function ProjectNavBar({name}: any) {
+export default function ProjectNavBar({ name }: any) {
   return (
     <div className="navbar">
       <div className="navbar-start">
-      <Link className="absolute top-4 left-4 text-green-400" to={"/home"}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="h-6 w-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-          />
-        </svg>
-      </Link>
+        <Link className="absolute top-4 left-4 text-green-400" to={"/home"}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-6 w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+            />
+          </svg>
+        </Link>
 
-      <h1>{name}</h1>
+        <h1>{name}</h1>
       </div>
-      <div className="navbar-center">
-      
-      </div>
+      <div className="navbar-center"></div>
       <div className="navbar-end">
         <button className="btn-ghost btn-circle btn">
           <svg
@@ -61,19 +59,19 @@ export default function ProjectNavBar({name}: any) {
         </button>
         <div className="dropdown-end dropdown">
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
-            <div className="h-8 w-8 rounded-full">
+            <div className="h-6 w-6 rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="h-8 w-8"
+                className="h-6 w-6"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+                  d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                 />
               </svg>
             </div>
@@ -83,14 +81,9 @@ export default function ProjectNavBar({name}: any) {
             className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <li>
-              <Link to={"/profile"} className="justify-between">
-                Profile
+              <Link to={"/project/test/editProject"} className="justify-between">
+                Edit Project
               </Link>
-            </li>
-            <li>
-              <Form className="p-0" action="/logout" method="post">
-                <button className="w-full py-2 px-4 text-left">Logout</button>
-              </Form>
             </li>
           </ul>
         </div>
