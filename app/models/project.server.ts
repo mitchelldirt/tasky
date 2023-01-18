@@ -1,4 +1,4 @@
-import type { User } from "@prisma/client";
+import type { User, Project } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
@@ -8,6 +8,12 @@ export function getProjects({ userId }: { userId: User['id'] }) {
   return prisma.project.findMany({
     where: { userId },
     orderBy: { name: 'asc' }
+  })
+}
+
+export function getProjectById({ projectId }: { projectId: Project['id'] }) {
+  return prisma.project.findFirst({
+    where: { id: projectId }
   })
 }
 

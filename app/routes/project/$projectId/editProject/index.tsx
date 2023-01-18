@@ -6,7 +6,7 @@ import { redirect } from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
 import { badRequest } from "~/utils";
 
-export default function NewProjectModal() {
+export default function NewProjectModal({projectId}: any) {
   const actionData = useActionData<typeof action>();
 
   return (
@@ -20,7 +20,7 @@ export default function NewProjectModal() {
       />
       <div className="modal">
         <div className="modal-box relative">
-          <Link to={"/project/test"}>
+          <Link to={`/project/${projectId}`}>
             <label
               htmlFor="createProjectModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"
