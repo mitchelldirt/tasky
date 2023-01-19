@@ -1,4 +1,4 @@
-import { Outlet } from "@remix-run/react";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import ProjectNavBar from "~/components/ProjectNavBar";
 import { getProjectById } from "~/models/project.server";
 
@@ -13,14 +13,31 @@ export async function loader({ params }: LoaderArgs) {
 
   const project = await getProjectById({ projectId });
 
-  return null;
+  if (project) {
+    return {
+      name: project.name,
+      color: project.color,
+      id: project.id,
+    };
+  }
 }
 
 export default function ProjectById() {
+  const loaderData = useLoaderData<typeof loader>();
+
+  const name = loaderData?.name;
+  const color = loaderData?.color;
+  const id = loaderData?.id;
+
   return (
     <>
-      <ProjectNavBar />
+      <ProjectNavBar
+        name={name || "Project"}
+        color={color || "red"}
+        id={id || "null"}
+      />
       <p>This is working</p>
+      {/*TODO: figure out how to use useOutletContext to pass the id to the edit project modal*/}
       <Outlet />
     </>
   );

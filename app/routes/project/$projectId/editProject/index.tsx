@@ -2,11 +2,12 @@ import { Form, Link, useActionData } from "@remix-run/react";
 import { createProject } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
-
-import type { ActionArgs } from "@remix-run/node";
 import { badRequest } from "~/utils";
 
-export default function NewProjectModal({projectId}: any) {
+import type { ActionArgs } from "@remix-run/node";
+import type { Project } from "@prisma/client";
+
+export default function NewProjectModal({ id }: Pick<Project, "id">) {
   const actionData = useActionData<typeof action>();
 
   return (
@@ -20,7 +21,7 @@ export default function NewProjectModal({projectId}: any) {
       />
       <div className="modal">
         <div className="modal-box relative">
-          <Link to={`/project/${projectId}`}>
+          <Link to={`/project/${id}`}>
             <label
               htmlFor="createProjectModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"
@@ -171,7 +172,7 @@ export async function action({ request }: ActionArgs) {
     "lime",
     "teal",
   ];
-  
+
   const data = await request.formData();
   const name = data.get("name");
   const color = data.get("color");

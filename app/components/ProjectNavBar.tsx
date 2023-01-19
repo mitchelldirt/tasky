@@ -1,10 +1,16 @@
-import { Form, Link } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
-export default function ProjectNavBar({ name, id }: any) {
+import type { Project } from "@prisma/client";
+
+export default function ProjectNavBar({
+  name = 'Project',
+  id = 'null',
+  color = 'red',
+}: Pick<Project, "color" | "name" | "id">) {
   return (
     <div className="navbar">
       <div className="navbar-start">
-        <Link className="absolute top-4 left-4 text-green-400" to={`/project/${id}`}>
+        <Link className="absolute top-4 left-4 text-green-400" to={`/home`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,7 +27,7 @@ export default function ProjectNavBar({ name, id }: any) {
           </svg>
         </Link>
 
-        <h1>{name}</h1>
+        <h1 className={`ml-14 text-2xl font-bold text-${color}-400`}>{name}</h1>
       </div>
       <div className="navbar-center"></div>
       <div className="navbar-end">
@@ -81,7 +87,10 @@ export default function ProjectNavBar({ name, id }: any) {
             className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <li>
-              <Link to={`/project/${id}/editProject`} className="justify-between">
+              <Link
+                to={`/project/${id}/editProject`}
+                className="justify-between"
+              >
                 Edit Project
               </Link>
             </li>
