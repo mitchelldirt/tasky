@@ -1,4 +1,4 @@
-import { Form, Link, useActionData } from "@remix-run/react";
+import { Form, Link, useActionData, useOutletContext } from "@remix-run/react";
 import { createProject } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
@@ -7,8 +7,14 @@ import { badRequest } from "~/utils";
 import type { ActionArgs } from "@remix-run/node";
 import type { Project } from "@prisma/client";
 
-export default function NewProjectModal({ id }: Pick<Project, "id">) {
+export default function NewProjectModal() {
   const actionData = useActionData<typeof action>();
+  //TODO: Fix the types here
+  //@ts-ignore
+  const context = useOutletContext();
+
+  console.log(context)
+  
 
   return (
     <>
@@ -21,7 +27,7 @@ export default function NewProjectModal({ id }: Pick<Project, "id">) {
       />
       <div className="modal">
         <div className="modal-box relative">
-          <Link to={`/project/${id}`}>
+          <Link to={`/project/${'test'}`}>
             <label
               htmlFor="createProjectModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"

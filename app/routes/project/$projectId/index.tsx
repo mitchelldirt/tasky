@@ -3,6 +3,7 @@ import ProjectNavBar from "~/components/ProjectNavBar";
 import { getProjectById } from "~/models/project.server";
 
 import type { LoaderArgs } from "@remix-run/node";
+import React from "react";
 
 export async function loader({ params }: LoaderArgs) {
   const projectId = params.projectId;
@@ -20,6 +21,8 @@ export async function loader({ params }: LoaderArgs) {
       id: project.id,
     };
   }
+
+  return null
 }
 
 export default function ProjectById() {
@@ -28,6 +31,10 @@ export default function ProjectById() {
   const name = loaderData?.name;
   const color = loaderData?.color;
   const id = loaderData?.id;
+
+  const [projectId, setProjectId] = React.useState(id)
+
+  
 
   return (
     <>
@@ -38,7 +45,7 @@ export default function ProjectById() {
       />
       <p>This is working</p>
       {/*TODO: figure out how to use useOutletContext to pass the id to the edit project modal*/}
-      <Outlet />
+      <Outlet context={{projectId}} />
     </>
   );
 }
