@@ -11,10 +11,11 @@ export default function NewProjectModal() {
   const actionData = useActionData<typeof action>();
   //TODO: Fix the types here
   //@ts-ignore
-  const context = useOutletContext();
-
-  console.log(context)
-  
+  const context = useOutletContext<data>();
+  let id = '';  
+  if (context && 'projectId' in context) {
+    id = context.projectId
+  }   
 
   return (
     <>
@@ -27,7 +28,8 @@ export default function NewProjectModal() {
       />
       <div className="modal">
         <div className="modal-box relative">
-          <Link to={`/project/${'test'}`}>
+          {/*TODO: Catch the error in the loader above so that you don't have to route to home on failure. Or create an uh oh page*/}
+          <Link to={`/project/${id}` || '/home'}>
             <label
               htmlFor="createProjectModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"
