@@ -26,3 +26,17 @@ export function createProject({ userId }: { userId: User['id'] }, name: string, 
     }
   })
 }
+
+export function editProject({ id, name, color }: Pick<Project, 'id' | 'name' | 'color'>) {
+return prisma.project.update({
+  data: {
+    id: id,
+    name: name,
+    color: color
+  },
+
+  where: {
+    id: id
+  }
+})
+}
