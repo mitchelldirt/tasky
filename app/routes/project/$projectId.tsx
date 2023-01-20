@@ -32,10 +32,6 @@ export default function ProjectById() {
   const color = loaderData?.color;
   const id = loaderData?.id;
 
-  const [projectId, setProjectId] = React.useState(id)
-
-  
-
   return (
     <>
       <ProjectNavBar
@@ -43,9 +39,7 @@ export default function ProjectById() {
         color={color || "red"}
         id={id || "null"}
       />
-      <p>This is working</p>
-      {/*TODO: figure out how to use useOutletContext to pass the id to the edit project modal*/}
-      <Outlet context={{projectId}} />
+      <Outlet context={{id, name, color}} />
     </>
   );
 }
