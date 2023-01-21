@@ -4,6 +4,7 @@ import { getProjectById } from "~/models/project.server";
 
 import type { LoaderArgs } from "@remix-run/node";
 import React from "react";
+import Tasks from "~/components/Tasks";
 
 export async function loader({ params }: LoaderArgs) {
   const projectId = params.projectId;
@@ -40,6 +41,7 @@ export default function ProjectById() {
         id={id || "null"}
       />
       <Outlet context={{id, name, color}} />
+      <Tasks />
     </>
   );
 }
