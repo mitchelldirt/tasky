@@ -94,6 +94,14 @@ export default function ProjectNavBar({
                 Edit Project
               </Link>
             </li>
+            <li>
+              <Link
+                to={`/project/${id}/deleteProject`}
+                className="justify-between"
+              >
+                Delete Project
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
