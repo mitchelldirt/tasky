@@ -1,25 +1,31 @@
 import { title } from "process";
 import TaskView from "./Task";
 import { Task } from "@prisma/client";
+import { LiveReload } from "@remix-run/react";
 
-const sampleTask: Partial<Task> = {
-id: 'id',
-dueDate: new Date,
-description: 'desc',
-priority: 5,
-completed: false
-}
+type taskList = {
+  tasks: Task[] | Array<any>;
+};
 
-export default function Tasks() {
+export default function Tasks({ tasks }: taskList) {
+  console.log(tasks)
   return (
     <>
       <main>
-        <TaskView
-        title={{title: sampleTask.title || 'Test'}}
-        dueDate={{dueDate: sampleTask.dueDate || new Date}}
-        priority={{priority: sampleTask.priority || 5}}
-        name={{name: 'Test'}}
-        />
+        <ol>
+          {tasks
+            ? tasks.map((task) => (
+                <TaskView
+                  title={{ title: task.title || "Tet" }}
+                  dueDate={{ dueDate: task.dueDate || new Date() }}
+                  priority={{ priority: task.priority || 5 }}
+                  name={{ name: "Test" }}
+                  key={task.id}
+                />
+              ))
+            : null}
+        </ol>
+        <LiveReload />
       </main>
     </>
   );

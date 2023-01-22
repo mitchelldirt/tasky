@@ -8,6 +8,7 @@ type TaskProps = {
 };
 
 export default function TaskView({title, dueDate, priority, name}: TaskProps) {
+  console.log(typeof dueDate.dueDate)
   return (
     <>
       <div className="flex flex-row">
@@ -16,11 +17,11 @@ export default function TaskView({title, dueDate, priority, name}: TaskProps) {
           width="24"
           height="24"
           viewBox="0 0 24 24"
-          stroke-width="2"
+          strokeWidth="2"
           stroke="currentColor"
           fill="none"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
           {" "}
           <path stroke="none" d="M0 0h24v24H0z" />{" "}
@@ -29,9 +30,10 @@ export default function TaskView({title, dueDate, priority, name}: TaskProps) {
 
         <div className="flex flex-col">
           <p>{title.title}</p>
-          <p>{dueDate.dueDate.toUTCString()}</p>
+          <p>{dueDate.dueDate.toString()}</p>
         </div>
         <span>{name.name}</span>
+        
       </div>
     </>
   );
