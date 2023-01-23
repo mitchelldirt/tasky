@@ -19,7 +19,7 @@ export default function TaskView({
   name,
   hasTime,
 }: TaskProps) {
-  const parsedDueDate = parseDueDate(dueDate.dueDate.toString());
+  const parsedDueDate = parseDueDate(dueDate.dueDate.toString(), hasTime.time);
   
   const dueDateTextColor = dueDateColor(
     parsedDueDate.date,
@@ -50,7 +50,7 @@ export default function TaskView({
           <div className="flex flex-col">
             <p className="text-white">{title.title}</p>
             <div
-              className={`${dueDateTextColor} flex flex-row`}
+              className={`${dueDateTextColor} flex flex-row gap-3`}
             >
               <p>{parsedDueDate.date}</p>
               {hasTime.time ? <p>{parsedDueDate.time}</p> : null}
