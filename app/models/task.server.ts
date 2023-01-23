@@ -23,7 +23,7 @@ export function getProjects({ userId }: { userId: User['id'] }) {
 export function getProjectTasks({ id, userId }: Pick<Project, 'id'> & { userId: User['id'] }) {
   return prisma.project.findMany({
     where: { id, userId },
-    select: { tasks: true }
+    select: { name: true, tasks: true }
   })
 }
 

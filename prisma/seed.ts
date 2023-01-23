@@ -46,7 +46,8 @@ async function seed() {
       description: '',
       priority: 3,
       projectId: codingProject.id,
-      userId: user.id
+      userId: user.id,
+      time: true
     }
   });
 
@@ -74,7 +75,7 @@ async function seed() {
     data: {
       title: 'Do Yoga',
       description: 'Find a YouTube video focused on rock climbers yoga',
-      priority: 5,
+      priority: 1,
       projectId: personalProject.id,
       userId: user.id
     }

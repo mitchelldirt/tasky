@@ -14,7 +14,7 @@ export async function loader({ params, request }: LoaderArgs) {
   const userId = await getUserId(request);
   if (!userId) throw redirect("/");
   if (typeof projectId !== "string") {
-    throw new Error('uh oh')
+    throw new Error("uh oh");
   }
 
   const project = await getProjectById({ projectId });
@@ -32,22 +32,21 @@ export async function loader({ params, request }: LoaderArgs) {
       tasks: projectTasks[0].tasks,
     });
   }
-  
-  throw new Error('Uh Oh')
+
+  throw new Error("Uh Oh");
 }
 
 export default function ProjectById() {
   const data = useLoaderData<typeof loader>();
 
-  if (!data || typeof data !== 'object') {
-    return null
+  if (!data || typeof data !== "object") {
+    return null;
   }
 
   const name = data.name;
   const color = data.color;
-  const id = data.id
+  const id = data.id;
   const tasks = data.tasks;
-
 
   return (
     <>
@@ -57,10 +56,7 @@ export default function ProjectById() {
         id={id || "null"}
       />
       <Outlet context={{ id, name, color }} />
-      {tasks ? (
-        <Tasks tasks={data.tasks || []}/>
-      ) : null}
-      
+      {tasks ? <Tasks tasks={data.tasks || []} /> : null}
     </>
   );
 }
