@@ -47,6 +47,7 @@ export default function ProjectNavBar({
             />
           </svg>
         </button>
+        <Link to={'/task/new'}>
         <button className="btn-ghost btn-circle btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,6 +64,7 @@ export default function ProjectNavBar({
             />
           </svg>
         </button>
+        </Link>
         <div className="dropdown-end dropdown">
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
             <div className="h-6 w-6 rounded-full">
