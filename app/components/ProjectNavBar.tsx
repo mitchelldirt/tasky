@@ -47,7 +47,7 @@ export default function ProjectNavBar({
             />
           </svg>
         </button>
-        <Link to={'/task/new'}>
+        <Link to={`/project/${id}/newTask`}>
         <button className="btn-ghost btn-circle btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"

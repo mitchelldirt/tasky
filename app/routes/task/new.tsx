@@ -7,6 +7,12 @@ import type { ActionArgs } from "@remix-run/node";
 import { badRequest } from "~/utils";
 
 
+export default function newToDo() {
+  return (
+    <>
+    </>
+  )
+}
 
 export async function action({ request }: ActionArgs) {
   const allowedColors = [
