@@ -22,7 +22,8 @@ CREATE TABLE "Task" (
     "completed" BOOLEAN NOT NULL DEFAULT false,
     "dueDate" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
-    "projectId" TEXT NOT NULL,
+    "time" BOOLEAN NOT NULL DEFAULT false,
+    "projectId" TEXT,
     "userId" TEXT NOT NULL,
     CONSTRAINT "Task_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT "Task_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE
