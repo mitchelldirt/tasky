@@ -1,4 +1,3 @@
-import { Form, Link, useActionData } from "@remix-run/react";
 import { createProject } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
@@ -6,12 +5,8 @@ import { redirect } from "@remix-run/node";
 import type { ActionArgs } from "@remix-run/node";
 import { badRequest } from "~/utils";
 
-
 export default function newToDo() {
-  return (
-    <>
-    </>
-  )
+  return <></>;
 }
 
 export async function action({ request }: ActionArgs) {
@@ -27,7 +22,7 @@ export async function action({ request }: ActionArgs) {
     "lime",
     "teal",
   ];
-  
+
   const data = await request.formData();
   const name = data.get("name");
   const color = data.get("color");

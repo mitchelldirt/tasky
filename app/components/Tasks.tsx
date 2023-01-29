@@ -1,6 +1,5 @@
-import { title } from "process";
 import TaskView from "./Task";
-import { Project, Task } from "@prisma/client";
+import type { Project, Task } from "@prisma/client";
 import { LiveReload } from "@remix-run/react";
 
 type taskList = {
@@ -15,7 +14,7 @@ export default function Tasks({
   return (
     <>
       <main className="flex flex-col items-center">
-        <ol className="flex flex-col items-center w-full md:w-3/4">
+        <ol className="flex w-full flex-col items-center md:w-3/4">
           {tasks
             ? tasks.map((task) => (
                 <TaskView
@@ -23,7 +22,7 @@ export default function Tasks({
                   dueDate={{ dueDate: task.dueDate || new Date() }}
                   priority={{ priority: task.priority || 5 }}
                   name={{ name: name }}
-                  hasTime={{time: task.time}}
+                  hasTime={{ time: task.time }}
                   key={task.id}
                 />
               ))

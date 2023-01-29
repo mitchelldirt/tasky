@@ -5,7 +5,7 @@ export default function ProjectsHeader() {
     <>
       <div className="flex flex-row items-center justify-between">
         <h2 className="font-bold">Projects</h2>
-        <Link to={'newProject'}>
+        <Link to={"newProject"}>
           <label htmlFor="createProjectModal" className="hover:cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"

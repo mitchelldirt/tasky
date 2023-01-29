@@ -94,7 +94,7 @@ export async function action({ request }: ActionArgs) {
 
   if (validateEmail(email)) {
     const query = await updateEmail(userId, email);
-    console.log(query, 'hello2')
+    console.log(query, "hello2");
 
     if ("error" in query) {
       console.log("error af");

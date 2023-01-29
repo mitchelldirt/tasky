@@ -2,7 +2,8 @@ import { Outlet, useLoaderData } from "@remix-run/react";
 import ProjectNavBar from "~/components/ProjectNavBar";
 import { getProjectById } from "~/models/project.server";
 
-import { LoaderArgs, redirect } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import React from "react";
 import Tasks from "~/components/Tasks";
 import { getProjectTasks } from "~/models/task.server";

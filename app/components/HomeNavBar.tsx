@@ -1,10 +1,13 @@
-import { Form, Link } from '@remix-run/react'
+import { Form, Link } from "@remix-run/react";
 
 export default function HomeNavBar() {
   return (
     <div className="navbar">
       <div className="navbar-start">
-        <section id="completedTasksCount" className="alert alert-success fixed bottom-0 left-0 w-full rounded-none bg-green-400 shadow-lg sm:static sm:alert sm:w-fit sm:alert-success">
+        <section
+          id="completedTasksCount"
+          className="alert alert-success fixed bottom-0 left-0 w-full rounded-none bg-green-400 shadow-lg sm:static sm:alert sm:w-fit sm:alert-success"
+        >
           <div>
             <span className="text-base">🚀 15 tasks completed today!</span>
           </div>

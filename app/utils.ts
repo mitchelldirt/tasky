@@ -1,5 +1,5 @@
 import { useMatches } from "@remix-run/react";
-import { json } from '@remix-run/node'
+import { json } from "@remix-run/node";
 import { useMemo } from "react";
 
 import type { User } from "~/models/user.server";
@@ -79,5 +79,4 @@ export function validatePassword(password: unknown): password is string {
  * This helper function helps us returning the accurate HTTP status,
  * 400 Bad Request, to the client.
  */
-export const badRequest = <T>(data: T) =>
-  json<T>(data, { status: 400 });
+export const badRequest = <T>(data: T) => json<T>(data, { status: 400 });

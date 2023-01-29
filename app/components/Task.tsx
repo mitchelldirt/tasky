@@ -1,5 +1,4 @@
 import type { Task, Project } from "@prisma/client";
-import { parse } from "node:path/win32";
 import dueDateColor from "~/helpers/dueDateColor";
 import parseDueDate from "~/helpers/parseDueDate";
 import priorityColor from "~/helpers/priorityColor";
@@ -20,12 +19,12 @@ export default function TaskView({
   hasTime,
 }: TaskProps) {
   const parsedDueDate = parseDueDate(dueDate.dueDate.toString(), hasTime.time);
-  
+
   const dueDateTextColor = dueDateColor(
     parsedDueDate.date,
     parsedDueDate.isOverdue
   );
-  
+
   const priorityTextColor = priorityColor(priority.priority);
   return (
     <>
@@ -49,9 +48,7 @@ export default function TaskView({
         <div className="w-full border-b-2 border-gray-400">
           <div className="flex flex-col">
             <p className="text-white">{title.title}</p>
-            <div
-              className={`${dueDateTextColor} flex flex-row gap-3`}
-            >
+            <div className={`${dueDateTextColor} flex flex-row gap-3`}>
               <p>{parsedDueDate.date}</p>
               {hasTime.time ? <p>{parsedDueDate.time}</p> : null}
             </div>

@@ -5,7 +5,6 @@ import { redirect } from "@remix-run/node";
 import { badRequest } from "~/utils";
 
 import type { ActionArgs } from "@remix-run/node";
-import type { Project } from "@prisma/client";
 
 export default function NewProjectModal() {
   const actionData = useActionData<typeof action>();
@@ -17,7 +16,7 @@ export default function NewProjectModal() {
     id = context.id;
   }
 
-  console.log(context)
+  console.log(context);
 
   return (
     <>
@@ -79,7 +78,7 @@ export default function NewProjectModal() {
                   value={"red"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'red'}
+                  defaultChecked={context.color === "red"}
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-red-400 bg-red-400 text-red-400 checked:border-white"
                 />
@@ -88,7 +87,7 @@ export default function NewProjectModal() {
                   value={"blue"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'blue'}
+                  defaultChecked={context.color === "blue"}
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-blue-400 bg-blue-400 text-blue-400 checked:border-white"
                 />
@@ -97,7 +96,7 @@ export default function NewProjectModal() {
                   value={"yellow"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'yellow'}
+                  defaultChecked={context.color === "yellow"}
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-yellow-400 bg-yellow-400 text-yellow-400 checked:border-white"
                 />
@@ -106,7 +105,7 @@ export default function NewProjectModal() {
                   value={"green"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'green'}
+                  defaultChecked={context.color === "green"}
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-green-400 bg-green-400 text-green-400 checked:border-white"
                 />
@@ -115,7 +114,7 @@ export default function NewProjectModal() {
                   value={"purple"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'purple'}
+                  defaultChecked={context.color === "purple"}
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-purple-400 bg-purple-400 text-purple-400 checked:border-white"
                 />
@@ -124,7 +123,7 @@ export default function NewProjectModal() {
                   value={"orange"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'orange'}
+                  defaultChecked={context.color === "orange"}
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-orange-400 bg-orange-400 text-orange-400 checked:border-white"
                 />
@@ -133,7 +132,7 @@ export default function NewProjectModal() {
                   value={"teal"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'teal'}
+                  defaultChecked={context.color === "teal"}
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-teal-400 bg-teal-400 text-teal-400 checked:border-white"
                 />
@@ -142,7 +141,7 @@ export default function NewProjectModal() {
                   value={"pink"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'pink'}
+                  defaultChecked={context.color === "pink"}
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-pink-400 bg-pink-400 text-pink-400 checked:border-white"
                 />
@@ -151,7 +150,7 @@ export default function NewProjectModal() {
                   value={"white"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'white'}
+                  defaultChecked={context.color === "white"}
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-white bg-white text-white checked:border-black"
                 />
@@ -160,7 +159,7 @@ export default function NewProjectModal() {
                   value={"lime"}
                   type="radio"
                   name="color"
-                  defaultChecked={context.color === 'lime'}
+                  defaultChecked={context.color === "lime"}
                   required
                   id=""
                   className="h-4 w-4 appearance-none rounded-full border-2 border-lime-400 bg-lime-400 text-lime-400 checked:border-white"
@@ -212,8 +211,8 @@ export async function action({ request }: ActionArgs) {
   if (!projectId || typeof projectId !== "string") {
     //TODO: Figure out a better way to handle missing the project id
     return badRequest({
-      formError: "Something went wrong on our end."
-    })
+      formError: "Something went wrong on our end.",
+    });
   }
 
   if (

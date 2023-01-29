@@ -171,7 +171,7 @@ export async function action({ request }: ActionArgs) {
     "lime",
     "teal",
   ];
-  
+
   const data = await request.formData();
   const name = data.get("name");
   const color = data.get("color");

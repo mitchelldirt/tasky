@@ -3,9 +3,9 @@ import { Link } from "@remix-run/react";
 import type { Project } from "@prisma/client";
 
 export default function ProjectNavBar({
-  name = 'Project',
-  id = 'null',
-  color = 'red',
+  name = "Project",
+  id = "null",
+  color = "red",
 }: Pick<Project, "color" | "name" | "id">) {
   return (
     <div className="navbar">
@@ -48,22 +48,22 @@ export default function ProjectNavBar({
           </svg>
         </button>
         <Link to={`/project/${id}/newTask`}>
-        <button className="btn-ghost btn-circle btn">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="h-8 w-8 text-green-400"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
-        </button>
+          <button className="btn-ghost btn-circle btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-8 w-8 text-green-400"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          </button>
         </Link>
         <div className="dropdown-end dropdown">
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">

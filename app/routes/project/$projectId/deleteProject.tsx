@@ -79,7 +79,7 @@ export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const projectId = data.get("projectId");
 
-  console.log(`${projectId} : TEST`)
+  console.log(`${projectId} : TEST`);
 
   const userId = await getUserId(request);
   if (userId === undefined) return redirect("/login");

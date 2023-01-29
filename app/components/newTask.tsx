@@ -1,9 +1,5 @@
-import { useActionData, Link, Form, LiveReload } from "@remix-run/react";
-import { getProjects } from "~/models/project.server";
-import { getUserId } from "~/session.server";
-import { createTailwindTextColor } from "~/helpers/colorClass";
+import { Link, Form, LiveReload } from "@remix-run/react";
 
-import type { Action } from "@remix-run/router";
 import type { Project } from "@prisma/client";
 
 // create a type with action data and outlet context
@@ -44,7 +40,12 @@ export default function NewTaskModal({
           </Link>
           <h3 className="w-full text-center text-lg font-bold">Create Task</h3>
           <Form method="post">
-          <input type="hidden" name="projectId" value={context.projectId} defaultValue={context.projectId} />
+            <input
+              type="hidden"
+              name="projectId"
+              value={context.projectId}
+              defaultValue={context.projectId}
+            />
             {actionData ? (
               <span className="mt-4 flex justify-center">
                 <p
@@ -81,8 +82,12 @@ export default function NewTaskModal({
                   <span className="ml-2 text-lg text-red-400">*</span>
                 </span>
               </label>
-              <select defaultValue={""} name="project" className="select-bordered select">
-                <option value={'no'}>None</option>
+              <select
+                defaultValue={""}
+                name="project"
+                className="select-bordered select"
+              >
+                <option value={"no"}>None</option>
                 {context.projects?.map((project) => (
                   <option value={project.id} key={project.id}>
                     {project.name}
@@ -184,7 +189,7 @@ export default function NewTaskModal({
 
             <button
               type="submit"
-              className="btn w-full text-white hover:bg-green-400 mt-4"
+              className="btn mt-4 w-full text-white hover:bg-green-400"
             >
               Create
             </button>

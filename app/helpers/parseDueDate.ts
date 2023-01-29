@@ -1,75 +1,86 @@
-import { differenceInCalendarDays, differenceInCalendarYears, format, isBefore, parseISO, startOfDay } from "date-fns";
+import {
+  differenceInCalendarDays,
+  differenceInCalendarYears,
+  format,
+  isBefore,
+  parseISO,
+  startOfDay,
+} from "date-fns";
 
 type time = {
-  date: string,
-  time: string,
-  isOverdue: boolean
-}
+  date: string;
+  time: string;
+  isOverdue: boolean;
+};
 
-export default function parseDueDate(dueDate: string, accountForTime: boolean): time {
-
-  const dueDateDate = parseISO(dueDate.slice(0, dueDate.indexOf('.')))
-  const diffInDays = Math.abs(differenceInCalendarDays(new Date(), dueDateDate));
+export default function parseDueDate(
+  dueDate: string,
+  accountForTime: boolean
+): time {
+  const dueDateDate = parseISO(dueDate.slice(0, dueDate.indexOf(".")));
+  const diffInDays = Math.abs(
+    differenceInCalendarDays(new Date(), dueDateDate)
+  );
   const diffInYears = differenceInCalendarYears(new Date(), dueDateDate);
   const isSameYear = diffInYears === 0;
-  const isOverdue = isBeforeNow(dueDateDate, accountForTime)
-  const time = format(dueDateDate, 'p');
+  const isOverdue = isBeforeNow(dueDateDate, accountForTime);
+  const time = format(dueDateDate, "p");
 
   if (isOverdue === false && diffInDays === 0) {
     return {
-      date: 'Today',
+      date: "Today",
       time: time,
-      isOverdue: false
-    }
+      isOverdue: false,
+    };
   } else if (isOverdue === false && diffInDays === 1) {
     return {
-      date: 'Tomorrow',
+      date: "Tomorrow",
       time: time,
-      isOverdue: false
-    }
+      isOverdue: false,
+    };
   } else if (isOverdue === true && diffInDays === 1) {
     return {
-      date: 'Yesterday',
+      date: "Yesterday",
       time: time,
-      isOverdue: true
-    }
+      isOverdue: true,
+    };
   } else if (isOverdue === false && diffInDays < 8) {
     return {
-      date: format(dueDateDate, 'EEEE'),
+      date: format(dueDateDate, "EEEE"),
       time: time,
-      isOverdue: false
-    }
+      isOverdue: false,
+    };
   } else if (isOverdue === false && isSameYear === false) {
     return {
-      date: format(dueDateDate, 'PPP'),
+      date: format(dueDateDate, "PPP"),
       time: time,
-      isOverdue: false
-    }
+      isOverdue: false,
+    };
   } else if (isOverdue === true && isSameYear === false) {
     return {
-      date: format(dueDateDate, 'PPP'),
+      date: format(dueDateDate, "PPP"),
       time: time,
-      isOverdue: true
-    }
+      isOverdue: true,
+    };
   } else if (isSameYear === true && isOverdue === true) {
     return {
-      date: format(dueDateDate, 'LLLL d'),
+      date: format(dueDateDate, "LLLL d"),
       time: time,
-      isOverdue: true
-    }
-  } else if (isSameYear === true && (isOverdue === false && diffInDays > 7)) {
+      isOverdue: true,
+    };
+  } else if (isSameYear === true && isOverdue === false && diffInDays > 7) {
     return {
-      date: format(dueDateDate, 'LLLL d'),
+      date: format(dueDateDate, "LLLL d"),
       time: time,
-      isOverdue: false
-    }
+      isOverdue: false,
+    };
   }
 
   return {
-    date: 'null',
-    time: 'null',
-    isOverdue: true
-  }
+    date: "null",
+    time: "null",
+    isOverdue: true,
+  };
 }
 
 function isBeforeNow(dueDate: Date, accountForTime: boolean): boolean {

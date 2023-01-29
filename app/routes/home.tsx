@@ -1,10 +1,5 @@
 import ProjectList from "~/components/Projects";
-import {
-  useCatch,
-  useLoaderData,
-  LiveReload,
-  Outlet,
-} from "@remix-run/react";
+import { useCatch, useLoaderData, LiveReload, Outlet } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 import HomeNavBar from "~/components/HomeNavBar";
 import ViewsMenu from "~/components/Views";

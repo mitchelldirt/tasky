@@ -29,18 +29,60 @@ export async function createUser(email: User["email"], password: string) {
     },
   });
 
-  const personal = await createProject({ userId: user.id }, 'PERSONAL', 'blue');
-  const work = await createProject({ userId: user.id }, 'WORK', 'red');
+  const personal = await createProject({ userId: user.id }, "PERSONAL", "blue");
+  const work = await createProject({ userId: user.id }, "WORK", "red");
 
   // personal tasks
-  await createTask({ userId: user.id }, 'Do yoga', 'Choose a yoga video with a focus on hip flexibility', 5, { projectId: personal.id });
-  await createTask({ userId: user.id }, 'Vacuum', '', 5, { projectId: personal.id });
-  await createTask({ userId: user.id }, 'Plan vacation', 'Figure out how much it will cost for a 5 night stay in Minneapolis', 5, { projectId: personal.id });
+  await createTask(
+    { userId: user.id },
+    { projectId: personal.id },
+    "Do yoga",
+    "Choose a yoga video with a focus on hip flexibility",
+    2,
+    new Date("2021-08-01"),
+    false
+  );
+
+  await createTask(
+    { userId: user.id },
+    { projectId: personal.id },
+    "Vacuum",
+    "",
+    3,
+    new Date("2021-08-01"),
+    false
+  );
+
+  await createTask(
+    { userId: user.id },
+    { projectId: personal.id },
+    "Plan vacation",
+    "Figure out how much it will cost for a 5 night stay in Minneapolis",
+    4,
+    new Date("2021-08-01"),
+    false
+  );
 
   // work tasks
-  await createTask({ userId: user.id }, 'Clean off desk', '', 2, { projectId: work.id });
-  
-  await createTask({ userId: user.id }, 'Ship version 1.0 of app', '', 5, { projectId: work.id });
+  await createTask(
+    { userId: user.id },
+    { projectId: work.id },
+    "Clean off desk",
+    "",
+    1,
+    new Date("2021-08-01"),
+    false
+  );
+
+  await createTask(
+    { userId: user.id },
+    { projectId: work.id },
+    "Ship version 1.0 of app",
+    "",
+    3,
+    new Date("2021-08-01"),
+    false
+  );
 
   return user;
 }
@@ -80,25 +122,27 @@ export async function verifyLogin(
 
 export async function updateEmail(userId: User["id"], newEmail: string) {
   const isDuplicateEmail = await prisma.user.findFirst({
-    where: { email: newEmail }
+    where: { email: newEmail },
   });
 
   if (isDuplicateEmail) {
     return {
-      error: 'This email already exists'
-    }
+      error: "This email already exists",
+    };
   }
-
 
   const response = await prisma.user.update({
     where: { id: userId },
-    data: { email: newEmail }
-  })
+    data: { email: newEmail },
+  });
 
-  return response
+  return response;
 }
 
-export async function isCurrentPassword(id: User['id'], currentPassword: string) {
+export async function isCurrentPassword(
+  id: User["id"],
+  currentPassword: string
+) {
   const userWithPassword = await prisma.user.findUnique({
     where: { id },
     include: {
@@ -127,8 +171,8 @@ export async function updatePassword(userId: User["id"], newPassword: string) {
 
   const response = await prisma.password.update({
     where: { userId: userId },
-    data: { hash: hashedPassword }
-  })
+    data: { hash: hashedPassword },
+  });
 
   return response;
 }

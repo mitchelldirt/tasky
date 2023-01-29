@@ -61,14 +61,22 @@ export async function action({ request }: ActionArgs) {
     });
   }
 
-  console.log(typeof name, typeof projectId, typeof project, typeof description, typeof dueDate, typeof priority, typeof dueTime)
+  console.log(
+    typeof name,
+    typeof projectId,
+    typeof project,
+    typeof description,
+    typeof dueDate,
+    typeof priority,
+    typeof dueTime
+  );
   if (
     typeof name !== "string" ||
     typeof projectId !== "string" ||
     typeof project !== "string" ||
     typeof description !== "string" ||
     typeof dueDate !== "string" ||
-    typeof priority !== 'string' ||
+    typeof priority !== "string" ||
     typeof dueTime !== "string"
   ) {
     return badRequest({
@@ -76,13 +84,21 @@ export async function action({ request }: ActionArgs) {
     });
   }
 
-  let date = new Date(dueDate + 'T' + dueTime);
+  let date = new Date(dueDate + "T" + dueTime);
   const localDate = sub(date, {
-    hours: 5
-  })
+    hours: 5,
+  });
 
   // TODO: update time property. Need to check if time was filled out up above
-  await createTask({ userId: userId }, {projectId: project}, name, description, Number(priority), localDate, true );
+  await createTask(
+    { userId: userId },
+    { projectId: project },
+    name,
+    description,
+    Number(priority),
+    localDate,
+    true
+  );
 
   return redirect(`/project/${projectId}`);
 }
