@@ -29,13 +29,13 @@ model Password {
 model Task {
   id          String @id @default(cuid())
   title       String
-  description String
+  description String?
 
-  priority Int
+  priority Int @default(4)
 
   completed Boolean @default(false)
 
-  dueDate   DateTime @default(now())
+  dueDate   DateTime?
   updatedAt DateTime @updatedAt
   time      Boolean  @default(false)
 

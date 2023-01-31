@@ -47,6 +47,7 @@ async function seed() {
       priority: 3,
       projectId: codingProject.id,
       userId: user.id,
+      dueDate: new Date().toISOString(),
       time: true,
     },
   });
@@ -58,6 +59,7 @@ async function seed() {
         "This will help you take full advantage of the indie stack and ship better code!",
       priority: 4,
       projectId: codingProject.id,
+      dueDate: new Date().toISOString(),
       userId: user.id,
     },
   });
@@ -69,6 +71,7 @@ async function seed() {
         "Make sure to do mobile-first design and test different breakpoints using responsively",
       priority: 3,
       projectId: codingProject.id,
+      dueDate: new Date().toISOString(),
       userId: user.id,
     },
   });
@@ -79,6 +82,7 @@ async function seed() {
       description: "Find a YouTube video focused on rock climbers yoga",
       priority: 1,
       projectId: personalProject.id,
+      dueDate: new Date().toISOString(),
       userId: user.id,
     },
   });
@@ -89,6 +93,7 @@ async function seed() {
       description: "Two baskets",
       priority: 3,
       projectId: personalProject.id,
+      dueDate: new Date().toISOString(),
       userId: user.id,
     },
   });
@@ -99,6 +104,7 @@ async function seed() {
       description: "",
       priority: 2,
       projectId: personalProject.id,
+      dueDate: new Date().toISOString(),
       userId: user.id,
     },
   });

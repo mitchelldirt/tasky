@@ -18,13 +18,21 @@ export default function TaskView({
   name,
   hasTime,
 }: TaskProps) {
-  const parsedDueDate = parseDueDate(dueDate.dueDate.toString(), hasTime.time);
+  let parsedDueDate;
+  let dueDateTextColor;
 
-  const dueDateTextColor = dueDateColor(
-    parsedDueDate.date,
-    parsedDueDate.isOverdue
-  );
+  console.log(dueDate);
+  console.log(dueDate.dueDate)
 
+  if (dueDate) {
+    parsedDueDate = parseDueDate(dueDate.dueDate.toString(), hasTime.time);
+
+    dueDateTextColor = dueDateColor(
+      parsedDueDate.date,
+      parsedDueDate.isOverdue
+    );
+  }
+  
   const priorityTextColor = priorityColor(priority.priority);
   return (
     <>
@@ -48,10 +56,12 @@ export default function TaskView({
         <div className="w-full border-b-2 border-gray-400">
           <div className="flex flex-col">
             <p className="text-white">{title.title}</p>
-            <div className={`${dueDateTextColor} flex flex-row gap-3`}>
-              <p>{parsedDueDate.date}</p>
-              {hasTime.time ? <p>{parsedDueDate.time}</p> : null}
-            </div>
+            {parsedDueDate?.date ? (
+              <div className={`${dueDateTextColor} flex flex-row gap-3`}>
+                <p>{parsedDueDate.date}</p>
+                {hasTime.time ? <p>{parsedDueDate.time}</p> : null}
+              </div>
+            ) : null}
           </div>
           <span>{name.name}</span>
         </div>

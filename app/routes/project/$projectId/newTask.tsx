@@ -84,7 +84,7 @@ export async function action({ request }: ActionArgs) {
     });
   }
 
-  let date = new Date(dueDate + "T" + dueTime);
+  let date = new Date(dueDate + "T" + dueTime || "2023-01-31T01:24:51.564Z");
   const localDate = sub(date, {
     hours: 5,
   });
