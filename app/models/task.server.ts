@@ -52,7 +52,7 @@ export function createTask(
       description: description,
       priority: priority,
       projectId: projectId,
-      dueDate: dueDate,
+      dueDate: dueDate.toISOString(),
       time: time,
     },
   });

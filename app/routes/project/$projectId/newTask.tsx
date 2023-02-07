@@ -47,7 +47,8 @@ export async function action({ request }: ActionArgs) {
   const description = data.get("description");
   const dueDate = data.get("dueDate");
   const priority = data.get("priority");
-  const dueTime = data.get("dueTime");
+  let dueTime = data.get("dueTime");
+  let time = true;
 
   const userId = await getUserId(request);
 
@@ -83,7 +84,10 @@ export async function action({ request }: ActionArgs) {
       formError: "Please fill out all required fields",
     });
   }
-
+  if (!dueTime) {
+    dueTime = "00:00";
+    time = false;
+  }
   let date = new Date(dueDate + "T" + dueTime || "2023-01-31T01:24:51.564Z");
   const localDate = sub(date, {
     hours: 5,
@@ -97,7 +101,7 @@ export async function action({ request }: ActionArgs) {
     description,
     Number(priority),
     localDate,
-    true
+    time
   );
 
   return redirect(`/project/${projectId}`);

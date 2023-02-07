@@ -24,7 +24,7 @@ export default function TaskView({
   console.log(dueDate);
   console.log(dueDate.dueDate)
 
-  if (dueDate) {
+  if (dueDate.dueDate) {
     parsedDueDate = parseDueDate(dueDate.dueDate.toString(), hasTime.time);
 
     dueDateTextColor = dueDateColor(
