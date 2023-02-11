@@ -21,18 +21,15 @@ export default function TaskView({
   let parsedDueDate;
   let dueDateTextColor;
 
-  console.log(dueDate);
-  console.log(dueDate.dueDate)
-
-  if (dueDate.dueDate) {
-    parsedDueDate = parseDueDate(dueDate.dueDate.toString(), hasTime.time);
+  if (dueDate.dueDate && typeof dueDate.dueDate !== "object") {
+    parsedDueDate = parseDueDate(dueDate.dueDate, hasTime.time);
 
     dueDateTextColor = dueDateColor(
       parsedDueDate.date,
       parsedDueDate.isOverdue
     );
   }
-  
+
   const priorityTextColor = priorityColor(priority.priority);
   return (
     <>
