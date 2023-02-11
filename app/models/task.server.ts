@@ -42,9 +42,14 @@ export function createTask(
   title: string,
   description: string,
   priority: number,
-  dueDate: Date,
+  dueDate: Date | null,
   time: boolean
 ) {
+  let due = null;
+  if (dueDate) {
+    due = dueDate.toISOString();
+  }
+  
   return prisma.task.create({
     data: {
       userId: userId,
@@ -52,7 +57,7 @@ export function createTask(
       description: description,
       priority: priority,
       projectId: projectId,
-      dueDate: dueDate.toISOString(),
+      dueDate: due,
       time: time,
     },
   });

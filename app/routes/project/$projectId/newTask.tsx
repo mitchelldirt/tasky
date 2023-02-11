@@ -88,10 +88,18 @@ export async function action({ request }: ActionArgs) {
     dueTime = "00:00";
     time = false;
   }
-  let date = new Date(dueDate + "T" + dueTime || "2023-01-31T01:24:51.564Z");
-  const localDate = sub(date, {
-    hours: 5,
-  });
+
+  //TODO: Extract this date stuff into a function
+  let localDate;
+
+  if (!dueDate) {
+    localDate = null;
+  } else {
+    let date = new Date(dueDate + "T" + dueTime || "2023-01-31T01:24:51.564Z");
+    localDate = sub(date, {
+      hours: 5,
+    });
+  }
 
   // TODO: update time property. Need to check if time was filled out up above
   await createTask(
