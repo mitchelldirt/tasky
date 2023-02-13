@@ -49,7 +49,7 @@ model Task {
 
 model Project {
   id    String @id @default(cuid())
-  name  String @unique
+  name  String 
   color String
 
   tasks Task[]
