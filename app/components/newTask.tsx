@@ -87,7 +87,7 @@ export default function NewTaskModal({
                 name="project"
                 className="select-bordered select"
               >
-                <option value={"no"}>None</option>
+                <option value={"none"}>None</option>
                 {context.projects?.map((project) => (
                   <option value={project.id} key={project.id}>
                     {project.name}

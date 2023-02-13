@@ -36,6 +36,7 @@ model Task {
   completed Boolean @default(false)
 
   dueDate   DateTime?
+  completedAt DateTime?
   updatedAt DateTime @updatedAt
   time      Boolean  @default(false)
 
@@ -48,7 +49,7 @@ model Task {
 
 model Project {
   id    String @id @default(cuid())
-  name  String
+  name  String @unique
   color String
 
   tasks Task[]

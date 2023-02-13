@@ -11,7 +11,7 @@ export default function ProjectList({ projects }: projectList) {
   return (
     <>
       <div className="flex flex-col">
-        {projects.map((project, index) => {
+        {projects.filter(project => project.id !== 'none').map((project, index) => {
           const textColorClass = createTailwindTextColor(project.color);
 
           if (index === 0) {
@@ -28,7 +28,9 @@ export default function ProjectList({ projects }: projectList) {
             );
           }
 
-          if (index === projects.length - 1) {
+          // If the project is the last one in the list, round the bottom border.
+          // -2 because of the project 'none' which we filter out.
+          if (index === projects.length - 2) {
             return (
               <>
                 <Link key={project.id} to={`/project/${project.id}`}>

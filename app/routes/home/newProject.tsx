@@ -1,5 +1,5 @@
 import { Form, Link, useActionData } from "@remix-run/react";
-import { createProject } from "~/models/project.server";
+import { createProject, getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { redirect } from "@remix-run/node";
 
@@ -200,6 +200,17 @@ export async function action({ request }: ActionArgs) {
       formError: "The name of the project must be between 3 and 27 characters",
     });
   }
+  
+  const projectNames = await getProjects({userId});
+
+  for (let project of projectNames) {
+    if (project.name === name) {
+      return badRequest({
+        formError: "You already have a project with that name",
+      });
+    }
+  };
+  
 
   switch (request.method) {
     case "POST": {

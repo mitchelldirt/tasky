@@ -20,14 +20,21 @@ export function getProjectById({ projectId }: { projectId: Project["id"] }) {
 export function createProject(
   { userId }: { userId: User["id"] },
   name: string,
-  color: string
+  color: string,
+  id?: string
 ) {
+  let data = {
+    userId: userId,
+    name: name.toUpperCase(),
+    color: color
+  }
+
+  if (id) {
+    data = Object.assign(data, { id: id });
+  }
+
   return prisma.project.create({
-    data: {
-      userId: userId,
-      name: name.toUpperCase(),
-      color: color,
-    },
+    data: data
   });
 }
 
