@@ -33,6 +33,7 @@ export default function TaskView({
   const priorityTextColor = priorityColor(priority.priority);
   return (
     <>
+    {/* TODO: Add an onClick event to the task to mark it as completed */}
       <div className="mb-2 flex w-4/5 flex-row items-center gap-2">
         <svg
           className={`h-8 w-8 ${priorityTextColor}`}
