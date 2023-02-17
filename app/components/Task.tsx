@@ -1,4 +1,5 @@
 import type { Task, Project } from "@prisma/client";
+import { Link } from "@remix-run/react";
 import dueDateColor from "~/helpers/dueDateColor";
 import parseDueDate from "~/helpers/parseDueDate";
 import priorityColor from "~/helpers/priorityColor";
@@ -9,6 +10,7 @@ type TaskProps = {
   priority: { priority: Task["priority"] };
   name: { name: Project["name"] };
   hasTime: { time: Task["time"] };
+  id: { id: Task["id"] };
 };
 
 export default function TaskView({
@@ -17,6 +19,7 @@ export default function TaskView({
   priority,
   name,
   hasTime,
+  id
 }: TaskProps) {
   let parsedDueDate;
   let dueDateTextColor;
@@ -51,7 +54,7 @@ export default function TaskView({
           <circle cx="12" cy="12" r="9" />
         </svg>
 
-        <div className="w-full border-b-2 border-gray-400">
+        <Link to={`task/${id.id}`} className="w-full border-b-2 border-gray-400">
           <div className="flex flex-col">
             <p className="text-white">{title.title}</p>
             {parsedDueDate?.date ? (
@@ -62,7 +65,7 @@ export default function TaskView({
             ) : null}
           </div>
           <span>{name.name}</span>
-        </div>
+        </Link>
       </div>
     </>
   );

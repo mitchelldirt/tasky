@@ -3,10 +3,11 @@ import type { Task } from "@prisma/client";
 import type { formError } from "~/types";
 
 // TODO: Add props for the task id and the route that opened this modal
+// TODO: Remove the any type on taskContext
 type editTaskModalProps = {
   formError?: formError;
   previousRoute: string;
-  taskContext: Task;
+  taskContext: any;
 };
 
 export default function EditTask({ ...props }: editTaskModalProps) {

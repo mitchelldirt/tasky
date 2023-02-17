@@ -23,6 +23,7 @@ export default function Tasks({
                   priority={{ priority: task.priority || 5 }}
                   name={{ name: name }}
                   hasTime={{ time: task.time }}
+                  id={{ id: task.id }}
                   key={task.id}
                 />
               ))

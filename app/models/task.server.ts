@@ -1,4 +1,4 @@
-import type { User, Project } from "@prisma/client";
+import type { User, Project, Task } from "@prisma/client";
 
 import { prisma } from "~/db.server";
 
@@ -15,6 +15,19 @@ export function getAllTasks({ userId }: { userId: User["id"] }) {
       project: true,
     },
     orderBy: { dueDate: "desc" },
+  });
+}
+
+export function getTaskById({ id }: { id: Task["id"] }) {
+  return prisma.task.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      priority: true,
+      project: true,
+    },
   });
 }
 
