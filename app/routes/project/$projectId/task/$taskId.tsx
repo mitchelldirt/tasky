@@ -4,14 +4,15 @@ import { getTaskById } from "~/models/task.server";
 import type { LoaderArgs } from "@remix-run/node";
 import { getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
-import { z } from "zod";
+import { z, ZodAny } from "zod";
 
 const dataSchema = z.object({
   task: z.object({
     id: z.string(),
-    name: z.string(),
     description: z.string(),
-    projectId: z.string(),
+    project: z.any(),
+    priority: z.number(),
+    title: z.string(),
   }),
   projects: z.array(
     z.object({
@@ -21,6 +22,8 @@ const dataSchema = z.object({
     })
   ),
 });
+
+export type TaskContext = z.infer<typeof dataSchema>;
 
 export async function loader({ params, request }: LoaderArgs) {
   if (typeof params.taskId !== "string") {
@@ -33,25 +36,37 @@ export async function loader({ params, request }: LoaderArgs) {
     return { redirect: "/login" };
   }
 
+  // get the current url
+  const url = new URL(request.url);
+
   const projects = await getProjects({ userId: userId });
   const task = await getTaskById({ id: params.taskId });
 
-  return { task: task, projects: projects };
+  return {
+    taskContext: { task: task, projects: projects },
+    previousRoute: url.pathname.slice(0, url.pathname.indexOf("/task")),
+  };
 }
 
 export default function EditTaskRoute() {
   const data = useLoaderData<typeof loader>();
 
-  if (data && !isValidData(data)) {
-    return <p>Something went wrong</p>;
+  if ("taskContext" in data) {
+    if (!data || !isValidData(data.taskContext)) {
+      return <p>Something went wrong</p>;
+    }
+
+    return (
+      <>
+        <EditTask
+          previousRoute={data.previousRoute}
+          taskContext={data.taskContext}
+        />
+      </>
+    );
   }
 
-  return (
-    <>
-    <p>HELLO</p>
-      <EditTask previousRoute="/home" taskContext={data.task} />
-    </>
-  );
+  return <p>Something went wrong</p>;
 }
 
 function isValidData(input: unknown): input is z.infer<typeof dataSchema> {

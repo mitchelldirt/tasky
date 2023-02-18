@@ -1,13 +1,14 @@
 import { Link, Form, LiveReload } from "@remix-run/react";
 import type { Task } from "@prisma/client";
 import type { formError } from "~/types";
+import type { TaskContext } from "~/routes/project/$projectId/task/$taskId"; 
 
 // TODO: Add props for the task id and the route that opened this modal
 // TODO: Remove the any type on taskContext
 type editTaskModalProps = {
   formError?: formError;
   previousRoute: string;
-  taskContext: any;
+  taskContext: TaskContext;
 };
 
 export default function EditTask({ ...props }: editTaskModalProps) {
@@ -55,7 +56,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               </label>
               <input
                 type="text"
-                defaultValue={props.taskContext.name}
+                defaultValue={props.taskContext.task.title}
                 placeholder="Type here"
                 className="input-bordered input w-full max-w-xs"
                 name="name"
@@ -73,7 +74,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 </span>
               </label>
               <select
-                defaultValue={props.taskContext.projectId || "none"}
+                defaultValue={props.taskContext.task.project || "none"}
                 name="project"
                 className="select-bordered select"
               >
@@ -97,7 +98,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               <textarea
                 className="textarea-bordered textarea h-24"
                 placeholder="Type here"
-                defaultValue={props.taskContext.description}
+                defaultValue={props.taskContext.task.description}
                 name="description"
               ></textarea>
             </div>
@@ -130,7 +131,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               <label className="label">
                 <span className="label-text">Priority</span>
               </label>
-              <fieldset className="form-control w-full max-w-xs rounded-lg border-2 border-gray-400 border-opacity-20">
+              <fieldset defaultValue={props.taskContext.task.priority} className="form-control w-full max-w-xs rounded-lg border-2 border-gray-400 border-opacity-20">
                 <div className="form-control ">
                   <label className="label cursor-pointer">
                     <span className="label-text">none</span>
@@ -139,7 +140,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       name="priority"
                       value={4}
                       className="radio checked:bg-gray-400"
-                      defaultChecked
+                      checked={props.taskContext.task.priority === 4}
                     />
                   </label>
                 </div>
@@ -152,6 +153,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       name="priority"
                       value={3}
                       className="radio checked:bg-blue-400"
+                      checked={props.taskContext.task.priority === 3}
                     />
                   </label>
                 </div>
@@ -164,6 +166,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       name="priority"
                       value={2}
                       className="radio checked:bg-orange-400"
+                      checked={props.taskContext.task.priority === 2}
                     />
                   </label>
                 </div>
@@ -176,6 +179,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       name="priority"
                       value={1}
                       className="radio checked:bg-red-400"
+                      checked={props.taskContext.task.priority === 1}
                     />
                   </label>
                 </div>
