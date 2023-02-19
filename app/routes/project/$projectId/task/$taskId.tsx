@@ -1,18 +1,21 @@
 import EditTask from "~/components/editTask";
-import { useLoaderData, useOutletContext } from "@remix-run/react";
+import { LiveReload, useLoaderData } from "@remix-run/react";
 import { getTaskById } from "~/models/task.server";
-import type { LoaderArgs } from "@remix-run/node";
+import { ActionArgs, LoaderArgs, redirect } from "@remix-run/node";
 import { getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
-import { z, ZodAny } from "zod";
+import { z } from "zod";
+import { badRequest } from "~/utils";
 
 const dataSchema = z.object({
   task: z.object({
     id: z.string(),
     description: z.string(),
-    project: z.any(),
+    projectId: z.any(),
     priority: z.number(),
     title: z.string(),
+    dueDate: z.string(),
+    time: z.boolean(),
   }),
   projects: z.array(
     z.object({
@@ -22,6 +25,11 @@ const dataSchema = z.object({
     })
   ),
 });
+
+function isValidData(input: unknown): input is z.infer<typeof dataSchema> {
+  const isValidSchema = dataSchema.safeParse(input);
+  return isValidSchema.success;
+}
 
 export type TaskContext = z.infer<typeof dataSchema>;
 
@@ -62,6 +70,7 @@ export default function EditTaskRoute() {
           previousRoute={data.previousRoute}
           taskContext={data.taskContext}
         />
+        <LiveReload />
       </>
     );
   }
@@ -69,7 +78,35 @@ export default function EditTaskRoute() {
   return <p>Something went wrong</p>;
 }
 
-function isValidData(input: unknown): input is z.infer<typeof dataSchema> {
-  const isValidSchema = dataSchema.safeParse(input);
-  return isValidSchema.success;
+
+export async function action({ request }: ActionArgs) {
+  const data = await request.formData();
+  const title = data.get("title");
+  const description = data.get("description");
+  const project = data.get("project");
+  const priority = data.get("priority");
+  const dueDate = data.get("dueDate");
+  const time = data.get("time");
+  const taskId = data.get("id");
+
+  const userId = await getUserId(request);
+  if (userId === undefined) return redirect("/login");
+
+  //TODO: Throw some zod validations here
+
+  //TODO: switch editProject to editTask
+  switch (request.method) {
+    case "PATCH": {
+      await editProject({
+        id: projectId,
+        name: name.toUpperCase(),
+        color: color,
+      });
+      return redirect(`/project/${projectId}`);
+    }
+  }
+
+  return badRequest({
+    formError: "Uh oh - something went wrong on our end.",
+  });
 }

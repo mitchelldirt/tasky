@@ -26,7 +26,9 @@ export function getTaskById({ id }: { id: Task["id"] }) {
       title: true,
       description: true,
       priority: true,
-      project: true,
+      projectId: true,
+      dueDate: true,
+      time: true,
     },
   });
 }

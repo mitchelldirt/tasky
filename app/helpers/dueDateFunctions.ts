@@ -13,7 +13,7 @@ type time = {
   isOverdue: boolean;
 };
 
-export default function parseDueDate(
+export function parseDueDate(
   dueDate: string,
   accountForTime: boolean
 ): time {
@@ -87,4 +87,12 @@ function isBeforeNow(dueDate: Date, accountForTime: boolean): boolean {
   if (accountForTime) return isBefore(dueDate, new Date());
 
   return isBefore(startOfDay(dueDate), startOfDay(new Date()));
+}
+
+export function extractDate(date: Date) {
+  return date.toISOString().slice(0, 10);
+}
+
+export function extractTime(date: string) {
+  return date.slice(date.indexOf("T") + 1, date.indexOf("."));
 }

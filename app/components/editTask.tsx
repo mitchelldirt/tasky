@@ -1,10 +1,8 @@
 import { Link, Form, LiveReload } from "@remix-run/react";
-import type { Task } from "@prisma/client";
+import { extractDate, extractTime } from "~/helpers/dueDateFunctions";
 import type { formError } from "~/types";
-import type { TaskContext } from "~/routes/project/$projectId/task/$taskId"; 
+import type { TaskContext } from "~/routes/project/$projectId/task/$taskId";
 
-// TODO: Add props for the task id and the route that opened this modal
-// TODO: Remove the any type on taskContext
 type editTaskModalProps = {
   formError?: formError;
   previousRoute: string;
@@ -14,27 +12,25 @@ type editTaskModalProps = {
 export default function EditTask({ ...props }: editTaskModalProps) {
   return (
     <>
+      <input type="hidden" name="id" value={props.taskContext.task.id} />
       <input
         type="checkbox"
-        id="createProjectModal"
+        id="editTaskModal"
         className="modal-toggle"
         checked
         readOnly
       />
       <div className="modal">
         <div className="modal-box relative">
-          {/*TODO: Catch the error in the loader above so that you don't have to route to home on failure. Or create an uh oh page*/}
           <Link to={props.previousRoute || "/home"}>
             <label
-              htmlFor="createProjectModal"
+              htmlFor="editTaskModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"
             >
               ✕
             </label>
           </Link>
-          <h3 className="w-full text-center text-lg font-bold">
-            Create Project
-          </h3>
+          <h3 className="w-full text-center text-lg font-bold">Edit Task</h3>
           <Form method="patch">
             {props.formError ? (
               <span className="mt-4 flex justify-center">
@@ -74,12 +70,12 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 </span>
               </label>
               <select
-                defaultValue={props.taskContext.task.project || "none"}
+                defaultValue={props.taskContext.task.projectId || "none"}
                 name="project"
                 className="select-bordered select"
               >
                 <option value={"none"}>NONE</option>
-                {/* {context.projects
+                {props.taskContext.projects
                   ?.filter((project) => project.id !== "none")
                   .map((project) => {
                     return (
@@ -87,7 +83,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                         {project.name}
                       </option>
                     );
-                  })} */}
+                  })}
               </select>
             </div>
 
@@ -111,7 +107,10 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 type="date"
                 placeholder=""
                 className="input-bordered input w-full max-w-xs"
-                defaultValue={new Date().toISOString().slice(0, 10)}
+                defaultValue={
+                  extractDate(new Date(props.taskContext.task.dueDate)) ||
+                  extractDate(new Date())
+                }
                 name="dueDate"
               />
             </div>
@@ -124,6 +123,11 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 type="time"
                 placeholder=""
                 className="input-bordered input w-full max-w-xs"
+                defaultValue={
+                  props.taskContext.task.time
+                    ? extractTime(props.taskContext.task.dueDate)
+                    : ""
+                }
                 name="dueTime"
               />
             </div>
@@ -131,7 +135,10 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               <label className="label">
                 <span className="label-text">Priority</span>
               </label>
-              <fieldset defaultValue={props.taskContext.task.priority} className="form-control w-full max-w-xs rounded-lg border-2 border-gray-400 border-opacity-20">
+              <fieldset
+                defaultValue={props.taskContext.task.priority}
+                className="form-control w-full max-w-xs rounded-lg border-2 border-gray-400 border-opacity-20"
+              >
                 <div className="form-control ">
                   <label className="label cursor-pointer">
                     <span className="label-text">none</span>
@@ -140,7 +147,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       name="priority"
                       value={4}
                       className="radio checked:bg-gray-400"
-                      checked={props.taskContext.task.priority === 4}
+                      defaultChecked={props.taskContext.task.priority === 4}
                     />
                   </label>
                 </div>
@@ -153,7 +160,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       name="priority"
                       value={3}
                       className="radio checked:bg-blue-400"
-                      checked={props.taskContext.task.priority === 3}
+                      defaultChecked={props.taskContext.task.priority === 3}
                     />
                   </label>
                 </div>
@@ -166,7 +173,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       name="priority"
                       value={2}
                       className="radio checked:bg-orange-400"
-                      checked={props.taskContext.task.priority === 2}
+                      defaultChecked={props.taskContext.task.priority === 2}
                     />
                   </label>
                 </div>
@@ -179,7 +186,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       name="priority"
                       value={1}
                       className="radio checked:bg-red-400"
-                      checked={props.taskContext.task.priority === 1}
+                      defaultChecked={props.taskContext.task.priority === 1}
                     />
                   </label>
                 </div>
@@ -190,7 +197,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               type="submit"
               className="btn mt-4 w-full text-white hover:bg-green-400"
             >
-              Create
+              Update
             </button>
           </Form>
         </div>

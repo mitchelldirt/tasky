@@ -1,7 +1,7 @@
 import type { Task, Project } from "@prisma/client";
 import { Link } from "@remix-run/react";
 import dueDateColor from "~/helpers/dueDateColor";
-import parseDueDate from "~/helpers/parseDueDate";
+import {parseDueDate} from "~/helpers/dueDateFunctions";
 import priorityColor from "~/helpers/priorityColor";
 
 type TaskProps = {
