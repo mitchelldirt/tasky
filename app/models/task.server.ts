@@ -77,3 +77,30 @@ export function createTask(
     },
   });
 }
+
+export function updateTask(
+  { id }: { id: Task["id"] },
+  title: string,
+  description: string,
+  priority: number,
+  dueDate: Date | null,
+  time: boolean,
+  projectId: Project["id"]
+) {
+  let due = null;
+  if (dueDate) {
+    due = dueDate.toISOString();
+  }
+  
+  return prisma.task.update({
+    where: { id },
+    data: {
+      title: title,
+      description: description,
+      priority: priority,
+      dueDate: due,
+      time: time,
+      projectId: projectId,
+    },
+  });
+}

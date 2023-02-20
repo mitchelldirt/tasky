@@ -62,15 +62,6 @@ export async function action({ request }: ActionArgs) {
     });
   }
 
-  console.log(
-    typeof name,
-    typeof projectId,
-    typeof project,
-    typeof description,
-    typeof dueDate,
-    typeof priority,
-    typeof dueTime
-  );
   if (
     typeof name !== "string" ||
     typeof projectId !== "string" ||

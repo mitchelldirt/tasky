@@ -1,6 +1,6 @@
 import EditTask from "~/components/editTask";
 import { LiveReload, useLoaderData } from "@remix-run/react";
-import { getTaskById } from "~/models/task.server";
+import { getTaskById, updateTask } from "~/models/task.server";
 import { ActionArgs, LoaderArgs, redirect } from "@remix-run/node";
 import { getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
@@ -78,32 +78,53 @@ export default function EditTaskRoute() {
   return <p>Something went wrong</p>;
 }
 
-
 export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const title = data.get("title");
   const description = data.get("description");
   const project = data.get("project");
   const priority = data.get("priority");
-  const dueDate = data.get("dueDate");
-  const time = data.get("time");
+  let dueDate = data.get("dueDate");
+  let dueTime = data.get("dueTime");
   const taskId = data.get("id");
+  const previousRoute = data.get("previousRoute");
 
   const userId = await getUserId(request);
   if (userId === undefined) return redirect("/login");
 
   //TODO: Throw some zod validations here
+  try {
+   const taskIdSchema = z.object({
+      id: z.string(),
+    });
 
-  //TODO: switch editProject to editTask
-  switch (request.method) {
-    case "PATCH": {
-      await editProject({
-        id: projectId,
-        name: name.toUpperCase(),
-        color: color,
-      });
-      return redirect(`/project/${projectId}`);
+    console.log('id', taskId);
+    console.log('title', title);
+
+    let time = false;
+    let formattedDueDate = new Date(z.string().parse(dueDate)) || null;
+    if (dueTime) {
+      formattedDueDate = new Date(dueDate + "T" + dueTime);
+      time = true;
     }
+
+    //TODO: switch editProject to editTask
+    switch (request.method) {
+      case "PATCH": {
+        await updateTask(
+          taskIdSchema.parse({ id: taskId }),
+          z.string().parse(title),
+          z.string().parse(description) || "",
+          z.number().parse(Number(priority)),
+          z.date().parse(formattedDueDate),
+          z.boolean().parse(time),
+          z.string().parse(project)
+        );
+        return redirect(z.string().parse(previousRoute) || "/home");
+      }
+    }
+  } catch (error) {
+    console.error(error);
   }
 
   return badRequest({

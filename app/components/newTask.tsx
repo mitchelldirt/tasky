@@ -44,7 +44,6 @@ export default function NewTaskModal({
               type="hidden"
               name="projectId"
               value={context.projectId}
-              defaultValue={context.projectId}
             />
             {actionData ? (
               <span className="mt-4 flex justify-center">

@@ -10,9 +10,9 @@ type editTaskModalProps = {
 };
 
 export default function EditTask({ ...props }: editTaskModalProps) {
+  console.log(props.taskContext.task.id);
   return (
     <>
-      <input type="hidden" name="id" value={props.taskContext.task.id} />
       <input
         type="checkbox"
         id="editTaskModal"
@@ -32,6 +32,12 @@ export default function EditTask({ ...props }: editTaskModalProps) {
           </Link>
           <h3 className="w-full text-center text-lg font-bold">Edit Task</h3>
           <Form method="patch">
+            <input type="hidden" name="id" value={props.taskContext.task.id} />
+            <input
+              type="hidden"
+              name="previousRoute"
+              value={props.previousRoute}
+            />
             {props.formError ? (
               <span className="mt-4 flex justify-center">
                 <p
@@ -55,7 +61,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 defaultValue={props.taskContext.task.title}
                 placeholder="Type here"
                 className="input-bordered input w-full max-w-xs"
-                name="name"
+                name="title"
                 required
                 minLength={3}
                 maxLength={27}
