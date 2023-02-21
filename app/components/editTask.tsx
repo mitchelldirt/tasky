@@ -127,6 +127,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               </label>
               <input
                 type="time"
+                
                 placeholder=""
                 className="input-bordered input w-full max-w-xs"
                 defaultValue={

@@ -6,6 +6,7 @@ import { getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { z } from "zod";
 import { badRequest } from "~/utils";
+import { subHours } from "date-fns";
 
 const dataSchema = z.object({
   task: z.object({
@@ -98,14 +99,18 @@ export async function action({ request }: ActionArgs) {
       id: z.string(),
     });
 
-    console.log('id', taskId);
-    console.log('title', title);
-
     let time = false;
-    let formattedDueDate = new Date(z.string().parse(dueDate)) || null;
+    let formattedDueDate;
+  
     if (dueTime) {
-      formattedDueDate = new Date(dueDate + "T" + dueTime);
+      const justDate = dueDate?.toString().split("T")[0];
+      formattedDueDate = new Date(justDate + "T" + dueTime);
+
+      // TODO: This is a hack to get the date to work correctly
+      formattedDueDate = subHours(formattedDueDate, 4);
       time = true;
+    } else {
+      formattedDueDate = new Date(z.date().parse(dueDate));
     }
 
     //TODO: switch editProject to editTask
