@@ -10,7 +10,6 @@ type editTaskModalProps = {
 };
 
 export default function EditTask({ ...props }: editTaskModalProps) {
-  console.log(props.taskContext.task.id);
   return (
     <>
       <input

@@ -90,7 +90,6 @@ export function updateTask(
   let due = null;
   if (dueDate) {
     due = dueDate.toISOString();
-    console.log('before server entry', due)
   }
   
   return prisma.task.update({

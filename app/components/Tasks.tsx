@@ -10,7 +10,6 @@ export default function Tasks({
   tasks,
   name = "",
 }: taskList & Partial<Pick<Project, "name">>) {
-  console.log(tasks);
   return (
     <>
       <main className="flex flex-col items-center">

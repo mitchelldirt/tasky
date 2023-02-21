@@ -16,8 +16,6 @@ export default function NewProjectModal() {
     id = context.id;
   }
 
-  console.log(context);
-
   return (
     <>
       <input

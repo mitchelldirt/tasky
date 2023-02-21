@@ -114,7 +114,6 @@ export async function action({ request }: ActionArgs) {
     const isUsersPassword = await isCurrentPassword(userId, currentPassword);
 
     if (!isUsersPassword) {
-      console.log("error af");
       return badRequest({
         fields: null,
         formError: "Current password incorrect",
