@@ -1,12 +1,14 @@
 import EditTask from "~/components/editTask";
 import { LiveReload, useLoaderData } from "@remix-run/react";
 import { getTaskById, updateTask } from "~/models/task.server";
-import { ActionArgs, LoaderArgs, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { z } from "zod";
 import { badRequest } from "~/utils";
 import { subHours } from "date-fns";
+
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 
 const dataSchema = z.object({
   task: z.object({
@@ -15,7 +17,7 @@ const dataSchema = z.object({
     projectId: z.any(),
     priority: z.number(),
     title: z.string(),
-    dueDate: z.string(),
+    dueDate: z.string().nullable(),
     time: z.boolean(),
   }),
   projects: z.array(
@@ -95,21 +97,25 @@ export async function action({ request }: ActionArgs) {
 
   //TODO: Throw some zod validations here
   try {
-   const taskIdSchema = z.object({
+    const taskIdSchema = z.object({
       id: z.string(),
     });
 
     let time = false;
-    let formattedDueDate;
-  
-    if (dueTime) {
+    let formattedDueDate = null;
+
+    if (dueDate && dueTime) {
       const justDate = dueDate?.toString().split("T")[0];
       formattedDueDate = new Date(justDate + "T" + dueTime);
 
       // TODO: This is a hack to get the date to work correctly
       formattedDueDate = subHours(formattedDueDate, 4);
       time = true;
-    } else {
+    } else if (!dueDate && dueTime) {
+      return badRequest({
+        formError: "Please select a date",
+      });
+    } else if (dueDate && !dueTime) {
       formattedDueDate = new Date(z.date().parse(dueDate));
     }
 
@@ -121,7 +127,7 @@ export async function action({ request }: ActionArgs) {
           z.string().parse(title),
           z.string().parse(description) || "",
           z.number().parse(Number(priority)),
-          z.date().parse(formattedDueDate),
+          z.date().nullable().parse(formattedDueDate),
           z.boolean().parse(time),
           z.string().parse(project)
         );

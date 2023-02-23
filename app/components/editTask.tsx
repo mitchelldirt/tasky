@@ -112,9 +112,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 type="date"
                 placeholder=""
                 className="input-bordered input w-full max-w-xs"
-                defaultValue={
-                  extractDate(new Date(props.taskContext.task.dueDate)) ||
-                  extractDate(new Date())
+                defaultValue={props.taskContext.task.dueDate ? extractDate(new Date(props.taskContext.task.dueDate)) : ""
                 }
                 name="dueDate"
               />
@@ -130,7 +128,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 placeholder=""
                 className="input-bordered input w-full max-w-xs"
                 defaultValue={
-                  props.taskContext.task.time
+                  props.taskContext.task.time && props.taskContext.task.dueDate 
                     ? extractTime(props.taskContext.task.dueDate)
                     : ""
                 }
