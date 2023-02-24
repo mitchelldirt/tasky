@@ -1,7 +1,7 @@
 import type { Task, Project } from "@prisma/client";
-import { Link } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import dueDateColor from "~/helpers/dueDateColor";
-import {parseDueDate} from "~/helpers/dueDateFunctions";
+import { parseDueDate } from "~/helpers/dueDateFunctions";
 import priorityColor from "~/helpers/priorityColor";
 
 type TaskProps = {
@@ -19,7 +19,7 @@ export default function TaskView({
   priority,
   name,
   hasTime,
-  id
+  id,
 }: TaskProps) {
   let parsedDueDate;
   let dueDateTextColor;
@@ -36,25 +36,37 @@ export default function TaskView({
   const priorityTextColor = priorityColor(priority.priority);
   return (
     <>
-    {/* TODO: Add an onClick event to the task to mark it as completed */}
+      {/* TODO: Add an onClick event to the task to mark it as completed */}
       <div className="mb-2 flex w-4/5 flex-row items-center gap-2">
-        <svg
-          className={`h-8 w-8 ${priorityTextColor}`}
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          strokeWidth="2"
-          stroke="currentColor"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          {" "}
-          <path stroke="none" d="M0 0h24v24H0z" />{" "}
-          <circle cx="12" cy="12" r="9" />
-        </svg>
+        <Form method="patch" action={`/api/task/${id.id}`}>
+          <input type="hidden" name="id" value={id.id} />
+          <input type="hidden" name="path" value={location.pathname} />
+          <button
+            type="submit"
+            className="h-8 w-8 appearance-none"
+          >
+            <svg
+              className={`h-8 w-8 ${priorityTextColor}`}
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {" "}
+              <path stroke="none" d="M0 0h24v24H0z" />{" "}
+              <circle cx="12" cy="12" r="9" />
+            </svg>
+          </button>
+        </Form>
 
-        <Link to={`task/${id.id}`} className="w-full border-b-2 border-gray-400">
+        <Link
+          to={`task/${id.id}`}
+          className="w-full border-b-2 border-gray-400"
+        >
           <div className="flex flex-col">
             <p className="text-white">{title.title}</p>
             {parsedDueDate?.date ? (

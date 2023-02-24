@@ -47,7 +47,12 @@ export function getProjectTasks({
 }: Pick<Project, "id"> & { userId: User["id"] }) {
   return prisma.project.findMany({
     where: { id, userId },
-    select: { name: true, tasks: true },
+    select: {
+      name: true, tasks: {
+        where: { completed: false },
+        orderBy: { dueDate: "desc" },
+      }
+    },
   });
 }
 
@@ -64,7 +69,7 @@ export function createTask(
   if (dueDate) {
     due = dueDate.toISOString();
   }
-  
+
   return prisma.task.create({
     data: {
       userId: userId,
@@ -91,7 +96,7 @@ export function updateTask(
   if (dueDate) {
     due = dueDate.toISOString();
   }
-  
+
   return prisma.task.update({
     where: { id },
     data: {
@@ -103,4 +108,19 @@ export function updateTask(
       projectId: projectId,
     },
   });
+}
+
+export function completeTask(id: string) {
+  console.log("id", id);
+  return prisma.task.update({
+    where: { id },
+    data: {
+      completed: true,
+      completedAt: new Date()
+    },
+  });
+}
+
+export function sayHello() {
+  return "Hello";
 }

@@ -8,7 +8,7 @@ type taskList = {
 
 export default function Tasks({
   tasks,
-  name = "",
+  name = ""
 }: taskList & Partial<Pick<Project, "name">>) {
   return (
     <>
