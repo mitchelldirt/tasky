@@ -40,7 +40,6 @@ export default function TaskView({
       <div className="mb-2 flex w-4/5 flex-row items-center gap-2">
         <Form method="patch" action={`/api/task/${id.id}`}>
           <input type="hidden" name="id" value={id.id} />
-          <input type="hidden" name="path" value={location.pathname} />
           <button
             type="submit"
             className="h-8 w-8 appearance-none"

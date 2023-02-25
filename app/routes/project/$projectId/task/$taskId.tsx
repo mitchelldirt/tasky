@@ -9,6 +9,7 @@ import { badRequest } from "~/utils";
 import { subHours } from "date-fns";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { format } from "date-fns-tz";
 
 const dataSchema = z.object({
   task: z.object({
@@ -106,17 +107,16 @@ export async function action({ request }: ActionArgs) {
 
     if (dueDate && dueTime) {
       const justDate = dueDate?.toString().split("T")[0];
-      formattedDueDate = new Date(justDate + "T" + dueTime);
-
-      // TODO: This is a hack to get the date to work correctly
-      formattedDueDate = subHours(formattedDueDate, 4);
+      
+      // * This is a hack to get the date to be in the correct timezone
+      formattedDueDate = new Date(format(new Date(justDate + "T" + dueTime), "yyyy-MM-dd HH:mm z"));
       time = true;
     } else if (!dueDate && dueTime) {
       return badRequest({
         formError: "Please select a date",
       });
     } else if (dueDate && !dueTime) {
-      formattedDueDate = new Date(z.date().parse(dueDate));
+      formattedDueDate = new Date(format(new Date(z.string().parse(dueDate)), "yyyy-MM-dd HH:mm z"));
     }
 
     //TODO: switch editProject to editTask

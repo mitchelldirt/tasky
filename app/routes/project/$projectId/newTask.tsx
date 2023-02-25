@@ -12,6 +12,7 @@ import { createTask } from "~/models/task.server";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { sub } from "date-fns";
+import { format } from "date-fns-tz";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -86,10 +87,8 @@ export async function action({ request }: ActionArgs) {
   if (!dueDate) {
     localDate = null;
   } else {
-    let date = new Date(dueDate + "T" + dueTime || "2023-01-31T01:24:51.564Z");
-    localDate = sub(date, {
-      hours: 5,
-    });
+    let date = format(new Date(dueDate + "T" + dueTime), "yyyy-MM-dd HH:mm z") || "2023-01-31T01:24:51.564Z";
+    localDate = new Date(date);
   }
 
   // TODO: update time property. Need to check if time was filled out up above

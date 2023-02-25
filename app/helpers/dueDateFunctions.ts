@@ -1,11 +1,12 @@
 import {
   differenceInCalendarDays,
   differenceInCalendarYears,
-  format,
   isBefore,
   parseISO,
   startOfDay,
 } from "date-fns";
+
+import {format} from "date-fns-tz";
 
 type time = {
   date: string;
@@ -24,7 +25,7 @@ export function parseDueDate(
   const diffInYears = differenceInCalendarYears(new Date(), dueDateDate);
   const isSameYear = diffInYears === 0;
   const isOverdue = isBeforeNow(dueDateDate, accountForTime);
-  const time = format(dueDateDate, "p");
+  const time = format(new Date(dueDate), "p");
 
   if (isOverdue === false && diffInDays === 0) {
     return {
