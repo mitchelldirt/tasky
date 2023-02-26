@@ -8,6 +8,7 @@ import { getProjects } from "~/models/project.server";
 
 import type { LoaderArgs } from "@remix-run/node";
 import ProjectsHeader from "~/components/ProjectsHeader";
+import { tasksCompletedToday } from "~/models/task.server";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -19,8 +20,9 @@ export async function loader({ request }: LoaderArgs) {
     });
 
   const projects = await getProjects({ userId });
+  const tasksCompletedTodayQty = await tasksCompletedToday({ userId });
 
-  return json({ projects });
+  return json({ projects, tasksCompletedTodayQty });
 }
 
 export default function Home() {
@@ -28,7 +30,7 @@ export default function Home() {
 
   return (
     <>
-      <HomeNavBar />
+      <HomeNavBar tasksCompletedToday={data.tasksCompletedTodayQty} />
       <LiveReload />
       <main className="flex flex-col items-center">
         <ViewsMenu />

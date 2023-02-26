@@ -124,3 +124,14 @@ export function completeTask(id: string) {
 export function sayHello() {
   return "Hello";
 }
+
+export function tasksCompletedToday({ userId }: { userId: User["id"]}) {
+  return prisma.task.count({
+    where: {
+      completed: true,
+      completedAt: {
+        gte: new Date(new Date().setHours(0, 0, 0, 0)),
+      },
+    },
+  });
+}
