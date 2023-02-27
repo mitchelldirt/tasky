@@ -1,6 +1,7 @@
 import { Link, Form, LiveReload } from "@remix-run/react";
 
 import type { Project } from "@prisma/client";
+import { format } from "date-fns-tz";
 
 // create a type with action data and outlet context
 type ActionData = {
@@ -118,7 +119,7 @@ export default function NewTaskModal({
                 type="date"
                 placeholder=""
                 className="input-bordered input w-full max-w-xs"
-                defaultValue={new Date().toISOString().slice(0, 10)}
+                defaultValue={format(new Date(), "yyyy-MM-dd HH:mm z").slice(0, 10)}
                 name="dueDate"
               />
             </div>
