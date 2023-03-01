@@ -8,6 +8,8 @@ type projectList = {
 };
 
 export default function ProjectList({ projects }: projectList) {
+  // TODO: Use first: and last: pseudo-classes instead of this.
+
   return (
     <>
       <div className="flex flex-col">
@@ -15,6 +17,16 @@ export default function ProjectList({ projects }: projectList) {
           .filter((project) => project.id !== "none")
           .map((project, index) => {
             const textColorClass = createTailwindTextColor(project.color);
+
+            return (
+              <Link className={`btn-wide btn justify-start rounded-none border-0 border-b-2 border-slate-400 text-${project.color}-400 hover:border-slate-200 first:rounded-t-md last:rounded-b-md`} key={project.id} to={`/project/${project.id}`}>
+                <button
+                  className={``}
+                >
+                  {project.name}
+                </button>
+              </Link>
+            );
 
             if (index === 0) {
               return (
