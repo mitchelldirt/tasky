@@ -8,8 +8,7 @@ type projectList = {
 };
 
 export default function ProjectList({ projects }: projectList) {
-  // TODO: Use first: and last: pseudo-classes instead of this.
-
+  
   return (
     <>
       <div className="flex flex-col">
@@ -19,48 +18,12 @@ export default function ProjectList({ projects }: projectList) {
             const textColorClass = createTailwindTextColor(project.color);
 
             return (
-              <Link className={`btn-wide btn justify-start rounded-none border-0 border-b-2 border-slate-400 text-${project.color}-400 hover:border-slate-200 first:rounded-t-md last:rounded-b-md`} key={project.id} to={`/project/${project.id}`}>
-                <button
-                  className={``}
-                >
-                  {project.name}
-                </button>
-              </Link>
-            );
-
-            if (index === 0) {
-              return (
-                <Link key={project.id} to={`/project/${project.id}`}>
-                  <button
-                    className={`${textColorClass} btn-wide btn justify-start rounded-b-none border-0 border-b-2 border-slate-400 hover:border-slate-200`}
-                  >
-                    {project.name}
-                  </button>
-                </Link>
-              );
-            }
-
-            // If the project is the last one in the list, round the bottom border.
-            // -2 because of the project 'none' which we filter out.
-            if (index === projects.length - 2) {
-              return (
-                <Link key={project.id} to={`/project/${project.id}`}>
-                  <button
-                    className={`btn-wide btn justify-start rounded-t-none border-0 text-${project.color}-400 hover:border-b-2 hover:border-slate-200`}
-                  >
-                    {project.name}
-                  </button>
-                </Link>
-              );
-            }
-
-            return (
-              <Link key={project.id} to={`/project/${project.id}`}>
-                <button
-                  className={`btn-wide btn justify-start rounded-none border-0 border-b-2 border-slate-400 text-${project.color}-400 hover:border-slate-200`}
-                >
-                  {project.name}
-                </button>
+              <Link
+                className={`btn-wide btn justify-start rounded-none border-0 border-b-2 border-slate-400 first:rounded-t-md last:rounded-b-md hover:border-slate-200`}
+                key={project.id}
+                to={`/project/${project.id}`}
+              >
+                <button className={`${textColorClass}`}>{project.name}</button>
               </Link>
             );
           })}
