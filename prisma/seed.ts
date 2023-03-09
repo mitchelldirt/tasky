@@ -24,18 +24,87 @@ async function seed() {
     },
   });
 
-  await prisma.note.create({
+  const codingProject = await prisma.project.create({
     data: {
-      title: "My first note",
-      body: "Hello, world!",
+      name: "Coding",
+      color: "green",
       userId: user.id,
     },
   });
 
-  await prisma.note.create({
+  const personalProject = await prisma.project.create({
     data: {
-      title: "My second note",
-      body: "Hello, world!",
+      name: "Personal",
+      color: "blue",
+      userId: user.id,
+    },
+  });
+
+  await prisma.task.create({
+    data: {
+      title: "Code a React app using Remix",
+      description: "",
+      priority: 3,
+      projectId: codingProject.id,
+      userId: user.id,
+      dueDate: new Date().toISOString(),
+      time: true,
+    },
+  });
+
+  await prisma.task.create({
+    data: {
+      title: "Learn cypress",
+      description:
+        "This will help you take full advantage of the indie stack and ship better code!",
+      priority: 4,
+      projectId: codingProject.id,
+      dueDate: new Date().toISOString(),
+      userId: user.id,
+    },
+  });
+
+  await prisma.task.create({
+    data: {
+      title: "Create the user interface",
+      description:
+        "Make sure to do mobile-first design and test different breakpoints using responsively",
+      priority: 3,
+      projectId: codingProject.id,
+      dueDate: new Date().toISOString(),
+      userId: user.id,
+    },
+  });
+
+  await prisma.task.create({
+    data: {
+      title: "Do Yoga",
+      description: "Find a YouTube video focused on rock climbers yoga",
+      priority: 1,
+      projectId: personalProject.id,
+      dueDate: new Date().toISOString(),
+      userId: user.id,
+    },
+  });
+
+  await prisma.task.create({
+    data: {
+      title: "Do Laundry",
+      description: "Two baskets",
+      priority: 3,
+      projectId: personalProject.id,
+      dueDate: new Date().toISOString(),
+      userId: user.id,
+    },
+  });
+
+  await prisma.task.create({
+    data: {
+      title: "Finish your DuoLingo lesson",
+      description: "",
+      priority: 2,
+      projectId: personalProject.id,
+      dueDate: new Date().toISOString(),
       userId: user.id,
     },
   });
