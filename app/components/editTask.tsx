@@ -7,6 +7,7 @@ type editTaskModalProps = {
   formError?: formError;
   previousRoute: string;
   taskContext: TaskContext;
+  noneId: string;
 };
 
 export default function EditTask({ ...props }: editTaskModalProps) {
@@ -79,9 +80,9 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 name="project"
                 className="select-bordered select"
               >
-                <option value={"none"}>NONE</option>
+                <option value={props.noneId}>NONE</option>
                 {props.taskContext.projects
-                  ?.filter((project) => project.id !== "none")
+                  ?.filter((project) => project.id !== props.noneId)
                   .map((project) => {
                     return (
                       <option value={project.id} key={project.id}>

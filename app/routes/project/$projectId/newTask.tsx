@@ -4,7 +4,7 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
-import NewTaskModal from "~/components/newTask";
+import NewTaskModal from "~/components/NewTask";
 import { getUserId } from "~/session.server";
 import { getProjects } from "~/models/project.server";
 import { badRequest } from "~/utils";
@@ -23,7 +23,7 @@ export async function loader({ request }: LoaderArgs) {
 
   const projects = await getProjects({ userId: userId });
 
-  return projects;
+  return {projects, userId};
 }
 
 export default function NewTask() {
@@ -32,8 +32,9 @@ export default function NewTask() {
   const context = useOutletContext<typeof data>();
 
   let taskContext = {
-    projects: loaderData,
+    projects: loaderData.projects,
     projectId: context.id,
+    noneId: `none-${loaderData.userId}`
   } as const;
 
   return <NewTaskModal actionData={data || null} context={taskContext} />;

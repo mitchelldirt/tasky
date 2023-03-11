@@ -8,9 +8,11 @@ type ActionData = {
   formError?: string;
 };
 
+// TODO: Why are these optional?
 type OutletContext = {
   projects?: Project[];
   projectId?: string;
+  noneId?: string;
 };
 
 export default function NewTaskModal({
@@ -87,9 +89,9 @@ export default function NewTaskModal({
                 name="project"
                 className="select-bordered select"
               >
-                <option value={"none"}>NONE</option>
+                <option value={context.noneId}>NONE</option>
                 {context.projects
-                  ?.filter((project) => project.id !== "none")
+                  ?.filter((project) => project.id !== context.noneId)
                   .map((project) => {
                     return (
                       <option value={project.id} key={project.id}>

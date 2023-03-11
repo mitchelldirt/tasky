@@ -5,16 +5,17 @@ import { Link } from "@remix-run/react";
 
 type projectList = {
   projects: Project[];
+  noneId: string;
 };
 
-export default function ProjectList({ projects }: projectList) {
+export default function ProjectList({ projects, noneId }: projectList) {
   
   return (
     <>
       <div className="flex flex-col">
         {projects
-          .filter((project) => project.id !== "none")
-          .map((project, index) => {
+          .filter((project) => project.id !== noneId)
+          .map((project) => {
             const textColorClass = createTailwindTextColor(project.color);
 
             return (

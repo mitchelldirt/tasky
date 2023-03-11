@@ -1,4 +1,4 @@
-import EditTask from "~/components/editTask";
+import EditTask from "~/components/EditTask";
 import { LiveReload, useLoaderData } from "@remix-run/react";
 import { getTaskById, updateTask } from "~/models/task.server";
 import { redirect } from "@remix-run/node";
@@ -56,6 +56,7 @@ export async function loader({ params, request }: LoaderArgs) {
 
   return {
     taskContext: { task: task, projects: projects },
+    noneId: `none-${userId}`,
     previousRoute: url.pathname.slice(0, url.pathname.indexOf("/task")),
   };
 }
@@ -73,6 +74,7 @@ export default function EditTaskRoute() {
         <EditTask
           previousRoute={data.previousRoute}
           taskContext={data.taskContext}
+          noneId={data.noneId}
         />
         <LiveReload />
       </>
