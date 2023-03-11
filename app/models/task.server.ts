@@ -6,13 +6,27 @@ export type { Task } from "@prisma/client";
 
 export function getAllTasks({ userId }: { userId: User["id"] }) {
   return prisma.task.findMany({
-    where: { userId },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      priority: true,
-      project: true,
+    where: { userId, completed: false },
+    orderBy: { dueDate: "desc" },
+  });
+}
+
+export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
+  return prisma.task.findMany({
+    where: { userId, completed: true },
+    orderBy: { completedAt: "desc" },
+  });
+}
+
+export function getTodayTasks({ userId }: { userId: User["id"] }) {
+  return prisma.task.findMany({
+    where: {
+      userId,
+      completed: false,
+      dueDate: {
+        gte: new Date(new Date().setHours(0, 0, 0, 0)),
+        lte: new Date(new Date().setHours(23, 59, 59, 999)),
+      },
     },
     orderBy: { dueDate: "desc" },
   });
@@ -119,10 +133,6 @@ export function completeTask(id: string) {
       completedAt: new Date()
     },
   });
-}
-
-export function sayHello() {
-  return "Hello";
 }
 
 export function tasksCompletedToday({ userId }: { userId: User["id"]}) {
