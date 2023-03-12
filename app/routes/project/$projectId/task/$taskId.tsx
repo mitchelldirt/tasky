@@ -1,4 +1,4 @@
-import EditTask from "~/components/editTask";
+import EditTask from "~/components/EditTask";
 import { LiveReload, useLoaderData } from "@remix-run/react";
 import { getTaskById, updateTask } from "~/models/task.server";
 import { redirect } from "@remix-run/node";

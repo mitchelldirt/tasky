@@ -4,7 +4,7 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
-import NewTaskModal from "~/components/newTask";
+import NewTaskModal from "~/components/NewTask";
 import { getUserId } from "~/session.server";
 import { getProjects } from "~/models/project.server";
 import { badRequest } from "~/utils";
