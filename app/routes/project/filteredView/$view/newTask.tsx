@@ -29,11 +29,10 @@ export async function loader({ request }: LoaderArgs) {
 export default function NewTask() {
   const loaderData = useLoaderData();
   const data = useActionData();
-  const context = useOutletContext<typeof data>();
 
   let taskContext = {
     projects: loaderData.projects,
-    projectId: context.id,
+    projectId: `none-${loaderData.userId}`,
     noneId: `none-${loaderData.userId}`
   } as const;
 

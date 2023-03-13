@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderArgs) {
   const projects = await getProjects({ userId });
   const tasksCompletedTodayQty = await tasksCompletedToday({ userId });
 
-  return json({ projects, tasksCompletedTodayQty });
+  return json({ projects, tasksCompletedTodayQty, noneId: `none-${userId}` });
 }
 
 export default function Home() {
@@ -37,7 +37,7 @@ export default function Home() {
         <div className="w-fit rounded-md">
           <ProjectsHeader />
           <Outlet />
-          <ProjectList projects={data.projects} />
+          <ProjectList projects={data.projects} noneId={data.noneId} />
         </div>
       </main>
     </>

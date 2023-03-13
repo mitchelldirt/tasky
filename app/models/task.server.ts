@@ -1,4 +1,5 @@
 import type { User, Project, Task } from "@prisma/client";
+import { format } from "date-fns-tz";
 
 import { prisma } from "~/db.server";
 
@@ -6,15 +7,35 @@ export type { Task } from "@prisma/client";
 
 export function getAllTasks({ userId }: { userId: User["id"] }) {
   return prisma.task.findMany({
-    where: { userId },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      priority: true,
-      project: true,
+    where: { userId, completed: false },
+    orderBy: { dueDate: "asc" },
+  });
+}
+
+export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
+  return prisma.task.findMany({
+    where: { userId, completed: true },
+    orderBy: { completedAt: "asc" },
+  });
+}
+
+export function getTodayTasks({ userId }: { userId: User["id"] }) {
+  console.log('date init ' + new Date(new Date().setHours(0, 0, 0, 0)))
+  console.log('date init2 ' + new Date(new Date().setHours(23, 59, 59, 999)))
+
+  console.log( format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"))
+  
+
+  return prisma.task.findMany({
+    where: {
+      userId,
+      completed: false,
+      dueDate: {
+        gte: `${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`,
+        lte: `${format(new Date(), "yyyy-MM-dd")}T23:59:59.999Z`
+      },
     },
-    orderBy: { dueDate: "desc" },
+    orderBy: { dueDate: "asc" },
   });
 }
 
@@ -116,13 +137,9 @@ export function completeTask(id: string) {
     where: { id },
     data: {
       completed: true,
-      completedAt: new Date()
+      completedAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z",
     },
   });
-}
-
-export function sayHello() {
-  return "Hello";
 }
 
 export function tasksCompletedToday({ userId }: { userId: User["id"]}) {
@@ -130,7 +147,8 @@ export function tasksCompletedToday({ userId }: { userId: User["id"]}) {
     where: {
       completed: true,
       completedAt: {
-        gte: new Date(new Date().setHours(0, 0, 0, 0)),
+        gte: `${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`,
+        lte: `${format(new Date(), "yyyy-MM-dd")}T23:59:59.999Z`
       },
     },
   });
