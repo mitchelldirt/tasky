@@ -1,5 +1,7 @@
 ![Build Status](https://github.com/mitchelldirt/remix-todo-list/actions/workflows/deploy.yml/badge.svg)
 
+🚨 This project is under construction - as in I haven't finished it yet 🚨
+
 This project uses the ⬇️
 
 # Remix Indie Stack

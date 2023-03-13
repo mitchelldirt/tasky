@@ -80,6 +80,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 name="project"
                 className="select-bordered select"
               >
+
                 <option value={props.noneId}>NONE</option>
                 {props.taskContext.projects
                   ?.filter((project) => project.id !== props.noneId)
