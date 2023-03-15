@@ -48,6 +48,11 @@ export default function NewTaskModal({
               name="projectId"
               value={context.projectId}
             />
+            <input
+              type="hidden"
+              name="noneId"
+              value={context.noneId}
+            />
             {actionData ? (
               <span className="mt-4 flex justify-center">
                 <p

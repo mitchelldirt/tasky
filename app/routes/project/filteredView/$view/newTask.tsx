@@ -13,6 +13,7 @@ import { createTask } from "~/models/task.server";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { sub } from "date-fns";
 import { format } from "date-fns-tz";
+import { getNoneProjectId } from "~/helpers/getNoneProjectId";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -27,9 +28,11 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function NewTask() {
+  const previousRoute = useOutletContext();
   const loaderData = useLoaderData();
   const data = useActionData();
-
+  const urlParts = window.location.pathname.trim().split("/");
+  console.log(urlParts);
   let taskContext = {
     projects: loaderData.projects,
     projectId: `none-${loaderData.userId}`,
@@ -49,6 +52,7 @@ export async function action({ request }: ActionArgs) {
   const dueDate = data.get("dueDate");
   const priority = data.get("priority");
   let dueTime = data.get("dueTime");
+  const noneId = data.get("noneId"); 
   let time = true;
 
   const userId = await getUserId(request);
@@ -88,7 +92,11 @@ export async function action({ request }: ActionArgs) {
     localDate = null;
   } else {
     let date = format(new Date(dueDate + "T" + dueTime), "yyyy-MM-dd HH:mm z") || "2023-01-31T01:24:51.564Z";
+
+    console.log('The date for a new task is: ' + date)
     localDate = new Date(date);
+
+    console.log('The local date for a new task is: ' + localDate)
   }
 
   // TODO: update time property. Need to check if time was filled out up above
@@ -101,6 +109,6 @@ export async function action({ request }: ActionArgs) {
     localDate,
     time
   );
-
-  return redirect(`/project/${projectId}`);
+  
+  return redirect(`/project/filteredView/all`);
 }

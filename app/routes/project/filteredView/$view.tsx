@@ -47,7 +47,7 @@ export default function AllTasks() {
   return (
     <>
       <NonProjectNavBar name={viewInfo.name} color={viewInfo.color} />
-      <Outlet />
+      <Outlet context={viewInfo.name}/>
 
       {tasks ? <Tasks tasks={data.tasks || []} /> : null}
     </>

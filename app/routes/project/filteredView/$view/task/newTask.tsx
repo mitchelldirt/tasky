@@ -1,5 +1,5 @@
 import EditTask from "~/components/EditTask";
-import { LiveReload, useLoaderData } from "@remix-run/react";
+import { LiveReload, useLoaderData, useOutletContext } from "@remix-run/react";
 import { getTaskById, updateTask } from "~/models/task.server";
 import { redirect } from "@remix-run/node";
 import { getProjects } from "~/models/project.server";
@@ -38,7 +38,7 @@ function isValidData(input: unknown): input is z.infer<typeof dataSchema> {
 export type TaskContext = z.infer<typeof dataSchema>;
 
 export async function loader({ params, request }: LoaderArgs) {
-  if (typeof params.taskId !== "string") {
+    if (typeof params.taskId !== "string") {
     throw new Error("Uh Oh");
   }
 

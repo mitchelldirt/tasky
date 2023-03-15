@@ -4,9 +4,10 @@ import {
   isBefore,
   parseISO,
   startOfDay,
+  format
 } from "date-fns";
 
-import {format} from "date-fns-tz";
+import { } from "date-fns-tz";
 
 type time = {
   date: string;
@@ -18,6 +19,7 @@ export function parseDueDate(
   dueDate: string,
   accountForTime: boolean
 ): time {
+
   const dueDateDate = parseISO(dueDate.slice(0, dueDate.indexOf(".")));
   const diffInDays = Math.abs(
     differenceInCalendarDays(new Date(), dueDateDate)
@@ -25,7 +27,8 @@ export function parseDueDate(
   const diffInYears = differenceInCalendarYears(new Date(), dueDateDate);
   const isSameYear = diffInYears === 0;
   const isOverdue = isBeforeNow(dueDateDate, accountForTime);
-  const time = format(new Date(dueDate), "p");
+  // ! I had to change from using the `dueDate` variable to using the `dueDateDate` variable. This is because the ISO string formatting was off using `dueDate`, but it worked fine using the Date object in `dueDateDate`.
+  const time = format(new Date(dueDateDate), "p");
 
   if (isOverdue === false && diffInDays === 0) {
     return {
@@ -33,6 +36,12 @@ export function parseDueDate(
       time: time,
       isOverdue: false,
     };
+  } else if (isOverdue === true && diffInDays === 0) {
+    return {
+      date: "Today",
+      time: time,
+      isOverdue: true,
+    }
   } else if (isOverdue === false && diffInDays === 1) {
     return {
       date: "Tomorrow",

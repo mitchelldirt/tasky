@@ -82,6 +82,9 @@ export async function action({ request }: ActionArgs) {
     time = false;
   }
 
+  console.log("dueDate", dueDate);
+  console.log("dueTime", dueTime);
+
   //TODO: Extract this date stuff into a function
   let localDate;
 

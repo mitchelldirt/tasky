@@ -1,4 +1,5 @@
 import type { User, Project, Task } from "@prisma/client";
+import { formatISO } from "date-fns";
 import { format } from "date-fns-tz";
 
 import { prisma } from "~/db.server";
@@ -88,7 +89,8 @@ export function createTask(
 ) {
   let due = null;
   if (dueDate) {
-    due = dueDate.toISOString();
+    // ! When you formatISO with a time zone it will return a string with the time zone offset. The below code will remove the time zone offset and add a Z to the end of the string. This is required for the dueDate to be stored in the database correctly.
+    due = formatISO(dueDate).split('-').slice(0, 3).join('-') + 'Z'
   }
 
   return prisma.task.create({
@@ -115,7 +117,7 @@ export function updateTask(
 ) {
   let due = null;
   if (dueDate) {
-    due = dueDate.toISOString();
+    due = format(dueDate, "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
   }
 
   return prisma.task.update({
