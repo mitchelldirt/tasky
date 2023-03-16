@@ -44,7 +44,7 @@ export default function HomeNavBar({
             />
           </svg>
         </button>
-        <button className="btn-ghost btn-circle btn">
+        <Link to={'newTask'} className="btn-ghost btn-circle btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -59,7 +59,7 @@ export default function HomeNavBar({
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
-        </button>
+        </Link>
         <div className="dropdown-end dropdown">
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
             <div className="h-8 w-8 rounded-full">

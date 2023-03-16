@@ -15,6 +15,13 @@ type OutletContext = {
   noneId?: string;
 };
 
+const staticRoutes: object = {
+  home: "/home",
+  all: "/project/filteredView/all",
+  today: "/project/filteredView/today",
+  completed: "/project/filteredView/completed",
+};
+
 export default function NewTaskModal({
   actionData,
   context,
@@ -22,6 +29,13 @@ export default function NewTaskModal({
   actionData: ActionData | null;
   context: OutletContext;
 }) {
+
+  let projectId = "";
+  if (typeof context.projectId === "string") {
+    projectId = context.projectId;
+  }
+  
+
   return (
     <>
       <input
@@ -32,8 +46,10 @@ export default function NewTaskModal({
         readOnly
       />
       <div className="modal">
-        <div className="modal-box relative">
-          <Link to={`/project/${context.projectId}`}>
+        <div className="modal-box relative">          
+          <Link to={
+            //@ts-expect-error
+            projectId && staticRoutes[projectId] ? staticRoutes[projectId] : `/project/${context.projectId}`}>
             <label
               htmlFor="createProjectModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"

@@ -92,6 +92,10 @@ export async function deleteUserByEmail(email: User["email"]) {
   return prisma.user.delete({ where: { email } });
 }
 
+export async function deleteUserByUserId(userId: User["id"]) {
+  return prisma.user.delete({ where: { id: userId } });
+}
+
 export async function verifyLogin(
   email: User["email"],
   password: Password["hash"]

@@ -31,7 +31,7 @@ export async function loader({ request, params }: LoaderArgs) {
     viewInfo.color = "green";
   }
 
-  return { tasks, viewInfo };
+  return { tasks, viewInfo, filterView };
 }
 
 export default function AllTasks() {
@@ -43,11 +43,12 @@ export default function AllTasks() {
 
   const tasks = data.tasks;
   const viewInfo = data.viewInfo;
+  const nameOfView = data.filterView;
 
   return (
     <>
       <NonProjectNavBar name={viewInfo.name} color={viewInfo.color} />
-      <Outlet context={viewInfo.name}/>
+      <Outlet context={nameOfView}/>
 
       {tasks ? <Tasks tasks={data.tasks || []} /> : null}
     </>

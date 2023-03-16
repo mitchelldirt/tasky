@@ -11,7 +11,9 @@ import { badRequest } from "~/utils";
 import { createTask } from "~/models/task.server";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { sub } from "date-fns";
 import { format } from "date-fns-tz";
+import { getNoneProjectId } from "~/helpers/getNoneProjectId";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -26,14 +28,14 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function NewTask() {
-  const outletContext = useOutletContext<string>();
+  const previousRoute = useOutletContext();
   const loaderData = useLoaderData();
   const data = useActionData();
   const urlParts = window.location.pathname.trim().split("/");
   console.log(urlParts);
   let taskContext = {
     projects: loaderData.projects,
-    projectId: outletContext,
+    projectId: `home`,
     noneId: `none-${loaderData.userId}`
   } as const;
 
