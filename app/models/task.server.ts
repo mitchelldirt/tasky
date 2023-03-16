@@ -90,7 +90,11 @@ export function createTask(
   let due = null;
   if (dueDate) {
     // ! When you formatISO with a time zone it will return a string with the time zone offset. The below code will remove the time zone offset and add a Z to the end of the string. This is required for the dueDate to be stored in the database correctly.
-    due = formatISO(dueDate).split('-').slice(0, 3).join('-') + 'Z'
+    due = formatISO(dueDate).split('-').slice(0, 3).join('-');
+    if (due.includes('z') === false) {
+      due = due + 'Z';
+    }
+    console.log('LOG POINT - this is what the due date is before going into the db: ', due)
   }
 
   return prisma.task.create({
