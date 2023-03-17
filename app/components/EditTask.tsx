@@ -22,14 +22,73 @@ export default function EditTask({ ...props }: editTaskModalProps) {
       />
       <div className="modal">
         <div className="modal-box relative">
-          <Link to={props.previousRoute || "/home"}>
-            <label
-              htmlFor="editTaskModal"
-              className="btn-sm btn-circle btn absolute right-2 top-2"
-            >
-              ✕
-            </label>
-          </Link>
+          <div className="absolute right-2 top-2">
+            <div className="flex flex-row items-center justify-center gap-3">
+              <div className="dropdown-end dropdown">
+                <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
+                  <div className="h-6 w-6 rounded-full">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-6 w-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                      />
+                    </svg>
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-black p-2 text-white shadow"
+                >
+                  <li className="hover:bg-gray-500 h-10">
+                    <Form
+                      method="post"
+                      action={`/api/task/${props.taskContext.task.id}`}
+                      className="h-full w-full p-0"
+                    >
+                      <input
+                        type="hidden"
+                        name="id"
+                        value={props.taskContext.task.id}
+                      />
+                      <button className="w-full h-full" type="submit">Duplicate</button>
+                    </Form>
+                  </li>
+                  <li className="hover:bg-red-500 h-10">
+                    <Form
+                      method="delete"
+                      action={`/api/task/${props.taskContext.task.id}`}
+                      className="h-full w-full p-0"
+                    >
+                      <input
+                        type="hidden"
+                        name="id"
+                        value={props.taskContext.task.id}
+                      />
+                      <button className="w-full h-full" type="submit">Delete</button>
+                    </Form>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <Link to={props.previousRoute || "/home"}>
+                  <label
+                    htmlFor="editTaskModal"
+                    className="btn-sm btn-circle btn"
+                  >
+                    ✕
+                  </label>
+                </Link>
+              </div>
+            </div>
+          </div>
           <h3 className="w-full text-center text-lg font-bold">Edit Task</h3>
           <Form method="patch">
             <input type="hidden" name="id" value={props.taskContext.task.id} />
@@ -80,7 +139,6 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 name="project"
                 className="select-bordered select"
               >
-
                 <option value={props.noneId}>NONE</option>
                 {props.taskContext.projects
                   ?.filter((project) => project.id !== props.noneId)
@@ -114,7 +172,10 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 type="date"
                 placeholder=""
                 className="input-bordered input w-full max-w-xs"
-                defaultValue={props.taskContext.task.dueDate ? extractDate(new Date(props.taskContext.task.dueDate)) : ""
+                defaultValue={
+                  props.taskContext.task.dueDate
+                    ? extractDate(new Date(props.taskContext.task.dueDate))
+                    : ""
                 }
                 name="dueDate"
               />
@@ -126,11 +187,10 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               </label>
               <input
                 type="time"
-                
                 placeholder=""
                 className="input-bordered input w-full max-w-xs"
                 defaultValue={
-                  props.taskContext.task.time && props.taskContext.task.dueDate 
+                  props.taskContext.task.time && props.taskContext.task.dueDate
                     ? extractTime(props.taskContext.task.dueDate)
                     : ""
                 }

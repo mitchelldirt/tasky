@@ -1,6 +1,7 @@
 import type { User, Project, Task } from "@prisma/client";
 import { formatISO } from "date-fns";
 import { format } from "date-fns-tz";
+import { satisfies } from "semver";
 
 import { prisma } from "~/db.server";
 
@@ -16,9 +17,11 @@ export function getAllTasks({ userId }: { userId: User["id"] }) {
 export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
   return prisma.task.findMany({
     orderBy: { completedAt: "desc" },
-    where: { user: {
-      id: userId
-    }, completed: true },
+    where: {
+      user: {
+        id: userId
+      }, completed: true
+    },
   });
 }
 
@@ -26,8 +29,8 @@ export function getTodayTasks({ userId }: { userId: User["id"] }) {
   console.log('date init ' + new Date(new Date().setHours(0, 0, 0, 0)))
   console.log('date init2 ' + new Date(new Date().setHours(23, 59, 59, 999)))
 
-  console.log( format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"))
-  
+  console.log(format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"))
+
 
   return prisma.task.findMany({
     where: {
@@ -160,9 +163,7 @@ export function restoreTask(id: string) {
   });
 }
 
-export function tasksCompletedToday({ userId }: { userId: User["id"]}) {
-console.log(`START OF DAY: ${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`)
-  console.log(`END OF DAY: ${format(new Date(), "yyyy-MM-dd")}T23:59:59.999Z`)
+export function tasksCompletedToday({ userId }: { userId: User["id"] }) {
   return prisma.task.count({
     where: {
       user: {
@@ -175,4 +176,33 @@ console.log(`START OF DAY: ${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`)
       },
     },
   });
+}
+
+export function deleteTask(id: string) {
+  return prisma.task.delete({
+    where: { id },
+  });
+}
+
+export async function duplicateTask(id: string) {
+  const taskToDuplicate = await prisma.task.findUnique({
+    where: { id },
+  });
+
+  if (taskToDuplicate && taskToDuplicate satisfies Task) {
+
+    const {userId, title, description, priority, projectId, dueDate, time} = taskToDuplicate;
+
+    return prisma.task.create({
+      data: {
+        userId: userId,
+        title: title,
+        description: description,
+        priority: priority,
+        projectId: projectId,
+        dueDate: dueDate,
+        time: time,
+      },
+    });
+  }
 }
