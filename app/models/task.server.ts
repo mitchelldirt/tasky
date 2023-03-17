@@ -153,6 +153,9 @@ export function completeTask(id: string) {
 export function tasksCompletedToday({ userId }: { userId: User["id"]}) {
   return prisma.task.count({
     where: {
+      user: {
+        id: userId
+      },
       completed: true,
       completedAt: {
         gte: `${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`,
