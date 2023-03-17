@@ -29,14 +29,14 @@ export default function TaskView({
   let dueDateTextColor;
 
   if (completed === false && dueDate.dueDate && typeof dueDate.dueDate !== "object") {
-    parsedDueDate = parseDueDate(dueDate.dueDate, hasTime.time, completed);
+    parsedDueDate = parseDueDate(dueDate.dueDate, hasTime.time, completed, Number(new Date().getTimezoneOffset()));
 
     dueDateTextColor = dueDateColor(
       parsedDueDate.date,
       parsedDueDate.isOverdue
     );
   } else if (completed === true && completedAt && typeof completedAt !== "object") {
-    parsedDueDate = parseDueDate(completedAt, true, completed);
+    parsedDueDate = parseDueDate(completedAt, true, completed, Number(new Date().getTimezoneOffset()));
   }
 
   const priorityTextColor = priorityColor(priority.priority);

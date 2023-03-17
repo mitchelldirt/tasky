@@ -4,7 +4,8 @@ import {
   isBefore,
   parseISO,
   startOfDay,
-  format
+  format,
+  subHours
 } from "date-fns";
 
 type time = {
@@ -16,7 +17,8 @@ type time = {
 export function parseDueDate(
   dueDate: string,
   accountForTime: boolean,
-  completed: boolean
+  completed: boolean,
+  tzOffset: number
 ): time {
 
   const dueDateDate = parseISO(dueDate.slice(0, dueDate.indexOf(".")));
@@ -25,7 +27,7 @@ export function parseDueDate(
   );
   const diffInYears = differenceInCalendarYears(new Date(), dueDateDate);
   const isSameYear = diffInYears === 0;
-  const isOverdue = isBeforeNow(dueDateDate, accountForTime);
+  const isOverdue = isBeforeNow(dueDateDate, accountForTime, tzOffset);
   // ! I had to change from using the `dueDate` variable to using the `dueDateDate` variable. This is because the ISO string formatting was off using `dueDate`, but it worked fine using the Date object in `dueDateDate`.
 
   // TODO: fix the time being off below by four hours lol. Might need to use the tz package instead of date-fns for this.
@@ -101,10 +103,10 @@ export function parseDueDate(
   };
 }
 
-function isBeforeNow(dueDate: Date, accountForTime: boolean): boolean {
-  if (accountForTime) return isBefore(dueDate, new Date());
+function isBeforeNow(dueDate: Date, accountForTime: boolean, tzOffset: number): boolean {
+  if (accountForTime) return isBefore(dueDate, subHours(new Date(), tzOffset));
 
-  return isBefore(startOfDay(dueDate), startOfDay(new Date()));
+  return isBefore(startOfDay(dueDate), startOfDay(subHours(new Date(), tzOffset)));
 }
 
 export function extractDate(date: Date) {
