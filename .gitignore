@@ -9,5 +9,5 @@ node_modules
 /prisma/data.db
 /prisma/data.db-journal
 /prisma/dev.db
-
+/prisma/db.sqlite
 /app/styles/tailwind.css

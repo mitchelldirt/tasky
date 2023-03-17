@@ -15,8 +15,10 @@ export function getAllTasks({ userId }: { userId: User["id"] }) {
 
 export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
   return prisma.task.findMany({
-    where: { userId, completed: true },
     orderBy: { completedAt: "asc" },
+    where: { user: {
+      id: userId
+    }, completed: true },
   });
 }
 
