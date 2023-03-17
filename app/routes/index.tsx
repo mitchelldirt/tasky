@@ -91,14 +91,9 @@ export default function Index() {
                 href: "https://tailwindcss.com",
               },
               {
-                src: "https://user-images.githubusercontent.com/1500684/157764454-48ac8c71-a2a9-4b5e-b19c-edef8b8953d6.svg",
-                alt: "Cypress",
-                href: "https://www.cypress.io",
-              },
-              {
-                src: "https://user-images.githubusercontent.com/1500684/157772386-75444196-0604-4340-af28-53b236faa182.svg",
-                alt: "MSW",
-                href: "https://mswjs.io",
+                src: "https://seeklogo.com/images/P/playwright-logo-22FA8B9E63-seeklogo.com.png",
+                alt: "Playwright",
+                href: "https://playwright.dev/",
               },
               {
                 src: "https://user-images.githubusercontent.com/1500684/157772447-00fccdce-9d12-46a3-8bb4-fac612cdc949.svg",
@@ -125,9 +120,16 @@ export default function Index() {
                 alt: "TypeScript",
                 href: "https://typescriptlang.org",
               },
+              {
+                src: "https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png",
+                alt: "Docker",
+                href: "https://www.docker.com",
+              }
             ].map((img) => (
               <a
                 key={img.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 href={img.href}
                 className="flex h-16 w-32 justify-center p-1 brightness-200 grayscale transition hover:brightness-100 hover:grayscale-0 focus:grayscale-0"
               >
