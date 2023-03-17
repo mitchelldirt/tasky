@@ -48,6 +48,7 @@ export default function TaskView({
           <Form method="patch" action={`/api/task/${id.id}`}>
             <input type="hidden" name="id" value={id.id} />
             <input type="hidden" name="restore" value={`${completed}`} />
+            <input type="hidden" name="currentTime" value={new Date().toString()} />
             <button type="submit" className="h-8 w-8 appearance-none">
               <svg
                 className={`h-8 w-8 ${priorityTextColor}`}

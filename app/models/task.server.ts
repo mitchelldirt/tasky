@@ -142,13 +142,14 @@ export function updateTask(
   });
 }
 
-export function completeTask(id: string) {
-  console.log("id", id);
+export function completeTask(id: string, currentTime: string) {
+  let dateTime = format(new Date(currentTime), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+  console.log('completion time going into db: ' + dateTime)
   return prisma.task.update({
     where: { id },
     data: {
       completed: true,
-      completedAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z",
+      completedAt: dateTime
     },
   });
 }
