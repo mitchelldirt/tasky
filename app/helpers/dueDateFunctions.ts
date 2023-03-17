@@ -17,7 +17,8 @@ type time = {
 
 export function parseDueDate(
   dueDate: string,
-  accountForTime: boolean
+  accountForTime: boolean,
+  completed: boolean
 ): time {
 
   const dueDateDate = parseISO(dueDate.slice(0, dueDate.indexOf(".")));
@@ -29,8 +30,14 @@ export function parseDueDate(
   const isOverdue = isBeforeNow(dueDateDate, accountForTime);
   // ! I had to change from using the `dueDate` variable to using the `dueDateDate` variable. This is because the ISO string formatting was off using `dueDate`, but it worked fine using the Date object in `dueDateDate`.
   const time = format(new Date(dueDateDate), "p");
-
-  if (isOverdue === false && diffInDays === 0) {
+  console.log("completed", completed)
+  if (completed === true) {
+    return {
+      date: format(dueDateDate, "LLLL d"),
+      time: time,
+      isOverdue: false,
+    };
+  } else if (isOverdue === false && diffInDays === 0) {
     return {
       date: "Today",
       time: time,

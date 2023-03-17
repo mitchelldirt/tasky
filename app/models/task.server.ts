@@ -15,7 +15,7 @@ export function getAllTasks({ userId }: { userId: User["id"] }) {
 
 export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
   return prisma.task.findMany({
-    orderBy: { completedAt: "asc" },
+    orderBy: { completedAt: "desc" },
     where: { user: {
       id: userId
     }, completed: true },
@@ -146,6 +146,16 @@ export function completeTask(id: string) {
     data: {
       completed: true,
       completedAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z",
+    },
+  });
+}
+
+export function restoreTask(id: string) {
+  return prisma.task.update({
+    where: { id },
+    data: {
+      completed: false,
+      completedAt: null,
     },
   });
 }
