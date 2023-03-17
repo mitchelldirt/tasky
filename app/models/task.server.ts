@@ -151,6 +151,8 @@ export function completeTask(id: string) {
 }
 
 export function tasksCompletedToday({ userId }: { userId: User["id"]}) {
+console.log(`START OF DAY: ${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`)
+  console.log(`END OF DAY: ${format(new Date(), "yyyy-MM-dd")}T23:59:59.999Z`)
   return prisma.task.count({
     where: {
       user: {
@@ -163,6 +165,4 @@ export function tasksCompletedToday({ userId }: { userId: User["id"]}) {
       },
     },
   });
-  console.log(`START OF DAY: ${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`)
-  console.log(`END OF DAY: ${format(new Date(), "yyyy-MM-dd")}T23:59:59.999Z`)
 }
