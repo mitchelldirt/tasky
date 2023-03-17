@@ -44,6 +44,9 @@ export default function AllTasks() {
   const tasks = data.tasks;
   const viewInfo = data.viewInfo;
   const nameOfView = data.filterView;
+  
+  // ! remove this later lol
+  console.log(tasks)
 
   return (
     <>
