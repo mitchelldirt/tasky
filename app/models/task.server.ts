@@ -1,5 +1,5 @@
 import type { User, Project, Task } from "@prisma/client";
-import { formatISO } from "date-fns";
+import { formatISO, subHours } from "date-fns";
 import { format } from "date-fns-tz";
 import { satisfies } from "semver";
 
@@ -143,7 +143,7 @@ export function updateTask(
 }
 
 export function completeTask(id: string, currentTime: string) {
-  let dateTime = format(new Date(currentTime), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+  let dateTime = format(subHours(new Date(), Number(currentTime) / 60), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
   console.log('completion time going into db: ' + dateTime)
   return prisma.task.update({
     where: { id },
