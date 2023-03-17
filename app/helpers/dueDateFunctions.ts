@@ -29,6 +29,8 @@ export function parseDueDate(
   const isSameYear = diffInYears === 0;
   const isOverdue = isBeforeNow(dueDateDate, accountForTime);
   // ! I had to change from using the `dueDate` variable to using the `dueDateDate` variable. This is because the ISO string formatting was off using `dueDate`, but it worked fine using the Date object in `dueDateDate`.
+
+  // TODO: fix the time being off below by four hours lol. Might need to use the tz package instead of date-fns for this.
   const time = format(new Date(dueDateDate), "p");
   console.log("completed", completed)
   if (completed === true) {
