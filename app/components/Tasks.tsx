@@ -14,6 +14,7 @@ export default function Tasks({
     <>
       <main className="flex flex-col items-center">
         <ol className="flex w-full flex-col items-center md:w-3/4">
+          {/* TODO: Refactor the below to match how completed prop works. That way you can do completed instead of completed.completed */}
           {tasks
             ? tasks.map((task) => (
                 <TaskView
@@ -23,6 +24,8 @@ export default function Tasks({
                   name={{ name: name }}
                   hasTime={{ time: task.time }}
                   id={{ id: task.id }}
+                  completed={task.completed}
+                  completedAt={task.completedAt}
                   key={task.id}
                 />
               ))

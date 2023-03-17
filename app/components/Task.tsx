@@ -11,6 +11,8 @@ type TaskProps = {
   name: { name: Project["name"] };
   hasTime: { time: Task["time"] };
   id: { id: Task["id"] };
+  completed: Task["completed"];
+  completedAt: { completedAt: Task["completedAt"] };
 };
 
 export default function TaskView({
@@ -20,6 +22,8 @@ export default function TaskView({
   name,
   hasTime,
   id,
+  completed,
+  completedAt,
 }: TaskProps) {
   let parsedDueDate;
   let dueDateTextColor;
@@ -34,6 +38,8 @@ export default function TaskView({
   }
 
   const priorityTextColor = priorityColor(priority.priority);
+  console.log(completed)
+  if (completed === false) {
   return (
     <>
       {/* TODO: Add an onClick event to the task to mark it as completed */}
@@ -80,4 +86,15 @@ export default function TaskView({
       </div>
     </>
   );
+} else if (completed === true) {
+  return (
+    <>
+    </>
+  );
+} else {
+  return (
+    <>
+    </>
+  )
+}
 }
