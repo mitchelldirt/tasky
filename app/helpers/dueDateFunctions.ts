@@ -3,11 +3,10 @@ import {
   differenceInCalendarYears,
   isBefore,
   parseISO,
-  startOfDay,
-  format
+  startOfDay
 } from "date-fns";
 
-import { } from "date-fns-tz";
+import { format } from "date-fns-tz";
 
 type time = {
   date: string;
@@ -32,7 +31,7 @@ export function parseDueDate(
 
   // TODO: fix the time being off below by four hours lol. Might need to use the tz package instead of date-fns for this.
   const time = format(new Date(dueDateDate), "p");
-  console.log("completed", completed)
+  console.log("time", time)
   if (completed === true) {
     return {
       date: format(dueDateDate, "LLLL d"),
