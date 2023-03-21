@@ -37,30 +37,30 @@ export async function createUser(email: User["email"], password: string) {
   await createTask(
     { userId: user.id },
     { projectId: personal.id },
-    "Do yoga",
-    "Choose a yoga video with a focus on hip flexibility",
-    2,
-    new Date("2021-08-01"),
+    "Task with high priority",
+    "",
+    1,
+    new Date(),
     false
   );
 
   await createTask(
     { userId: user.id },
     { projectId: personal.id },
-    "Vacuum",
+    "Task with low priority",
     "",
     3,
-    new Date("2021-08-01"),
+    new Date(new Date().setDate(new Date().getDate() + 1)),
     false
   );
 
   await createTask(
     { userId: user.id },
     { projectId: personal.id },
-    "Plan vacation",
-    "Figure out how much it will cost for a 5 night stay in Minneapolis",
-    4,
-    new Date("2021-08-01"),
+    "Task with medium priority",
+    "",
+    2,
+    new Date(new Date().setDate(new Date().getDate() + 4)),
     false
   );
 
@@ -68,20 +68,20 @@ export async function createUser(email: User["email"], password: string) {
   await createTask(
     { userId: user.id },
     { projectId: work.id },
-    "Clean off desk",
+    "Task with no priority set",
     "",
-    1,
-    new Date("2021-08-01"),
+    4,
+    new Date(),
     false
   );
 
   await createTask(
     { userId: user.id },
     { projectId: work.id },
-    "Ship version 1.0 of app",
+    "Task due next month",
     "",
-    3,
-    new Date("2021-08-01"),
+    2,
+    new Date(new Date().setDate(new Date().getDate() + 33)),
     false
   );
 
