@@ -34,6 +34,7 @@ export function parseDueDate(
   console.log("dueDateDate", dueDate);
   const time = format(new Date(dueDate.slice(0, dueDate.indexOf('.'))), "p");
   console.log("time", time)
+  console.log("isOverdue", isOverdue)
   if (completed === true) {
     return {
       date: format(dueDateDate, "LLLL d"),
@@ -106,7 +107,12 @@ export function parseDueDate(
 function isBeforeNow(dueDate: Date, accountForTime: boolean, tzOffset: number): boolean {
   if (accountForTime) return isBefore(dueDate, subHours(new Date(), tzOffset));
 
-  return isBefore(startOfDay(dueDate), startOfDay(subHours(new Date(), tzOffset)));
+  let taskDueDate = startOfDay(dueDate);
+  // ! Divide by 60 to convert from minutes to hours
+  let today = startOfDay(subHours(new Date(), tzOffset / 60));
+  let isOverdue = isBefore(taskDueDate, today);
+
+  return isOverdue;
 }
 
 export function extractDate(date: Date) {

@@ -85,6 +85,16 @@ export async function createUser(email: User["email"], password: string) {
     false
   );
 
+  await createTask(
+    { userId: user.id },
+    { projectId: work.id },
+    "Overdue task",
+    "",
+    1,
+    new Date(new Date().setDate(new Date().getDate() - 1)),
+    false
+  );
+
   return user;
 }
 
