@@ -2,7 +2,7 @@ import { createTailwindTextColor } from "~/helpers/colorClass";
 
 import type { Project } from "@prisma/client";
 import { Link } from "@remix-run/react";
-import NoProjects from "./noProjects";
+import NoProjects from "./NoProjects";
 
 type projectList = {
   projects: Project[];
