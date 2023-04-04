@@ -1,5 +1,6 @@
 import type { Task, Project } from "@prisma/client";
 import { Form, Link } from "@remix-run/react";
+import { useState } from "react";
 import dueDateColor from "~/helpers/dueDateColor";
 import { parseDueDate } from "~/helpers/dueDateFunctions";
 import priorityColor from "~/helpers/priorityColor";
@@ -28,19 +29,46 @@ export default function TaskView({
   let parsedDueDate;
   let dueDateTextColor;
 
-  if (completed === false && dueDate.dueDate && typeof dueDate.dueDate !== "object") {
-    parsedDueDate = parseDueDate(dueDate.dueDate, hasTime.time, completed, Number(new Date().getTimezoneOffset()));
+  if (
+    completed === false &&
+    dueDate.dueDate &&
+    typeof dueDate.dueDate !== "object"
+  ) {
+    parsedDueDate = parseDueDate(
+      dueDate.dueDate,
+      hasTime.time,
+      completed,
+      Number(new Date().getTimezoneOffset())
+    );
 
     dueDateTextColor = dueDateColor(
       parsedDueDate.date,
       parsedDueDate.isOverdue
     );
-  } else if (completed === true && completedAt && typeof completedAt !== "object") {
-    parsedDueDate = parseDueDate(completedAt, true, completed, Number(new Date().getTimezoneOffset()));
+  } else if (
+    completed === true &&
+    completedAt &&
+    typeof completedAt !== "object"
+  ) {
+    parsedDueDate = parseDueDate(
+      completedAt,
+      true,
+      completed,
+      Number(new Date().getTimezoneOffset())
+    );
   }
 
   const priorityTextColor = priorityColor(priority.priority);
-  console.log(completed);
+
+  function addCompletionAnimation(target: any) {
+    target.classList.add("animate-ping");
+    target.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+    `;
+  }
+
   if (completed === false) {
     return (
       <>
@@ -48,8 +76,16 @@ export default function TaskView({
           <Form method="patch" action={`/api/task/${id.id}`}>
             <input type="hidden" name="id" value={id.id} />
             <input type="hidden" name="restore" value={`${completed}`} />
-            <input type="hidden" name="currentTime" value={new Date().getTimezoneOffset()} />
-            <button type="submit" className="h-8 w-8 appearance-none">
+            <input
+              type="hidden"
+              name="currentTime"
+              value={new Date().getTimezoneOffset()}
+            />
+            <button
+              type="submit"
+              onClick={(e) => addCompletionAnimation(e.target)}
+              className={`h-8 w-8 appearance-none`}
+            >
               <svg
                 className={`h-8 w-8 ${priorityTextColor}`}
                 width="24"
@@ -93,7 +129,10 @@ export default function TaskView({
           <Form method="patch" action={`/api/task/${id.id}`}>
             <input type="hidden" name="id" value={id.id} />
             <input type="hidden" name="restore" value={`${completed}`} />
-            <button type="submit" className="btn bg-white text-black w-fit h-fit hover:bg-green-200">
+            <button
+              type="submit"
+              className="btn h-fit w-fit bg-white text-black hover:bg-green-200"
+            >
               Restore Task
             </button>
           </Form>

@@ -142,16 +142,25 @@ export function updateTask(
   });
 }
 
-export function completeTask(id: string, currentTime: string) {
+
+function waitforme(millisec: number) {
+  return new Promise(resolve => {
+    setTimeout(() => { resolve('') }, millisec);
+  })
+}
+
+export async function completeTask(id: string, currentTime: string) {
   let dateTime = format(subHours(new Date(), Number(currentTime) / 60), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
-  console.log('completion time going into db: ' + dateTime)
+
+  await waitforme(400);
+
   return prisma.task.update({
     where: { id },
     data: {
       completed: true,
       completedAt: dateTime
     },
-  });
+  })
 }
 
 export function restoreTask(id: string) {
@@ -192,7 +201,7 @@ export async function duplicateTask(id: string) {
 
   if (taskToDuplicate && taskToDuplicate satisfies Task) {
 
-    const {userId, title, description, priority, projectId, dueDate, time} = taskToDuplicate;
+    const { userId, title, description, priority, projectId, dueDate, time } = taskToDuplicate;
 
     return prisma.task.create({
       data: {
