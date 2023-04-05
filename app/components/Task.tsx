@@ -25,7 +25,7 @@ export default function TaskView({
   id,
   completed,
   completedAt,
-}: TaskProps) {
+}: TaskProps, displayProject: boolean) {
   let parsedDueDate;
   let dueDateTextColor;
 
@@ -62,11 +62,18 @@ export default function TaskView({
 
   function addCompletionAnimation(target: any) {
     target.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      height="36" 
+      width="36" 
+      fill="none" 
+      viewBox="0 0 36 36" 
+      stroke-width="2" 
+      stroke="currentColor"
+      class="h-9 w-9 animate-ping">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 </svg>
     `;
-    target.classList.add("animate-ping");
   }
 
   if (completed === false) {
@@ -106,7 +113,7 @@ export default function TaskView({
 
           <Link
             to={`task/${id.id}`}
-            className="w-full border-b-2 border-gray-400"
+            className="w-full border-b-2 border-gray-400 flex flex-row justify-between"
           >
             <div className="flex flex-col">
               <p className="text-white">{title.title}</p>
@@ -117,6 +124,7 @@ export default function TaskView({
                 </div>
               ) : null}
             </div>
+            <span>{name.name}</span>
             <span>{name.name}</span>
           </Link>
         </div>
