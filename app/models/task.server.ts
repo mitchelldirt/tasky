@@ -84,6 +84,7 @@ export function getProjectTasks({
     select: {
       name: true, tasks: {
         where: { completed: false },
+        include: { project: true },
         orderBy: { dueDate: "desc" },
       }
     },

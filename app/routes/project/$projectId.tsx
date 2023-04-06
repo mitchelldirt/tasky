@@ -57,7 +57,7 @@ export default function ProjectById() {
         id={id || "null"}
       />
       <Outlet context={{ id, name, color }} />
-      {tasks ? <Tasks tasks={data.tasks || []} /> : null}
+      {tasks ? <Tasks tasks={data.tasks || []} displayProject={false} /> : null}
     </>
   );
 }

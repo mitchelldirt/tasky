@@ -2,7 +2,11 @@ import { Outlet, useLoaderData } from "@remix-run/react";
 import { LoaderArgs, redirect } from "@remix-run/server-runtime";
 import NonProjectNavBar from "~/components/NonProjectNavBar";
 import Tasks from "~/components/Tasks";
-import { getAllCompletedTasks, getAllTasks, getTodayTasks } from "~/models/task.server";
+import {
+  getAllCompletedTasks,
+  getAllTasks,
+  getTodayTasks,
+} from "~/models/task.server";
 import { getUserId } from "~/session.server";
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -15,7 +19,7 @@ export async function loader({ request, params }: LoaderArgs) {
   let viewInfo = {
     name: "",
     color: "",
-  }
+  };
 
   if (filterView === "all") {
     tasks = await getAllTasks({ userId });
@@ -44,16 +48,16 @@ export default function AllTasks() {
   const tasks = data.tasks;
   const viewInfo = data.viewInfo;
   const nameOfView = data.filterView;
-  
+
   // ! remove this later lol
-  console.log(tasks)
+  console.log(tasks);
 
   return (
     <>
       <NonProjectNavBar name={viewInfo.name} color={viewInfo.color} />
-      <Outlet context={nameOfView}/>
+      <Outlet context={nameOfView} />
 
-      {tasks ? <Tasks tasks={data.tasks || []} /> : null}
+      {tasks ? <Tasks tasks={data.tasks || []} displayProject={true} /> : null}
     </>
   );
 }
