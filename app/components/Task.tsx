@@ -14,6 +14,7 @@ type TaskProps = {
   id: { id: Task["id"] };
   completed: Task["completed"];
   completedAt: Task["completedAt"];
+  project: Project
 };
 
 export default function TaskView({
@@ -25,6 +26,7 @@ export default function TaskView({
   id,
   completed,
   completedAt,
+  project
 }: TaskProps, displayProject: boolean) {
   let parsedDueDate;
   let dueDateTextColor;
@@ -125,7 +127,10 @@ export default function TaskView({
               ) : null}
             </div>
             <span>{name.name}</span>
-            <span>{name.name}</span>
+            {/* TODO: Put the none project id here instead of the includes
+              remember to do this below in the completed view as well
+            */}
+            <span className={`text-${project.color}-500`}>{project.name.includes('NONE') === false ? project.name : null}</span>
           </Link>
         </div>
       </>
@@ -147,7 +152,7 @@ export default function TaskView({
 
           <Link
             to={`task/${id.id}`}
-            className="w-full border-b-2 border-gray-400"
+            className="w-full border-b-2 border-gray-400 flex flex-row justify-between"
           >
             <div className="flex flex-col">
               <p className="text-white">{title.title}</p>
@@ -159,6 +164,8 @@ export default function TaskView({
               ) : null}
             </div>
             <span>{name.name}</span>
+            {/* TODO: Put the none project id here instead of the includes */}
+            <span className={`text-${project.color}-500`}>{project.name.includes('NONE') === false ? project.name : null}</span>
           </Link>
         </div>
       </>

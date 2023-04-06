@@ -34,6 +34,7 @@ export default function Tasks({
                   name={{ name: name }}
                   hasTime={{ time: task.time }}
                   id={{ id: task.id }}
+                  project={task.project}
                   completed={task.completed}
                   completedAt={task.completedAt}
                   key={task.id}

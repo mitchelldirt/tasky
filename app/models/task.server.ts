@@ -1,8 +1,6 @@
 import type { User, Project, Task } from "@prisma/client";
 import { formatISO, subHours } from "date-fns";
 import { format } from "date-fns-tz";
-import { satisfies } from "semver";
-
 import { prisma } from "~/db.server";
 
 export type { Task } from "@prisma/client";
@@ -10,6 +8,9 @@ export type { Task } from "@prisma/client";
 export function getAllTasks({ userId }: { userId: User["id"] }) {
   return prisma.task.findMany({
     where: { userId, completed: false },
+    include: {
+      project: true,
+    },
     orderBy: { dueDate: "asc" },
   });
 }
@@ -17,13 +18,13 @@ export function getAllTasks({ userId }: { userId: User["id"] }) {
 export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
   return prisma.task.findMany({
     orderBy: { completedAt: "desc" },
-    include: {
-      project: true,
-    },
     where: {
       user: {
         id: userId
       }, completed: true
+    },
+    include: {
+      project: true,
     },
   });
 }
@@ -43,6 +44,9 @@ export function getTodayTasks({ userId }: { userId: User["id"] }) {
         gte: `${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`,
         lte: `${format(new Date(), "yyyy-MM-dd")}T23:59:59.999Z`
       },
+    },
+    include: {
+      project: true,
     },
     orderBy: { dueDate: "asc" },
   });
