@@ -7,7 +7,7 @@ type NonProjectNavBarProps = {
 
 export default function NonProjectNavBar({
   name,
-  color
+  color,
 }: NonProjectNavBarProps) {
   return (
     <div className="navbar">
