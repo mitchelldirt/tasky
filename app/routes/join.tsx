@@ -55,7 +55,7 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  if (typeof timezoneOffset !== "number") {
+  if (typeof timezoneOffset !== "string") {
     return json(
       {
         errors: {
@@ -67,7 +67,7 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  const user = await createUser(email, password, timezoneOffset);
+  const user = await createUser(email, password, Number(timezoneOffset));
 
   return createUserSession({
     request,
