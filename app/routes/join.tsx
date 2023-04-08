@@ -18,6 +18,7 @@ export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
+  const timezoneOffset = formData.get("timezoneOffset");
   const redirectTo = safeRedirect(formData.get("redirectTo"), "/home");
 
   if (!validateEmail(email)) {
@@ -54,7 +55,19 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  const user = await createUser(email, password);
+  if (typeof timezoneOffset !== "number") {
+    return json(
+      {
+        errors: {
+          email: null,
+          password: "Server error occured, please try again.",
+        },
+      },
+      { status: 500 }
+    );
+  }
+
+  const user = await createUser(email, password, timezoneOffset);
 
   return createUserSession({
     request,
@@ -72,7 +85,7 @@ export const meta: MetaFunction = () => {
 
 export default function Join() {
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") ?? '/home';
+  const redirectTo = searchParams.get("redirectTo") ?? "/home";
   const actionData = useActionData<typeof action>();
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
@@ -89,6 +102,11 @@ export default function Join() {
     <div className="flex min-h-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
         <Form method="post" className="space-y-6">
+          <input
+            type="hidden"
+            name="timezoneOffset"
+            value={new Date().getTimezoneOffset()}
+          />
           <div>
             <label
               htmlFor="email"

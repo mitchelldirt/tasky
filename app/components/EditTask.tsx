@@ -47,7 +47,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                   tabIndex={0}
                   className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-black p-2 text-white shadow"
                 >
-                  <li className="hover:bg-gray-500 h-10">
+                  <li className="h-10 hover:bg-gray-500">
                     <Form
                       method="post"
                       action={`/api/task/${props.taskContext.task.id}`}
@@ -58,10 +58,12 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                         name="id"
                         value={props.taskContext.task.id}
                       />
-                      <button className="w-full h-full" type="submit">Duplicate</button>
+                      <button className="h-full w-full" type="submit">
+                        Duplicate
+                      </button>
                     </Form>
                   </li>
-                  <li className="hover:bg-red-500 h-10">
+                  <li className="h-10 hover:bg-red-500">
                     <Form
                       method="delete"
                       action={`/api/task/${props.taskContext.task.id}`}
@@ -72,7 +74,9 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                         name="id"
                         value={props.taskContext.task.id}
                       />
-                      <button className="w-full h-full" type="submit">Delete</button>
+                      <button className="h-full w-full" type="submit">
+                        Delete
+                      </button>
                     </Form>
                   </li>
                 </ul>
@@ -96,6 +100,11 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               type="hidden"
               name="previousRoute"
               value={props.previousRoute}
+            />
+            <input
+              type="hidden"
+              name="timezoneOffset"
+              value={new Date().getTimezoneOffset()}
             />
             {props.formError ? (
               <span className="mt-4 flex justify-center">
@@ -174,7 +183,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 className="input-bordered input w-full max-w-xs"
                 defaultValue={
                   props.taskContext.task.dueDate
-                    ? extractDate(new Date(props.taskContext.task.dueDate))
+                    ? extractDate(props.taskContext.task.dueDate)
                     : ""
                 }
                 name="dueDate"

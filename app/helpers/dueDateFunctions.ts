@@ -5,7 +5,7 @@ import {
   parseISO,
   startOfDay,
   format,
-  subHours
+  subHours,
 } from "date-fns";
 
 type time = {
@@ -20,21 +20,15 @@ export function parseDueDate(
   completed: boolean,
   tzOffset: number
 ): time {
+  // * new Date() returns the current date and time in the local time zone
+  const dueDateDate = new Date(dueDate);
 
-  const dueDateDate = parseISO(dueDate.slice(0, dueDate.indexOf(".")));
-  const diffInDays = Math.abs(
-    differenceInCalendarDays(new Date(), dueDateDate)
-  );
+  const diffInDays = Math.abs(differenceInCalendarDays(new Date(), dueDateDate));
   const diffInYears = differenceInCalendarYears(new Date(), dueDateDate);
   const isSameYear = diffInYears === 0;
-  const isOverdue = isBeforeNow(dueDateDate, accountForTime, tzOffset);
-  // ! I had to change from using the `dueDate` variable to using the `dueDateDate` variable. This is because the ISO string formatting was off using `dueDate`, but it worked fine using the Date object in `dueDateDate`.
 
-  // TODO: fix the time being off below by four hours lol. Might need to use the tz package instead of date-fns for this.
-  console.log("dueDateDate", dueDate);
-  const time = format(new Date(dueDate.slice(0, dueDate.indexOf('.'))), "p");
-  console.log("time", time)
-  console.log("isOverdue", isOverdue)
+  const isOverdue = isBeforeNow(dueDateDate, accountForTime);
+  const time = format(subHours(dueDateDate, tzOffset), "p");
   if (completed === true) {
     return {
       date: format(dueDateDate, "LLLL d"),
@@ -104,21 +98,31 @@ export function parseDueDate(
   };
 }
 
-function isBeforeNow(dueDate: Date, accountForTime: boolean, tzOffset: number): boolean {
-  if (accountForTime) return isBefore(dueDate, subHours(new Date(), tzOffset));
+function isBeforeNow(dueDate: Date, accountForTime: boolean): boolean {
+  if (accountForTime) return isBefore(dueDate, new Date());
+
+  if (dueDate == new Date()) return false;
+  console.log("due date: " + dueDate);
+  console.log("new date: " + new Date());
 
   let taskDueDate = startOfDay(dueDate);
-  // ! Divide by 60 to convert from minutes to hours
-  let today = startOfDay(subHours(new Date(), tzOffset / 60));
+  let today = startOfDay(new Date());
   let isOverdue = isBefore(taskDueDate, today);
 
   return isOverdue;
 }
 
-export function extractDate(date: Date) {
-  return date.toISOString().slice(0, 10);
+export function extractDate(UTCdate: string) {
+  return format(new Date(UTCdate), "yyyy-MM-dd");
 }
 
 export function extractTime(date: string) {
-  return date.slice(date.indexOf("T") + 1, date.indexOf("."));
+  return format(new Date(date), "HH:mm:ss");
+}
+
+export function formatDateForUTC(dueDate: string | null, dueTime: string = "00:00:00") {
+  if (dueDate === null) return null;
+
+  let date = new Date(dueDate + "T" + dueTime).toISOString();
+  return new Date(date);
 }

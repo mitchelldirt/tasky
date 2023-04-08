@@ -29,12 +29,10 @@ export default function NewTaskModal({
   actionData: ActionData | null;
   context: OutletContext;
 }) {
-
   let projectId = "";
   if (typeof context.projectId === "string") {
     projectId = context.projectId;
   }
-  
 
   return (
     <>
@@ -46,10 +44,16 @@ export default function NewTaskModal({
         readOnly
       />
       <div className="modal">
-        <div className="modal-box relative">          
-          <Link to={
-            //@ts-expect-error
-            projectId && staticRoutes[projectId] ? staticRoutes[projectId] : `/project/${context.projectId}`}>
+        <div className="modal-box relative">
+          <Link
+            to={
+              //@ts-expect-error
+              projectId && staticRoutes[projectId]
+                ? //@ts-expect-error
+                  staticRoutes[projectId]
+                : `/project/${context.projectId}`
+            }
+          >
             <label
               htmlFor="createProjectModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"
@@ -59,15 +63,12 @@ export default function NewTaskModal({
           </Link>
           <h3 className="w-full text-center text-lg font-bold">Create Task</h3>
           <Form method="post">
+            <input type="hidden" name="projectId" value={context.projectId} />
+            <input type="hidden" name="noneId" value={context.noneId} />
             <input
               type="hidden"
-              name="projectId"
-              value={context.projectId}
-            />
-            <input
-              type="hidden"
-              name="noneId"
-              value={context.noneId}
+              name="timezoneOffset"
+              value={new Date().getTimezoneOffset()}
             />
             {actionData ? (
               <span className="mt-4 flex justify-center">
@@ -142,7 +143,7 @@ export default function NewTaskModal({
                 type="date"
                 placeholder=""
                 className="input-bordered input w-full max-w-xs"
-                defaultValue={format(new Date(), "yyyy-MM-dd HH:mm z").slice(0, 10)}
+                defaultValue={format(new Date(), "yyyy-MM-dd")}
                 name="dueDate"
               />
             </div>

@@ -94,6 +94,7 @@ export async function action({ request }: ActionArgs) {
   let dueTime = data.get("dueTime");
   const taskId = data.get("id");
   const previousRoute = data.get("previousRoute");
+  const timezoneOffset = data.get("timezoneOffset");
 
   const userId = await getUserId(request);
   if (userId === undefined) return redirect("/login");
@@ -109,19 +110,23 @@ export async function action({ request }: ActionArgs) {
 
     if (dueDate && dueTime) {
       const justDate = dueDate?.toString().split("T")[0];
-      
+
       // * This is a hack to get the date to be in the correct timezone
-      formattedDueDate = new Date(format(new Date(justDate + "T" + dueTime), "yyyy-MM-dd HH:mm z"));
+      formattedDueDate = new Date(
+        format(new Date(justDate + "T" + dueTime), "yyyy-MM-dd HH:mm z")
+      );
       time = true;
     } else if (!dueDate && dueTime) {
       return badRequest({
         formError: "Please select a date",
       });
     } else if (dueDate && !dueTime) {
-      formattedDueDate = new Date(format(new Date(z.string().parse(dueDate)), "yyyy-MM-dd HH:mm z"));
+      formattedDueDate = new Date(
+        format(new Date(z.string().parse(dueDate)), "yyyy-MM-dd HH:mm z")
+      );
     }
 
-    //TODO: switch editProject to editTask
+    //TODO: Could probably remove try catch but maybe not because of zod
     switch (request.method) {
       case "PATCH": {
         await updateTask(
@@ -131,7 +136,8 @@ export async function action({ request }: ActionArgs) {
           z.number().parse(Number(priority)),
           z.date().nullable().parse(formattedDueDate),
           z.boolean().parse(time),
-          z.string().parse(project)
+          z.string().parse(project),
+          z.number().parse(Number(timezoneOffset))
         );
         return redirect(z.string().parse(previousRoute) || "/home");
       }

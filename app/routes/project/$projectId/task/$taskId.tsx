@@ -6,10 +6,9 @@ import { getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { z } from "zod";
 import { badRequest } from "~/utils";
-import { subHours } from "date-fns";
+import { formatDateForUTC } from "~/helpers/dueDateFunctions";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { format } from "date-fns-tz";
 
 const dataSchema = z.object({
   task: z.object({
@@ -94,6 +93,7 @@ export async function action({ request }: ActionArgs) {
   let dueTime = data.get("dueTime");
   const taskId = data.get("id");
   const previousRoute = data.get("previousRoute");
+  const timezoneOffset = data.get("timezoneOffset");
 
   const userId = await getUserId(request);
   if (userId === undefined) return redirect("/login");
@@ -107,21 +107,20 @@ export async function action({ request }: ActionArgs) {
     let time = false;
     let formattedDueDate = null;
 
-    if (dueDate && dueTime) {
-      const justDate = dueDate?.toString().split("T")[0];
-      
-      // * This is a hack to get the date to be in the correct timezone
-      formattedDueDate = new Date(format(new Date(justDate + "T" + dueTime), "yyyy-MM-dd HH:mm z"));
-      time = true;
-    } else if (!dueDate && dueTime) {
+    if (!dueDate && dueTime) {
       return badRequest({
         formError: "Please select a date",
       });
-    } else if (dueDate && !dueTime) {
-      formattedDueDate = new Date(format(new Date(z.string().parse(dueDate)), "yyyy-MM-dd HH:mm z"));
     }
 
-    //TODO: switch editProject to editTask
+    if (dueDate) {
+      const justDate = dueDate?.toString().split("T")[0];
+      formattedDueDate = formatDateForUTC(justDate, z.string().parse(dueTime));
+      // * This is a hack to get the date to be in the correct timezone
+      time = true;
+    }
+
+    //TODO: could probably not do a try catch here? Maybe you need to do it for zod though
     switch (request.method) {
       case "PATCH": {
         await updateTask(
@@ -131,7 +130,8 @@ export async function action({ request }: ActionArgs) {
           z.number().parse(Number(priority)),
           z.date().nullable().parse(formattedDueDate),
           z.boolean().parse(time),
-          z.string().parse(project)
+          z.string().parse(project),
+          z.number().parse(Number(timezoneOffset))
         );
         return redirect(z.string().parse(previousRoute) || "/home");
       }

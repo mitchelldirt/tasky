@@ -20,7 +20,10 @@ export async function loader({ request }: LoaderArgs) {
     });
 
   const projects = await getProjects({ userId });
-  const tasksCompletedTodayQty = await tasksCompletedToday({ userId });
+  const tasksCompletedTodayQty = await tasksCompletedToday(
+    { userId },
+    new Date()
+  );
 
   return json({ projects, tasksCompletedTodayQty, noneId: `none-${userId}` });
 }

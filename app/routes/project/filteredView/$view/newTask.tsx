@@ -11,7 +11,7 @@ import { badRequest } from "~/utils";
 import { createTask } from "~/models/task.server";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { format } from "date-fns-tz";
+import { formatDateForUTC } from "~/helpers/dueDateFunctions";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -22,7 +22,7 @@ export async function loader({ request }: LoaderArgs) {
 
   const projects = await getProjects({ userId: userId });
 
-  return {projects, userId};
+  return { projects, userId };
 }
 
 export default function NewTask() {
@@ -34,7 +34,7 @@ export default function NewTask() {
   let taskContext = {
     projects: loaderData.projects,
     projectId: outletContext,
-    noneId: `none-${loaderData.userId}`
+    noneId: `none-${loaderData.userId}`,
   } as const;
 
   return <NewTaskModal actionData={data || null} context={taskContext} />;
@@ -50,7 +50,7 @@ export async function action({ request }: ActionArgs) {
   const dueDate = data.get("dueDate");
   const priority = data.get("priority");
   let dueTime = data.get("dueTime");
-  const noneId = data.get("noneId"); 
+  const userOffsetMinutes = data.get("timezoneOffset");
   let time = true;
 
   const userId = await getUserId(request);
@@ -72,7 +72,8 @@ export async function action({ request }: ActionArgs) {
     typeof description !== "string" ||
     typeof dueDate !== "string" ||
     typeof priority !== "string" ||
-    typeof dueTime !== "string"
+    typeof dueTime !== "string" ||
+    typeof userOffsetMinutes !== "string"
   ) {
     return badRequest({
       formError: "Please fill out all required fields",
@@ -83,30 +84,18 @@ export async function action({ request }: ActionArgs) {
     time = false;
   }
 
-  //TODO: Extract this date stuff into a function
-  let localDate;
+  let UTCDate = formatDateForUTC(dueDate, dueTime);
 
-  if (!dueDate) {
-    localDate = null;
-  } else {
-    let date = format(new Date(dueDate + "T" + dueTime), "yyyy-MM-dd HH:mm z") || "2023-01-31T01:24:51.564Z";
-
-    console.log('The date for a new task is: ' + date)
-    localDate = new Date(date);
-
-    console.log('The local date for a new task is: ' + localDate)
-  }
-
-  // TODO: update time property. Need to check if time was filled out up above
   await createTask(
     { userId: userId },
     { projectId: project },
     name,
     description,
     Number(priority),
-    localDate,
-    time
+    UTCDate,
+    time,
+    Number(userOffsetMinutes)
   );
-  
+
   return redirect(`/project/filteredView/all`);
 }

@@ -1,5 +1,5 @@
 import type { User, Project, Task } from "@prisma/client";
-import { formatISO, subHours } from "date-fns";
+import { addHours, formatISO, subHours } from "date-fns";
 import { format } from "date-fns-tz";
 import { prisma } from "~/db.server";
 
@@ -98,16 +98,15 @@ export function createTask(
   description: string,
   priority: number,
   dueDate: Date | null,
-  time: boolean
+  time: boolean,
+  userOffsetMinutes: number
 ) {
   let due = null;
+  let userOffsetHours = userOffsetMinutes / 60;
+
   if (dueDate) {
-    // ! When you formatISO with a time zone it will return a string with the time zone offset. The below code will remove the time zone offset and add a Z to the end of the string. This is required for the dueDate to be stored in the database correctly.
-    due = formatISO(dueDate).split('-').slice(0, 3).join('-');
-    if (due.includes('Z') === false) {
-      due = due + 'Z';
-    }
-    console.log('LOG POINT - this is what the due date is before going into the db: ', due)
+    console.log('due date ' + dueDate)
+    due = format(addHours(dueDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
   }
 
   return prisma.task.create({
@@ -130,11 +129,14 @@ export function updateTask(
   priority: number,
   dueDate: Date | null,
   time: boolean,
-  projectId: Project["id"]
+  projectId: Project["id"],
+  userOffsetMinutes: number
 ) {
   let due = null;
+  const userOffsetHours = userOffsetMinutes / 60;
+
   if (dueDate) {
-    due = format(dueDate, "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+    due = format(addHours(dueDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
   }
 
   return prisma.task.update({
@@ -157,8 +159,9 @@ function waitforme(millisec: number) {
   })
 }
 
-export async function completeTask(id: string, currentTime: string) {
-  let dateTime = format(subHours(new Date(), Number(currentTime) / 60), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+export async function completeTask(id: string, userOffsetMins: string) {
+  let userOffsetHours = Number(userOffsetMins) / 60;
+  let dateTime = format(addHours(new Date(), userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
 
   await waitforme(400);
 
@@ -181,7 +184,7 @@ export function restoreTask(id: string) {
   });
 }
 
-export function tasksCompletedToday({ userId }: { userId: User["id"] }) {
+export function tasksCompletedToday({ userId }: { userId: User["id"] }, userDate: Date) {
   return prisma.task.count({
     where: {
       user: {
@@ -189,8 +192,8 @@ export function tasksCompletedToday({ userId }: { userId: User["id"] }) {
       },
       completed: true,
       completedAt: {
-        gte: `${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`,
-        lte: `${format(new Date(), "yyyy-MM-dd")}T23:59:59.999Z`
+        gte: `${format(userDate, "yyyy-MM-dd")}T00:00:00.000Z`,
+        lte: `${format(userDate, "yyyy-MM-dd")}T23:59:59.999Z`
       },
     },
   });
