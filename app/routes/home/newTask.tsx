@@ -32,8 +32,6 @@ export default function NewTask() {
   const previousRoute = useOutletContext();
   const loaderData = useLoaderData();
   const data = useActionData();
-  const urlParts = window.location.pathname.trim().split("/");
-  console.log(urlParts);
   let taskContext = {
     projects: loaderData.projects,
     projectId: `home`,
