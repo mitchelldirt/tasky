@@ -29,6 +29,7 @@ export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
   });
 }
 
+// todo: get the users time and use that instead of new Date()
 export function getTodayTasks({ userId }: { userId: User["id"] }) {
   console.log('date init ' + new Date(new Date().setHours(0, 0, 0, 0)))
   console.log('date init2 ' + new Date(new Date().setHours(23, 59, 59, 999)))
@@ -159,9 +160,9 @@ function waitforme(millisec: number) {
   })
 }
 
-export async function completeTask(id: string, userOffsetMins: string) {
+export async function completeTask(id: string, userDate: Date, userOffsetMins: number) {
   let userOffsetHours = Number(userOffsetMins) / 60;
-  let dateTime = format(addHours(new Date(), userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+  let dateTime = format(addHours(userDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
 
   await waitforme(400);
 

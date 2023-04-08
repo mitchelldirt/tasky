@@ -87,11 +87,6 @@ export default function TaskView({
           <Form method="patch" action={`/api/task/${id.id}`}>
             <input type="hidden" name="id" value={id.id} />
             <input type="hidden" name="restore" value={`${completed}`} />
-            <input
-              type="hidden"
-              name="currentTime"
-              value={new Date().getTimezoneOffset()}
-            />
             <button
               type="submit"
               onClick={(e) => addCompletionAnimation(e.target)}

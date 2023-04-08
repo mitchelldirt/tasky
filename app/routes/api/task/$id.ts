@@ -13,14 +13,7 @@ export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const id = data.get("id");
   const restore = data.get("restore");
-  const currentTime = data.get("currentTime");
   const path = request.headers.get("Referer");
-  console.log(id, path, restore, request.method)
-
-  if (currentTime) {
-    console.log('The current time is' + currentTime)
-  }
-
   //TODO: The below type checking seems a bit hacky
 
   if (typeof id !== "string" || typeof path !== "string") {
@@ -37,13 +30,7 @@ export async function action({ request }: ActionArgs) {
       return redirect(path);
     }
 
-    if (typeof currentTime !== "string") {
-      return badRequest({
-        message: "Invalid request",
-      })
-    }
-
-    await completeTask(id, currentTime);
+    await completeTask(id, new Date(), new Date().getTimezoneOffset());
     return redirect(path);
   }
 
