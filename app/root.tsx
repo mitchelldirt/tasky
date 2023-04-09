@@ -48,7 +48,7 @@ export default function App() {
   const [totalTasks, setTotalTasks] = useState(data.userTasks.length);
 
   useEffect(() => {
-    if (data.userTasks.length > totalTasks) {
+    if (data.userTasks && data.userTasks.length > totalTasks) {
       console.log(toast);
       if (toast.current) {
         console.log(toast.current);
