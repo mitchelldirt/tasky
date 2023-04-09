@@ -1,5 +1,7 @@
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { LoaderArgs, redirect } from "@remix-run/server-runtime";
+import { subHours } from "date-fns";
+import { useState } from "react";
 import NonProjectNavBar from "~/components/NonProjectNavBar";
 import Tasks from "~/components/Tasks";
 import {
@@ -17,6 +19,12 @@ export async function loader({ request, params }: LoaderArgs) {
   const url = new URL(request.url);
   const userDate = url.searchParams.get("date");
 
+  // session storage doesn't work because this is a server side rendered function
+
+  const userDateObj = new Date(Number(userDate) || "");
+  const userOffset = userDateObj.getTimezoneOffset();
+  const userTime = subHours(userDateObj, userOffset / 60);
+
   let tasks = null;
   let viewInfo = {
     name: "",
@@ -28,8 +36,9 @@ export async function loader({ request, params }: LoaderArgs) {
     viewInfo.name = "All Tasks";
     viewInfo.color = "purple";
   } else if (filterView === "today") {
+    console.log("user date view" + userDate);
     if (!userDate) throw redirect("/home");
-    tasks = await getTodayTasks({ userId }, new Date(userDate));
+    tasks = await getTodayTasks({ userId }, userTime);
     viewInfo.name = "Today";
     viewInfo.color = "yellow";
   } else if (filterView === "completed") {

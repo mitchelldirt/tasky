@@ -139,7 +139,10 @@ export async function action({ request }: ActionArgs) {
           z.string().parse(project),
           z.number().parse(Number(timezoneOffset))
         );
-        return redirect(z.string().parse(previousRoute) || "/home");
+        return redirect(
+          z.string().parse(previousRoute) + `?date=${new Date().getTime()}` ||
+            "/home"
+        );
       }
     }
   } catch (error) {

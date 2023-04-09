@@ -1,6 +1,5 @@
 import type { User, Project, Task } from "@prisma/client";
-import { addHours, differenceInCalendarDays, differenceInDays, formatISO, subHours, startOfDay, endOfDay, isBefore, subDays, addDays } from "date-fns";
-import { format } from "date-fns-tz";
+import { addHours, differenceInCalendarDays, differenceInDays, formatISO, subHours, startOfDay, endOfDay, isBefore, subDays, addDays, format } from "date-fns";
 import { prisma } from "~/db.server";
 
 export type { Task } from "@prisma/client";
@@ -144,9 +143,17 @@ export function updateTask(
   let due = null;
   const userOffsetHours = userOffsetMinutes / 60;
 
+  console.log('update task dueDate', dueDate)
+  console.log('offset', userOffsetHours)
+
   if (dueDate) {
-    due = format(addHours(dueDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+    const dueWithOffset = addHours(dueDate, 4);
+
+    console.log('dueWithOffset', dueWithOffset)
+    due = dueWithOffset.toISOString();
   }
+
+  console.log('update task due', due)
 
   return prisma.task.update({
     where: { id },

@@ -82,7 +82,12 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 </ul>
               </div>
               <div>
-                <Link to={props.previousRoute || "/home"}>
+                <Link
+                  to={
+                    `${props.previousRoute}?date=${new Date().getTime()}` ||
+                    "/home"
+                  }
+                >
                   <label
                     htmlFor="editTaskModal"
                     className="btn-sm btn-circle btn"

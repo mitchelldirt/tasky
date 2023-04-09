@@ -59,7 +59,7 @@ export default function NonProjectNavBar({
             </svg>
           </button>
         </Link>
-        <Link to={`newTask?date=${new Date().toString()}`}>
+        <Link to={`newTask?date=${new Date().getTime()}`}>
           <button className="btn-ghost btn-circle btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
