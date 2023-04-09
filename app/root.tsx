@@ -45,12 +45,12 @@ export default function App() {
 
   const toast = useRef<HTMLDivElement>(null);
 
-  const [totalTasks, setTotalTasks] = useState(0);
+  const [totalTasks, setTotalTasks] = useState(10000000000000);
 
   useEffect(() => {
     if (data.userTasks) {
       setTotalTasks(data.userTasks.length);
-      if (data.userTasks.length > totalTasks) {
+      if (totalTasks && data.userTasks.length > totalTasks) {
         if (toast.current) {
           console.log(toast.current);
           toast.current.classList.remove("animate-slide-up");
