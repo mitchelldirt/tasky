@@ -45,19 +45,25 @@ export default function App() {
 
   const toast = useRef<HTMLDivElement>(null);
 
-  const [totalTasks, setTotalTasks] = useState(data.userTasks.length);
+  const [totalTasks, setTotalTasks] = useState(0);
+
+  if (data.userTasks) {
+    setTotalTasks(data.userTasks.length);
+  }
 
   useEffect(() => {
-    if (data.userTasks && data.userTasks.length > totalTasks) {
-      console.log(toast);
-      if (toast.current) {
-        console.log(toast.current);
-        toast.current.classList.remove("animate-slide-up");
-        toast.current.classList.remove("hidden");
-        void toast.current.offsetWidth;
-        toast.current.classList.add("animate-slide-up");
+    if (data.userTasks) {
+      if (data.userTasks.length > totalTasks) {
+        if (toast.current) {
+          console.log(toast.current);
+          toast.current.classList.remove("animate-slide-up");
+          toast.current.classList.remove("hidden");
+          void toast.current.offsetWidth;
+          toast.current.classList.add("animate-slide-up");
+        }
       }
     }
+
     setTotalTasks(data.userTasks.length);
   }, [data.userTasks, totalTasks]);
 
