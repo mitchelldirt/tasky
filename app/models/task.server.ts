@@ -38,6 +38,14 @@ export function getTodayTasks({ userId }: { userId: User["id"] }, userDate: Date
 
   const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(UTCDate, userOffsetHours, userServerDifference, isUserDateBeforeServerDate);
 
+  console.log("userDate", userDate)
+  console.log("userOffsetHours", userOffsetHours)
+  console.log("UTCDate", UTCDate)
+  console.log("isUserDateBeforeServerDate", isUserDateBeforeServerDate)
+  console.log("userServerDifference", userServerDifference)
+  console.log("startTime", startTime)
+  console.log("endTime", endTime)
+
   return prisma.task.findMany({
     where: {
       userId,
