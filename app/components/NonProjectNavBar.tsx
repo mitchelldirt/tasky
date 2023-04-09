@@ -1,4 +1,5 @@
 import { Link } from "@remix-run/react";
+import { useEffect, useState } from "react";
 
 type NonProjectNavBarProps = {
   name: string;
@@ -9,6 +10,13 @@ export default function NonProjectNavBar({
   name,
   color,
 }: NonProjectNavBarProps) {
+  const [path, setPath] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setPath(window.location.pathname);
+  }, []);
+
   return (
     <div className="navbar">
       <div className="navbar-start">
@@ -33,22 +41,24 @@ export default function NonProjectNavBar({
       </div>
       <div className="navbar-center"></div>
       <div className="navbar-end">
-        <button className="btn-ghost btn-circle btn">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </button>
+        <Link to={`/search`}>
+          <button className="btn-ghost btn-circle btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </button>
+        </Link>
         <Link to={`newTask`}>
           <button className="btn-ghost btn-circle btn">
             <svg
