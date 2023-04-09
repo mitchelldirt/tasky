@@ -7,4 +7,5 @@
 
 #TODO: Fix the npx prisma db push line
 set -ex
+npx prisma db push
 yarn start
