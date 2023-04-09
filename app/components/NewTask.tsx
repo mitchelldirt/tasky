@@ -18,7 +18,7 @@ type OutletContext = {
 const staticRoutes: object = {
   home: "/home",
   all: "/project/filteredView/all",
-  today: "/project/filteredView/today",
+  today: `/project/filteredView/today?date=${new Date()}`,
   completed: "/project/filteredView/completed",
 };
 

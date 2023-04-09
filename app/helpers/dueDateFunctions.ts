@@ -102,9 +102,6 @@ function isBeforeNow(dueDate: Date, accountForTime: boolean): boolean {
   if (accountForTime) return isBefore(dueDate, new Date());
 
   if (dueDate == new Date()) return false;
-  console.log("due date: " + dueDate);
-  console.log("new date: " + new Date());
-
   let taskDueDate = startOfDay(dueDate);
   let today = startOfDay(new Date());
   let isOverdue = isBefore(taskDueDate, today);

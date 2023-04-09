@@ -3,7 +3,10 @@ import { Link } from "@remix-run/react";
 export default function ViewsMenu() {
   return (
     <div className="mb-6 flex flex-col">
-      <Link to={'/project/filteredView/all'} className="btn-wide btn justify-start rounded-b-none border-0 border-b-2 border-slate-400 text-white hover:border-slate-200">
+      <Link
+        to={"/project/filteredView/all"}
+        className="btn-wide btn justify-start rounded-b-none border-0 border-b-2 border-slate-400 text-white hover:border-slate-200"
+      >
         <div className="flex flex-row items-center justify-start gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +26,10 @@ export default function ViewsMenu() {
           <p className="text-white">All Tasks</p>
         </div>
       </Link>
-      <Link to={'/project/filteredView/today'} className="btn-wide btn justify-start rounded-none border-0 border-b-2 border-slate-400 hover:border-slate-200">
+      <Link
+        to={`/project/filteredView/today?date=${new Date().toString()}`}
+        className="btn-wide btn justify-start rounded-none border-0 border-b-2 border-slate-400 hover:border-slate-200"
+      >
         <div className="flex flex-row items-center justify-start gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +48,10 @@ export default function ViewsMenu() {
           <p className="text-white">Today's Tasks</p>
         </div>
       </Link>
-      <Link to={'/project/filteredView/completed'} className="btn-wide btn justify-start rounded-t-none border-0 text-white hover:border-b-2 hover:border-slate-200">
+      <Link
+        to={"/project/filteredView/completed"}
+        className="btn-wide btn justify-start rounded-t-none border-0 text-white hover:border-b-2 hover:border-slate-200"
+      >
         <div className="flex flex-row items-center justify-start gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"

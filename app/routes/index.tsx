@@ -20,14 +20,14 @@ export default function Index() {
               <img
                 className="h-full w-full object-cover"
                 src={homepageBackground}
-                alt="Sonic Youth On Stage"
+                alt="Serene lake"
               />
               <div className="absolute inset-0 bg-green-100 mix-blend-multiply" />
             </div>
             <div className="relative px-4 pt-16 pb-8 sm:px-6 sm:pt-24 sm:pb-14 lg:px-8 lg:pb-20 lg:pt-32">
               <h1 className="text-center text-6xl font-extrabold tracking-tight sm:text-8xl lg:text-9xl">
                 <span className="block uppercase text-green-500 drop-shadow-md">
-                  Todo List
+                  Tasky Todo List
                 </span>
               </h1>
               <p className="mx-auto mt-6 max-w-lg text-center text-xl text-white sm:max-w-3xl"></p>
@@ -37,7 +37,7 @@ export default function Index() {
                     to="/home"
                     className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-green-700 shadow-sm hover:bg-green-50 sm:px-8"
                   >
-                    View todos for {user.email}
+                    View tasks for {user.email}
                   </Link>
                 ) : (
                   <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
@@ -124,7 +124,7 @@ export default function Index() {
                 src: "https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png",
                 alt: "Docker",
                 href: "https://www.docker.com",
-              }
+              },
             ].map((img) => (
               <a
                 key={img.href}

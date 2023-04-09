@@ -29,6 +29,7 @@ export default function NewTask() {
   const outletContext = useOutletContext<string>();
   const loaderData = useLoaderData();
   const data = useActionData();
+
   let taskContext = {
     projects: loaderData.projects,
     projectId: outletContext,
@@ -84,7 +85,7 @@ export async function action({ request }: ActionArgs) {
 
   let UTCDate = formatDateForUTC(dueDate, dueTime);
 
-  await createTask(
+  const newTask = await createTask(
     { userId: userId },
     { projectId: project },
     name,
@@ -94,6 +95,10 @@ export async function action({ request }: ActionArgs) {
     time,
     Number(userOffsetMinutes)
   );
+  const referer = request.headers.get("Referer");
+  if (!referer) return redirect("/project/filteredView/all");
+  const redirectUrl = referer.split("/newTask").join("");
 
-  return redirect(`/project/filteredView/all`);
+  if (newTask) return redirect(redirectUrl);
+  return badRequest({ formError: "Something went wrong" });
 }

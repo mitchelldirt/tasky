@@ -104,5 +104,5 @@ export async function action({ request }: ActionArgs) {
     Number(userOffsetMinutes)
   );
 
-  return redirect(`/project/filteredView/all`);
+  return redirect(`/home`);
 }

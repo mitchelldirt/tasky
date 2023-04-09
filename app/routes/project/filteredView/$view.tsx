@@ -14,7 +14,9 @@ export async function loader({ request, params }: LoaderArgs) {
   const userId = await getUserId(request);
   if (!userId) throw redirect("/");
 
-  console.log("filterView", filterView);
+  const url = new URL(request.url);
+  const userDate = url.searchParams.get("date");
+
   let tasks = null;
   let viewInfo = {
     name: "",
@@ -26,7 +28,8 @@ export async function loader({ request, params }: LoaderArgs) {
     viewInfo.name = "All Tasks";
     viewInfo.color = "purple";
   } else if (filterView === "today") {
-    tasks = await getTodayTasks({ userId });
+    if (!userDate) throw redirect("/home");
+    tasks = await getTodayTasks({ userId }, new Date(userDate));
     viewInfo.name = "Today";
     viewInfo.color = "yellow";
   } else if (filterView === "completed") {
@@ -48,9 +51,6 @@ export default function AllTasks() {
   const tasks = data.tasks;
   const viewInfo = data.viewInfo;
   const nameOfView = data.filterView;
-
-  // ! remove this later lol
-  console.log(tasks);
 
   return (
     <>

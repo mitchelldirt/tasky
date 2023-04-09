@@ -1,5 +1,5 @@
 import type { User, Project, Task } from "@prisma/client";
-import { addHours, formatISO, subHours } from "date-fns";
+import { addHours, differenceInCalendarDays, differenceInDays, formatISO, subHours, startOfDay, endOfDay, isBefore, subDays, addDays } from "date-fns";
 import { format } from "date-fns-tz";
 import { prisma } from "~/db.server";
 
@@ -30,20 +30,21 @@ export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
 }
 
 // todo: get the users time and use that instead of new Date()
-export function getTodayTasks({ userId }: { userId: User["id"] }) {
-  console.log('date init ' + new Date(new Date().setHours(0, 0, 0, 0)))
-  console.log('date init2 ' + new Date(new Date().setHours(23, 59, 59, 999)))
+export function getTodayTasks({ userId }: { userId: User["id"] }, userDate: Date) {
+  const userOffsetHours = Number(userDate.getTimezoneOffset()) / 60;
+  const UTCDate = addHours(new Date(), userOffsetHours);
+  const isUserDateBeforeServerDate = isBefore(userDate, new Date());
+  const userServerDifference = differenceInCalendarDays(userDate, new Date());
 
-  console.log(format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"))
-
+  const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(UTCDate, userOffsetHours, userServerDifference, isUserDateBeforeServerDate);
 
   return prisma.task.findMany({
     where: {
       userId,
       completed: false,
       dueDate: {
-        gte: `${format(new Date(), "yyyy-MM-dd")}T00:00:00.000Z`,
-        lte: `${format(new Date(), "yyyy-MM-dd")}T23:59:59.999Z`
+        gte: startTime,
+        lte: endTime
       },
     },
     include: {
@@ -106,7 +107,6 @@ export function createTask(
   let userOffsetHours = userOffsetMinutes / 60;
 
   if (dueDate) {
-    console.log('due date ' + dueDate)
     due = format(addHours(dueDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
   }
 
@@ -185,7 +185,36 @@ export function restoreTask(id: string) {
   });
 }
 
+function formatAsISOWithoutTimezone(date: Date) {
+  return format(date, "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+}
+
+function getStartAndEndOfDayAdjustedForUTC(UTCDate: Date, userOffsetHours: number, userServerDifference: number, isUserDateBeforeServerDate: boolean) {
+  let startTime;
+  let endTime;
+
+  if (userServerDifference === 0) {
+    startTime = formatAsISOWithoutTimezone(addHours(startOfDay(UTCDate), userOffsetHours));
+    endTime = formatAsISOWithoutTimezone(addHours(endOfDay(UTCDate), userOffsetHours));
+  } else if (userServerDifference === 1 && isUserDateBeforeServerDate === true) {
+    startTime = addHours(subDays(startOfDay(UTCDate), 1), userOffsetHours)
+    endTime = addHours(subDays(endOfDay(UTCDate), 1), userOffsetHours)
+  } else if (userServerDifference === 1 && isUserDateBeforeServerDate === false) {
+    startTime = addHours(addDays(startOfDay(UTCDate), 1), userOffsetHours)
+    endTime = addHours(addDays(endOfDay(UTCDate), 1), userOffsetHours)
+  }
+
+  return [startTime, endTime];
+}
+
 export function tasksCompletedToday({ userId }: { userId: User["id"] }, userDate: Date) {
+  const userOffsetHours = Number(userDate.getTimezoneOffset()) / 60;
+  const UTCDate = addHours(new Date(), userOffsetHours);
+  const isUserDateBeforeServerDate = isBefore(userDate, new Date());
+  const userServerDifference = differenceInCalendarDays(userDate, new Date());
+
+  const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(UTCDate, userOffsetHours, userServerDifference, isUserDateBeforeServerDate);
+
   return prisma.task.count({
     where: {
       user: {
@@ -193,8 +222,8 @@ export function tasksCompletedToday({ userId }: { userId: User["id"] }, userDate
       },
       completed: true,
       completedAt: {
-        gte: `${format(userDate, "yyyy-MM-dd")}T00:00:00.000Z`,
-        lte: `${format(userDate, "yyyy-MM-dd")}T23:59:59.999Z`
+        gte: startTime,
+        lte: endTime
       },
     },
   });
