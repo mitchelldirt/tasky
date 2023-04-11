@@ -29,10 +29,22 @@ export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
 }
 
 // todo: get the users time and use that instead of new Date()
+// ! todo: Make sure that the other date functions are considering the tzOffset of both the user and the server 
 export function getTodayTasks({ userId }: { userId: User["id"] }, userDate: Date) {
   const userOffsetHours = Number(userDate.getTimezoneOffset()) / 60;
-  const UTCDate = addHours(new Date(), userOffsetHours);
+  const serverOffsetHours = Number(new Date().getTimezoneOffset()) / 60;
+  // I need to check if the user is ahead or behind the server before I can add or subtract hours
+
   const isUserDateBeforeServerDate = isBefore(userDate, new Date());
+  let UTCDate = new Date();
+  if (serverOffsetHours !== userOffsetHours) {
+    if (isUserDateBeforeServerDate === true) {
+      UTCDate = subHours(new Date(), userOffsetHours);
+    } else {
+      UTCDate = addHours(new Date(), userOffsetHours);
+    }
+  }
+
   const userServerDifference = differenceInCalendarDays(userDate, new Date());
 
   const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(UTCDate, userOffsetHours, userServerDifference, isUserDateBeforeServerDate);
@@ -146,8 +158,9 @@ export function updateTask(
   console.log('update task dueDate', dueDate)
   console.log('offset', userOffsetHours)
 
+  // TODO: I don't think this is working
   if (dueDate) {
-    const dueWithOffset = addHours(dueDate, 4);
+    const dueWithOffset = addHours(dueDate, userOffsetHours);
 
     console.log('dueWithOffset', dueWithOffset)
     due = dueWithOffset.toISOString();
@@ -177,7 +190,8 @@ function waitforme(millisec: number) {
 
 export async function completeTask(id: string, userDate: Date, userOffsetMins: number) {
   let userOffsetHours = Number(userOffsetMins) / 60;
-  let dateTime = format(subHours(userDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+  // TODO: Make sure the below addHours is correct
+  let dateTime = format(addHours(userDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
 
   await waitforme(400);
 
