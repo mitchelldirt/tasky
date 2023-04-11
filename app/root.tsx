@@ -48,7 +48,7 @@ export default function App() {
   const [totalTasks, setTotalTasks] = useState(10000000000000);
 
   useEffect(() => {
-    if (data.userTasks) {
+    if (data.userTasks && data.userTasks.hasOwnProperty("length")) {
       setTotalTasks(data.userTasks.length);
       if (totalTasks && data.userTasks.length > totalTasks) {
         if (toast.current) {
@@ -60,8 +60,6 @@ export default function App() {
         }
       }
     }
-
-    setTotalTasks(data.userTasks.length);
   }, [data.userTasks, totalTasks]);
 
   return (
