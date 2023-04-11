@@ -38,11 +38,7 @@ export function getTodayTasks({ userId }: { userId: User["id"] }, userDate: Date
   const isUserDateBeforeServerDate = isBefore(userDate, new Date());
   let UTCDate = new Date();
   if (serverOffsetHours !== userOffsetHours) {
-    if (isUserDateBeforeServerDate === true) {
-      UTCDate = subHours(new Date(), userOffsetHours);
-    } else {
-      UTCDate = addHours(new Date(), userOffsetHours);
-    }
+    UTCDate = addHours(userDate, userOffsetHours);
   }
 
   const userServerDifference = differenceInCalendarDays(userDate, new Date());
