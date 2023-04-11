@@ -18,12 +18,12 @@ export async function loader({ request, params }: LoaderArgs) {
 
   const url = new URL(request.url);
   const userDate = url.searchParams.get("date");
+  const userOffset = url.searchParams.get("offset");
 
-  // session storage doesn't work because this is a server side rendered function
-
-  const userDateObj = new Date(Number(userDate) || "");
-  const userOffset = userDateObj.getTimezoneOffset();
-  const userTime = subHours(userDateObj, userOffset / 60);
+  const userTime = subHours(
+    new Date(Number(userDate) || 0),
+    Number(userOffset)
+  );
 
   let tasks = null;
   let viewInfo = {

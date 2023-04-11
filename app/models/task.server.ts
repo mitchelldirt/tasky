@@ -186,7 +186,7 @@ function waitforme(millisec: number) {
 
 export async function completeTask(id: string, userDate: Date, userOffsetMins: number) {
   let userOffsetHours = Number(userOffsetMins) / 60;
-  // TODO: Make sure the below addHours is correct
+
   let dateTime = format(addHours(userDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
 
   await waitforme(400);
