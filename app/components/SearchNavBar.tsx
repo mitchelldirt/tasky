@@ -10,7 +10,11 @@ export default function SearchNavBar({ previousRoute }: SearchNavBarProps) {
       <div className="navbar-start">
         <Link
           className="absolute top-4 left-4 text-green-400"
-          to={previousRoute.includes("/search") ? "/home" : previousRoute}
+          to={
+            previousRoute.includes("/search")
+              ? `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
+              : previousRoute
+          }
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

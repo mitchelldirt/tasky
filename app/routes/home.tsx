@@ -14,16 +14,20 @@ export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
   if (!userId) throw redirect("/");
 
+  const url = new URL(request.url);
+  const tz = url.searchParams.get("tz");
+
   if (typeof userId !== "string")
     throw new Response("Invalid userID format", {
       status: 400,
     });
 
   const projects = await getProjects({ userId });
-  const tasksCompletedTodayQty = await tasksCompletedToday(
-    { userId },
-    new Date()
-  );
+
+  let tasksCompletedTodayQty = NaN;
+  if (tz) {
+    tasksCompletedTodayQty = await tasksCompletedToday({ userId }, tz);
+  }
 
   return json({ projects, tasksCompletedTodayQty, noneId: `none-${userId}` });
 }

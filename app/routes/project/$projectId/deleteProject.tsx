@@ -53,7 +53,12 @@ export default function NewProjectModal() {
             ) : null}
 
             <input type="hidden" value={id} name="projectId" />
-            <Link to={`/project/${id}` || "/home"}>
+            <Link
+              to={
+                `/project/${id}` ||
+                `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
+              }
+            >
               <button
                 type="button"
                 className="btn mb-4 w-full text-white hover:border-white"
@@ -94,7 +99,9 @@ export async function action({ request }: ActionArgs) {
       await deleteProject({
         id: projectId,
       });
-      return redirect(`/home`);
+      return redirect(
+        `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
+      );
     }
   }
 

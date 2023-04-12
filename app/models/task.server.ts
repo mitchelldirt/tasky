@@ -1,5 +1,6 @@
 import type { User, Project, Task } from "@prisma/client";
 import { addHours, differenceInCalendarDays, differenceInDays, formatISO, subHours, startOfDay, endOfDay, isBefore, subDays, addDays, format } from "date-fns";
+import { zonedTimeToUtc, utcToZonedTime } from "date-fns-tz";
 import { prisma } from "~/db.server";
 
 export type { Task } from "@prisma/client";
@@ -30,26 +31,9 @@ export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
 
 // todo: get the users time and use that instead of new Date()
 // ! todo: Make sure that the other date functions are considering the tzOffset of both the user and the server 
-export function getTodayTasks({ userId }: { userId: User["id"] }, userDate: Date) {
-  const userOffsetHours = Number(userDate.getTimezoneOffset()) / 60;
-  const serverOffsetHours = Number(new Date().getTimezoneOffset()) / 60;
-  // I need to check if the user is ahead or behind the server before I can add or subtract hours
+export function getTodayTasks({ userId }: { userId: User["id"] }, tz: string) {
+  const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(tz);
 
-  const isUserDateBeforeServerDate = isBefore(userDate, new Date());
-  let UTCDate = new Date();
-  if (serverOffsetHours !== userOffsetHours) {
-    UTCDate = addHours(userDate, userOffsetHours);
-  }
-
-  const userServerDifference = differenceInCalendarDays(userDate, new Date());
-
-  const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(UTCDate, userOffsetHours, userServerDifference, isUserDateBeforeServerDate);
-
-  console.log("userDate", userDate)
-  console.log("userOffsetHours", userOffsetHours)
-  console.log("UTCDate", UTCDate)
-  console.log("isUserDateBeforeServerDate", isUserDateBeforeServerDate)
-  console.log("userServerDifference", userServerDifference)
   console.log("startTime", startTime)
   console.log("endTime", endTime)
 
@@ -210,35 +194,37 @@ export function restoreTask(id: string) {
   });
 }
 
-function formatAsISOWithoutTimezone(date: Date) {
-  return format(date, "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
-}
+function getStartAndEndOfDayAdjustedForUTC(tz: string) {
+  // Convert the server to UTC
+  const utcNow = zonedTimeToUtc(new Date(), Intl.DateTimeFormat().resolvedOptions().timeZone);
 
-function getStartAndEndOfDayAdjustedForUTC(UTCDate: Date, userOffsetHours: number, userServerDifference: number, isUserDateBeforeServerDate: boolean) {
-  let startTime;
-  let endTime;
+  // Get today's date in the user's timezone
+  const userNow = utcToZonedTime(utcNow, tz);
 
-  if (userServerDifference === 0) {
-    startTime = formatAsISOWithoutTimezone(addHours(startOfDay(UTCDate), userOffsetHours));
-    endTime = formatAsISOWithoutTimezone(addHours(endOfDay(UTCDate), userOffsetHours));
-  } else if (userServerDifference === 1 && isUserDateBeforeServerDate === true) {
-    startTime = addHours(subDays(startOfDay(UTCDate), 1), userOffsetHours)
-    endTime = addHours(subDays(endOfDay(UTCDate), 1), userOffsetHours)
-  } else if (userServerDifference === 1 && isUserDateBeforeServerDate === false) {
-    startTime = addHours(addDays(startOfDay(UTCDate), 1), userOffsetHours)
-    endTime = addHours(addDays(endOfDay(UTCDate), 1), userOffsetHours)
-  }
+  // Get start and end of day in user's timezone
+  const userStartOfDay = startOfDay(userNow);
+  const userEndOfDay = endOfDay(userNow);
+
+  // Convert start and end of day in user's timezone to UTC
+  const startTime = utcToZonedTime(userStartOfDay, 'UTC');
+  const endTime = utcToZonedTime(userEndOfDay, 'UTC');
+
+  // console log all of the above variables
+  console.log("utcNow", utcNow)
+  console.log("userNow", userNow)
+  console.log("userStartOfDay", userStartOfDay)
+  console.log("userEndOfDay", userEndOfDay)
+  console.log("startTime", startTime)
+  console.log("endTime", endTime)
+  console.log("tz", tz)
 
   return [startTime, endTime];
 }
 
-export function tasksCompletedToday({ userId }: { userId: User["id"] }, userDate: Date) {
-  const userOffsetHours = Number(userDate.getTimezoneOffset()) / 60;
-  const UTCDate = addHours(new Date(), userOffsetHours);
-  const isUserDateBeforeServerDate = isBefore(userDate, new Date());
-  const userServerDifference = differenceInCalendarDays(userDate, new Date());
+export function tasksCompletedToday({ userId }: { userId: User["id"] }, tz: string) {
+  const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(tz);
 
-  const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(UTCDate, userOffsetHours, userServerDifference, isUserDateBeforeServerDate);
+  console.log(startTime, endTime)
 
   return prisma.task.count({
     where: {

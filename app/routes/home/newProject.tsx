@@ -20,7 +20,9 @@ export default function NewProjectModal() {
       />
       <div className="modal">
         <div className="modal-box relative">
-          <Link to={"/home"}>
+          <Link
+            to={`/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`}
+          >
             <label
               htmlFor="createProjectModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"
@@ -200,8 +202,8 @@ export async function action({ request }: ActionArgs) {
       formError: "The name of the project must be between 3 and 27 characters",
     });
   }
-  
-  const projectNames = await getProjects({userId});
+
+  const projectNames = await getProjects({ userId });
 
   for (let project of projectNames) {
     if (project.name === name) {
@@ -209,13 +211,14 @@ export async function action({ request }: ActionArgs) {
         formError: "You already have a project with that name",
       });
     }
-  };
-  
+  }
 
   switch (request.method) {
     case "POST": {
       await createProject({ userId: userId }, name, color);
-      return redirect("/home");
+      return redirect(
+        `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
+      );
     }
   }
 

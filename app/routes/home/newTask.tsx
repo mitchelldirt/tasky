@@ -104,5 +104,7 @@ export async function action({ request }: ActionArgs) {
     Number(userOffsetMinutes)
   );
 
-  return redirect(`/home`);
+  return redirect(
+    `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
+  );
 }

@@ -16,10 +16,10 @@ type OutletContext = {
 };
 
 const staticRoutes: object = {
-  home: "/home",
+  home: `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`,
   all: "/project/filteredView/all",
-  today: `/project/filteredView/today?date=${new Date().getTime()}&offset=${
-    new Date().getTimezoneOffset() / 60
+  today: `/project/filteredView/today?tz=${
+    Intl.DateTimeFormat().resolvedOptions().timeZone
   }`,
   completed: "/project/filteredView/completed",
 };

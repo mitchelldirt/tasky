@@ -27,8 +27,8 @@ export default function ViewsMenu() {
         </div>
       </Link>
       <Link
-        to={`/project/filteredView/today?date=${new Date().getTime()}&offset=${
-          new Date().getTimezoneOffset() / 60
+        to={`/project/filteredView/today?tz=${
+          Intl.DateTimeFormat().resolvedOptions().timeZone
         }`}
         className="btn-wide btn justify-start rounded-none border-0 border-b-2 border-slate-400 hover:border-slate-200"
       >

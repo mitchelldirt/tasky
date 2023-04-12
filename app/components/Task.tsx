@@ -111,8 +111,8 @@ export default function TaskView({
           </Form>
 
           <Link
-            to={`task/${id.id}?date=${new Date().getTime()}&offset=${
-              new Date().getTimezoneOffset() / 60
+            to={`task/${id.id}?tz=${
+              Intl.DateTimeFormat().resolvedOptions().timeZone
             }`}
             className="flex w-full flex-row items-center justify-between border-b-2 border-gray-400"
           >

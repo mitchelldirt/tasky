@@ -84,11 +84,12 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               <div>
                 <Link
                   to={
-                    `${
-                      props.previousRoute
-                    }?date=${new Date().getTime()}&offset=${
-                      new Date().getTimezoneOffset() / 60
-                    }` || "/home"
+                    `${props.previousRoute}?tz=${
+                      Intl.DateTimeFormat().resolvedOptions().timeZone
+                    }` ||
+                    `/home?tz=${
+                      Intl.DateTimeFormat().resolvedOptions().timeZone
+                    }`
                   }
                 >
                   <label

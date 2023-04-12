@@ -20,7 +20,10 @@ export default function NonProjectNavBar({
   return (
     <div className="navbar">
       <div className="navbar-start">
-        <Link className="absolute top-4 left-4 text-green-400" to={`/home`}>
+        <Link
+          className="absolute top-4 left-4 text-green-400"
+          to={`/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -60,9 +63,8 @@ export default function NonProjectNavBar({
           </button>
         </Link>
         <Link
-          to={`newTask?date=${new Date().getTime()}&offset=${
-            new Date().getTimezoneOffset() / 60
-          }`}
+          to={`${Intl.DateTimeFormat().resolvedOptions().timeZone}
+          `}
         >
           <button className="btn-ghost btn-circle btn">
             <svg

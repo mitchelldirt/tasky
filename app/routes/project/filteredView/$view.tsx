@@ -17,13 +17,7 @@ export async function loader({ request, params }: LoaderArgs) {
   if (!userId) throw redirect("/");
 
   const url = new URL(request.url);
-  const userDate = url.searchParams.get("date");
-  const userOffset = url.searchParams.get("offset");
-
-  const userTime = subHours(
-    new Date(Number(userDate) || 0),
-    Number(userOffset)
-  );
+  const tz = url.searchParams.get("tz");
 
   let tasks = null;
   let viewInfo = {
@@ -36,9 +30,11 @@ export async function loader({ request, params }: LoaderArgs) {
     viewInfo.name = "All Tasks";
     viewInfo.color = "purple";
   } else if (filterView === "today") {
-    console.log("user date view" + userDate);
-    if (!userDate) throw redirect("/home");
-    tasks = await getTodayTasks({ userId }, userTime);
+    if (!tz)
+      throw redirect(
+        `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
+      );
+    tasks = await getTodayTasks({ userId }, tz);
     viewInfo.name = "Today";
     viewInfo.color = "yellow";
   } else if (filterView === "completed") {

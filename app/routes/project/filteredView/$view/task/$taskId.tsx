@@ -141,9 +141,8 @@ export async function action({ request }: ActionArgs) {
         );
         return redirect(
           z.string().parse(previousRoute) +
-            `?date=${new Date().getTime()}&offset=${
-              new Date().getTimezoneOffset() / 60
-            }` || "/home"
+            `?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}` ||
+            `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
         );
       }
     }
