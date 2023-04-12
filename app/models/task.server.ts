@@ -206,8 +206,8 @@ function getStartAndEndOfDayAdjustedForUTC(tz: string) {
   const userEndOfDay = endOfDay(userNow);
 
   // Convert start and end of day in user's timezone to UTC
-  const startTime = utcToZonedTime(userStartOfDay, 'UTC');
-  const endTime = utcToZonedTime(userEndOfDay, 'UTC');
+  const startTime = zonedTimeToUtc(userStartOfDay, tz);
+  const endTime = zonedTimeToUtc(userEndOfDay, tz);
 
   // console log all of the above variables
   console.log("utcNow", utcNow)
