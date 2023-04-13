@@ -7,6 +7,7 @@ import {
   format,
   subHours,
   formatISO,
+  addHours,
 } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
@@ -120,10 +121,11 @@ export function extractTime(date: string) {
   return format(new Date(date), "HH:mm:ss");
 }
 
-export function formatDateForUTC(dueDate: string | null, dueTime: string = "00:00:00") {
+export function formatUserDate(dueDate: string | null, dueTime: string) {
   if (dueDate === null) return null;
 
-  console.log(dueDate + "T" + dueTime)
-  let date = formatISO(new Date(dueDate + "T" + dueTime + ":00.000Z"));
-  return new Date(date);
+  const hoursOffset = new Date().getTimezoneOffset() / 60;
+  let date = addHours(parseISO(dueDate + "T" + dueTime + ":00.000Z"), hoursOffset);
+
+  return date;
 }

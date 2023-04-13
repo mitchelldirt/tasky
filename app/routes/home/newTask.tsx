@@ -9,12 +9,10 @@ import { getUserId } from "~/session.server";
 import { getProjects } from "~/models/project.server";
 import { badRequest } from "~/utils";
 import { createTask } from "~/models/task.server";
+import { formatUserDate } from "~/helpers/dueDateFunctions";
+import { grabCookieValue } from "~/helpers/cookies";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { sub } from "date-fns";
-import { format } from "date-fns-tz";
-import { getNoneProjectId } from "~/helpers/getNoneProjectId";
-import { formatDateForUTC } from "~/helpers/dueDateFunctions";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -51,8 +49,17 @@ export async function action({ request }: ActionArgs) {
   const dueDate = data.get("dueDate");
   const priority = data.get("priority");
   let dueTime = data.get("dueTime");
-  const userOffsetMinutes = data.get("timezoneOffset");
   let time = true;
+
+  const cookies = request.headers.get("Cookie");
+  if (!cookies) throw new Response("No cookies found", { status: 400 });
+  const tzCookieValue = grabCookieValue("tz", cookies);
+
+  if (typeof tzCookieValue !== "string") {
+    return badRequest({
+      formError: "Server Error TZ1: Please try again",
+    });
+  }
 
   const userId = await getUserId(request);
 
@@ -80,18 +87,12 @@ export async function action({ request }: ActionArgs) {
     });
   }
 
-  if (typeof userOffsetMinutes !== "string") {
-    return badRequest({
-      formError: "Server error: Please try again",
-    });
-  }
-
   if (!dueTime) {
     dueTime = "00:00";
     time = false;
   }
 
-  let UTCDate = formatDateForUTC(dueDate, dueTime);
+  let userLocalTime = formatUserDate(dueDate, dueTime);
 
   await createTask(
     { userId: userId },
@@ -99,9 +100,9 @@ export async function action({ request }: ActionArgs) {
     name,
     description,
     Number(priority),
-    UTCDate,
+    userLocalTime,
     time,
-    Number(userOffsetMinutes)
+    tzCookieValue
   );
 
   return redirect(`/home`);

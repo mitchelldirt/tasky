@@ -9,9 +9,10 @@ import { getUserId } from "~/session.server";
 import { getProjects } from "~/models/project.server";
 import { badRequest } from "~/utils";
 import { createTask } from "~/models/task.server";
+import { formatUserDate } from "~/helpers/dueDateFunctions";
+import { grabCookieValue } from "~/helpers/cookies";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
-import { formatDateForUTC } from "~/helpers/dueDateFunctions";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -49,8 +50,17 @@ export async function action({ request }: ActionArgs) {
   const dueDate = data.get("dueDate");
   const priority = data.get("priority");
   let dueTime = data.get("dueTime");
-  const userOffsetMinutes = data.get("timezoneOffset");
   let time = true;
+
+  const cookies = request.headers.get("Cookie");
+  if (!cookies) throw new Response("No cookies found", { status: 400 });
+  const tzCookieValue = grabCookieValue("tz", cookies);
+
+  if (typeof tzCookieValue !== "string") {
+    return badRequest({
+      formError: "Server Error TZ1: Please try again",
+    });
+  }
 
   const userId = await getUserId(request);
 
@@ -71,8 +81,7 @@ export async function action({ request }: ActionArgs) {
     typeof description !== "string" ||
     typeof dueDate !== "string" ||
     typeof priority !== "string" ||
-    typeof dueTime !== "string" ||
-    typeof userOffsetMinutes !== "string"
+    typeof dueTime !== "string"
   ) {
     return badRequest({
       formError: "Please fill out all required fields",
@@ -83,7 +92,7 @@ export async function action({ request }: ActionArgs) {
     time = false;
   }
 
-  let UTCDate = formatDateForUTC(dueDate, dueTime);
+  let userLocalTime = formatUserDate(dueDate, dueTime);
 
   const newTask = await createTask(
     { userId: userId },
@@ -91,9 +100,9 @@ export async function action({ request }: ActionArgs) {
     name,
     description,
     Number(priority),
-    UTCDate,
+    userLocalTime,
     time,
-    Number(userOffsetMinutes)
+    tzCookieValue
   );
   const referer = request.headers.get("Referer");
   if (!referer) return redirect("/project/filteredView/all");

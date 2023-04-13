@@ -100,13 +100,12 @@ export function createTask(
   priority: number,
   dueDate: Date | null,
   time: boolean,
-  userOffsetMinutes: number
+  tz: string
 ) {
   let due = null;
-  let userOffsetHours = userOffsetMinutes / 60;
 
   if (dueDate) {
-    due = format(addHours(dueDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+    due = zonedTimeToUtc(dueDate, tz);
   }
 
   return prisma.task.create({
