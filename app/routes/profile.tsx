@@ -19,10 +19,7 @@ export default function Profile() {
 
   return (
     <>
-      <Link
-        className="absolute top-4 left-4 text-green-400"
-        to={`/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`}
-      >
+      <Link className="absolute top-4 left-4 text-green-400" to={`/home`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

@@ -42,7 +42,7 @@ export default function TaskView({
       dueDate.dueDate,
       hasTime.time,
       completed,
-      Number(new Date().getTimezoneOffset())
+      Intl.DateTimeFormat().resolvedOptions().timeZone
     );
 
     dueDateTextColor = dueDateColor(
@@ -58,7 +58,7 @@ export default function TaskView({
       completedAt,
       true,
       completed,
-      Number(new Date().getTimezoneOffset())
+      Intl.DateTimeFormat().resolvedOptions().timeZone
     );
   }
 
@@ -111,9 +111,7 @@ export default function TaskView({
           </Form>
 
           <Link
-            to={`task/${id.id}?tz=${
-              Intl.DateTimeFormat().resolvedOptions().timeZone
-            }`}
+            to={`task/${id.id}`}
             className="flex w-full flex-row items-center justify-between border-b-2 border-gray-400"
           >
             <div className="flex flex-col">

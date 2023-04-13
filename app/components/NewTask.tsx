@@ -16,11 +16,9 @@ type OutletContext = {
 };
 
 const staticRoutes: object = {
-  home: `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`,
+  home: `/home`,
   all: "/project/filteredView/all",
-  today: `/project/filteredView/today?tz=${
-    Intl.DateTimeFormat().resolvedOptions().timeZone
-  }`,
+  today: `/project/filteredView/today`,
   completed: "/project/filteredView/completed",
 };
 
@@ -67,11 +65,6 @@ export default function NewTaskModal({
           <Form method="post">
             <input type="hidden" name="projectId" value={context.projectId} />
             <input type="hidden" name="noneId" value={context.noneId} />
-            <input
-              type="hidden"
-              name="timezoneOffset"
-              value={new Date().getTimezoneOffset()}
-            />
             {actionData ? (
               <span className="mt-4 flex justify-center">
                 <p

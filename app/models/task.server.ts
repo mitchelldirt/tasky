@@ -130,20 +130,19 @@ export function updateTask(
   dueDate: Date | null,
   time: boolean,
   projectId: Project["id"],
-  userOffsetMinutes: number
+  tz: string,
 ) {
   let due = null;
-  const userOffsetHours = userOffsetMinutes / 60;
 
+  console.log('timezone', tz)
   console.log('update task dueDate', dueDate)
-  console.log('offset', userOffsetHours)
 
   // TODO: I don't think this is working
   if (dueDate) {
-    const dueWithOffset = addHours(dueDate, userOffsetHours);
+    const UTCDueDate = zonedTimeToUtc(dueDate, tz);
 
-    console.log('dueWithOffset', dueWithOffset)
-    due = dueWithOffset.toISOString();
+    console.log('UTCDueDate', UTCDueDate)
+    due = formatISO(UTCDueDate)
   }
 
   console.log('update task due', due)

@@ -19,10 +19,7 @@ export async function action({ request }: ActionArgs) {
   const email = formData.get("email");
   const password = formData.get("password");
   const timezoneOffset = formData.get("timezoneOffset");
-  const redirectTo = safeRedirect(
-    formData.get("redirectTo"),
-    `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
-  );
+  const redirectTo = safeRedirect(formData.get("redirectTo"), `/home`);
 
   if (!validateEmail(email)) {
     return json(
@@ -88,9 +85,7 @@ export const meta: MetaFunction = () => {
 
 export default function Join() {
   const [searchParams] = useSearchParams();
-  const redirectTo =
-    searchParams.get("redirectTo") ??
-    `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+  const redirectTo = searchParams.get("redirectTo") ?? `/home`;
   const actionData = useActionData<typeof action>();
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);

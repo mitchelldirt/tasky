@@ -20,9 +20,7 @@ export default function NewProjectModal() {
       />
       <div className="modal">
         <div className="modal-box relative">
-          <Link
-            to={`/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`}
-          >
+          <Link to={`/home`}>
             <label
               htmlFor="createProjectModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"
@@ -216,9 +214,7 @@ export async function action({ request }: ActionArgs) {
   switch (request.method) {
     case "POST": {
       await createProject({ userId: userId }, name, color);
-      return redirect(
-        `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
-      );
+      return redirect(`/home`);
     }
   }
 

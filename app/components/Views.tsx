@@ -27,9 +27,7 @@ export default function ViewsMenu() {
         </div>
       </Link>
       <Link
-        to={`/project/filteredView/today?tz=${
-          Intl.DateTimeFormat().resolvedOptions().timeZone
-        }`}
+        to={`/project/filteredView/today`}
         className="btn-wide btn justify-start rounded-none border-0 border-b-2 border-slate-400 hover:border-slate-200"
       >
         <div className="flex flex-row items-center justify-start gap-3">

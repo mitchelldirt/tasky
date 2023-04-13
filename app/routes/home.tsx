@@ -9,13 +9,16 @@ import { getProjects } from "~/models/project.server";
 import type { LoaderArgs } from "@remix-run/node";
 import ProjectsHeader from "~/components/ProjectsHeader";
 import { tasksCompletedToday } from "~/models/task.server";
+import { grabCookieValue } from "~/helpers/cookies";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
   if (!userId) throw redirect("/");
 
-  const url = new URL(request.url);
-  const tz = url.searchParams.get("tz");
+  // grab the tz cookie from the request
+  const cookies = request.headers.get("Cookie");
+  if (!cookies) throw new Response("No cookies found", { status: 400 });
+  const tzCookieValue = grabCookieValue("tz", cookies);
 
   if (typeof userId !== "string")
     throw new Response("Invalid userID format", {
@@ -25,8 +28,11 @@ export async function loader({ request }: LoaderArgs) {
   const projects = await getProjects({ userId });
 
   let tasksCompletedTodayQty = NaN;
-  if (tz) {
-    tasksCompletedTodayQty = await tasksCompletedToday({ userId }, tz);
+  if (tzCookieValue) {
+    tasksCompletedTodayQty = await tasksCompletedToday(
+      { userId },
+      tzCookieValue
+    );
   }
 
   return json({ projects, tasksCompletedTodayQty, noneId: `none-${userId}` });

@@ -4,6 +4,7 @@ import { subHours } from "date-fns";
 import { useState } from "react";
 import NonProjectNavBar from "~/components/NonProjectNavBar";
 import Tasks from "~/components/Tasks";
+import { grabCookieValue } from "~/helpers/cookies";
 import {
   getAllCompletedTasks,
   getAllTasks,
@@ -16,8 +17,9 @@ export async function loader({ request, params }: LoaderArgs) {
   const userId = await getUserId(request);
   if (!userId) throw redirect("/");
 
-  const url = new URL(request.url);
-  const tz = url.searchParams.get("tz");
+  const cookies = request.headers.get("Cookie");
+  if (!cookies) throw new Response("No cookies found", { status: 400 });
+  const tzCookieValue = grabCookieValue("tz", cookies);
 
   let tasks = null;
   let viewInfo = {
@@ -30,11 +32,8 @@ export async function loader({ request, params }: LoaderArgs) {
     viewInfo.name = "All Tasks";
     viewInfo.color = "purple";
   } else if (filterView === "today") {
-    if (!tz)
-      throw redirect(
-        `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
-      );
-    tasks = await getTodayTasks({ userId }, tz);
+    if (!tzCookieValue) throw redirect(`/home`);
+    tasks = await getTodayTasks({ userId }, tzCookieValue);
     viewInfo.name = "Today";
     viewInfo.color = "yellow";
   } else if (filterView === "completed") {

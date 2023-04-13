@@ -14,6 +14,7 @@ import tailwindStylesheetUrl from "./styles/tailwind.css";
 import { getUser } from "./session.server";
 import { getAllTasks } from "./models/task.server";
 import { useEffect, useRef, useState } from "react";
+import { grabCookieValue } from "./helpers/cookies";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
@@ -46,6 +47,31 @@ export default function App() {
   const toast = useRef<HTMLDivElement>(null);
 
   const [totalTasks, setTotalTasks] = useState(10000000000000);
+
+  // set the timezone cookie
+  useEffect(() => {
+    // if the document exists, set a cookie
+    if (typeof document !== "undefined") {
+      const isTzCookieSet = document.cookie.includes("tz");
+      const currentTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      if (isTzCookieSet === true) {
+        // @ts-ignore
+        const tzCookie = grabCookieValue("tz", document.cookie);
+        if (tzCookie === currentTz) {
+          return;
+        } else {
+          document.cookie = `tz=${currentTz}`;
+          window.location.reload();
+        }
+      }
+
+      if (isTzCookieSet === false) {
+        document.cookie = `tz=${currentTz}`;
+        window.location.reload();
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (data.userTasks && data.userTasks.hasOwnProperty("length")) {

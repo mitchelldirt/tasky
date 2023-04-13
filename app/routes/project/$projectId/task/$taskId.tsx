@@ -9,6 +9,8 @@ import { badRequest } from "~/utils";
 import { formatDateForUTC } from "~/helpers/dueDateFunctions";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { grabCookieValue } from "~/helpers/cookies";
+import { format, startOfDay } from "date-fns";
 
 const dataSchema = z.object({
   task: z.object({
@@ -93,7 +95,10 @@ export async function action({ request }: ActionArgs) {
   let dueTime = data.get("dueTime");
   const taskId = data.get("id");
   const previousRoute = data.get("previousRoute");
-  const timezoneOffset = data.get("timezoneOffset");
+
+  const cookies = request.headers.get("Cookie");
+  if (!cookies) throw new Response("No cookies found", { status: 400 });
+  const tzCookieValue = grabCookieValue("tz", cookies);
 
   const userId = await getUserId(request);
   if (userId === undefined) return redirect("/login");
@@ -113,11 +118,15 @@ export async function action({ request }: ActionArgs) {
       });
     }
 
-    if (dueDate) {
-      const justDate = dueDate?.toString().split("T")[0];
+    if (dueDate && !dueTime && typeof dueDate === "string") {
+      formattedDueDate = new Date(dueDate + "T00:00:00.000Z");
+    }
+
+    if (dueDate && dueTime && typeof dueDate === "string") {
+      const justDate = format(new Date(dueDate), "yyyy-MM-dd");
       formattedDueDate = formatDateForUTC(justDate, z.string().parse(dueTime));
-      // * This is a hack to get the date to be in the correct timezone
-      time = true;
+      console.log("formattedDueDate", formattedDueDate);
+      console.log("2");
     }
 
     //TODO: could probably not do a try catch here? Maybe you need to do it for zod though
@@ -131,7 +140,7 @@ export async function action({ request }: ActionArgs) {
           z.date().nullable().parse(formattedDueDate),
           z.boolean().parse(time),
           z.string().parse(project),
-          z.number().parse(Number(timezoneOffset))
+          z.string().parse(tzCookieValue)
         );
         return redirect(
           z.string().parse(previousRoute) || "/project/filteredView/all"

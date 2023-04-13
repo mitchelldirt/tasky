@@ -9,6 +9,7 @@ import { badRequest } from "~/utils";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { format } from "date-fns-tz";
+import { grabCookieValue } from "~/helpers/cookies";
 
 const dataSchema = z.object({
   task: z.object({
@@ -93,7 +94,10 @@ export async function action({ request }: ActionArgs) {
   let dueTime = data.get("dueTime");
   const taskId = data.get("id");
   const previousRoute = data.get("previousRoute");
-  const timezoneOffset = data.get("timezoneOffset");
+
+  const cookies = request.headers.get("Cookie");
+  if (!cookies) throw new Response("No cookies found", { status: 400 });
+  const tzCookieValue = grabCookieValue("tz", cookies);
 
   const userId = await getUserId(request);
   if (userId === undefined) return redirect("/login");
@@ -136,12 +140,9 @@ export async function action({ request }: ActionArgs) {
           z.date().nullable().parse(formattedDueDate),
           z.boolean().parse(time),
           z.string().parse(project),
-          z.number().parse(Number(timezoneOffset))
+          z.string().parse(tzCookieValue)
         );
-        return redirect(
-          z.string().parse(previousRoute) ||
-            `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
-        );
+        return redirect(z.string().parse(previousRoute) || `/home`);
       }
     }
   } catch (error) {

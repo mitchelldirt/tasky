@@ -6,7 +6,9 @@ import {
   startOfDay,
   format,
   subHours,
+  formatISO,
 } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 
 type time = {
   date: string;
@@ -18,17 +20,18 @@ export function parseDueDate(
   dueDate: string,
   accountForTime: boolean,
   completed: boolean,
-  tzOffset: number
+  tz: string
 ): time {
   // * new Date() returns the current date and time in the local time zone
-  const dueDateDate = new Date(dueDate);
+  const dueDateDate = utcToZonedTime(dueDate, tz);
 
   const diffInDays = Math.abs(differenceInCalendarDays(new Date(), dueDateDate));
   const diffInYears = differenceInCalendarYears(new Date(), dueDateDate);
   const isSameYear = diffInYears === 0;
 
   const isOverdue = isBeforeNow(dueDateDate, accountForTime);
-  const time = format(subHours(dueDateDate, tzOffset), "p");
+  const time = format(utcToZonedTime(dueDateDate, tz), "p");
+
   if (completed === true) {
     return {
       date: format(dueDateDate, "LLLL d"),
@@ -120,6 +123,7 @@ export function extractTime(date: string) {
 export function formatDateForUTC(dueDate: string | null, dueTime: string = "00:00:00") {
   if (dueDate === null) return null;
 
-  let date = new Date(dueDate + "T" + dueTime).toISOString();
+  console.log(dueDate + "T" + dueTime)
+  let date = formatISO(new Date(dueDate + "T" + dueTime + ":00.000Z"));
   return new Date(date);
 }

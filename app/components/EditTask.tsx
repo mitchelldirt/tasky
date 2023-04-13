@@ -82,16 +82,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 </ul>
               </div>
               <div>
-                <Link
-                  to={
-                    `${props.previousRoute}?tz=${
-                      Intl.DateTimeFormat().resolvedOptions().timeZone
-                    }` ||
-                    `/home?tz=${
-                      Intl.DateTimeFormat().resolvedOptions().timeZone
-                    }`
-                  }
-                >
+                <Link to={`${props.previousRoute}` || `/home`}>
                   <label
                     htmlFor="editTaskModal"
                     className="btn-sm btn-circle btn"
@@ -109,11 +100,6 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               type="hidden"
               name="previousRoute"
               value={props.previousRoute}
-            />
-            <input
-              type="hidden"
-              name="timezoneOffset"
-              value={new Date().getTimezoneOffset()}
             />
             {props.formError ? (
               <span className="mt-4 flex justify-center">

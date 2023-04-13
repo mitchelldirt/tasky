@@ -28,12 +28,7 @@ export default function NewProjectModal() {
       <div className="modal">
         <div className="modal-box relative">
           {/*TODO: Catch the error in the loader above so that you don't have to route to home on failure. Or create an uh oh page*/}
-          <Link
-            to={
-              `/project/${id}` ||
-              `/home?tz=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
-            }
-          >
+          <Link to={`/project/${id}` || `/home`}>
             <label
               htmlFor="createProjectModal"
               className="btn-sm btn-circle btn absolute right-2 top-2"
