@@ -6,9 +6,15 @@ import { getAllTasks } from "~/models/task.server";
 import { getUserId } from "~/session.server";
 import { useEffect, useState } from "react";
 import Tasks from "~/components/Tasks";
+import noResults from "~/assets/undraw_questions_re_1fy7.svg";
 
 import type { Task } from "~/models/task.server";
 import type { LoaderArgs } from "@remix-run/server-runtime";
+import { V2_MetaFunction } from "@remix-run/node";
+
+export const meta: V2_MetaFunction = () => {
+  return [{ title: "Find your task!" }];
+};
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -66,6 +72,18 @@ export default function Search() {
         />
         <Outlet />
         <Tasks tasks={tasks} displayProject={true} />
+        {searchQuery.length > 0 && tasks.length === 0 && (
+          <>
+            <p className="my-4 text-center text-white sm:text-3xl">
+              No tasks found for "{searchQuery}"
+            </p>
+            <img
+              src={noResults}
+              alt="No results"
+              className="w-3/4 md:w-3/4 lg:w-1/2"
+            />
+          </>
+        )}
       </div>
     </>
   );
