@@ -62,6 +62,12 @@ export async function action({ request }: ActionArgs) {
     });
   }
 
+  if (dueTime && !dueDate) {
+    return badRequest({
+      formError: "Please select a date to set a time",
+    });
+  }
+
   const userId = await getUserId(request);
 
   if (!userId) {

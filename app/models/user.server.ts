@@ -15,7 +15,7 @@ export async function getUserByEmail(email: User["email"]) {
   return prisma.user.findUnique({ where: { email } });
 }
 
-export async function createUser(email: User["email"], password: string, timezoneOffset: number) {
+export async function createUser(email: User["email"], password: string, tz: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await prisma.user.create({
@@ -42,7 +42,7 @@ export async function createUser(email: User["email"], password: string, timezon
     1,
     new Date(),
     false,
-    timezoneOffset
+    tz
   );
 
   await createTask(
@@ -53,7 +53,7 @@ export async function createUser(email: User["email"], password: string, timezon
     3,
     new Date(new Date().setDate(new Date().getDate() + 1)),
     false,
-    timezoneOffset
+    tz
   );
 
   await createTask(
@@ -64,7 +64,7 @@ export async function createUser(email: User["email"], password: string, timezon
     2,
     new Date(new Date().setDate(new Date().getDate() + 4)),
     false,
-    timezoneOffset
+    tz
   );
 
   // work tasks
@@ -76,7 +76,7 @@ export async function createUser(email: User["email"], password: string, timezon
     4,
     new Date(),
     false,
-    timezoneOffset
+    tz
   );
 
   await createTask(
@@ -87,7 +87,7 @@ export async function createUser(email: User["email"], password: string, timezon
     2,
     new Date(new Date().setDate(new Date().getDate() + 33)),
     false,
-    timezoneOffset
+    tz
   );
 
   await createTask(
@@ -98,7 +98,7 @@ export async function createUser(email: User["email"], password: string, timezon
     1,
     new Date(new Date().setDate(new Date().getDate() - 1)),
     false,
-    timezoneOffset
+    tz
   );
 
   return user;

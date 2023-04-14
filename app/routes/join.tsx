@@ -7,6 +7,7 @@ import { getUserId, createUserSession } from "~/session.server";
 
 import { createUser, getUserByEmail } from "~/models/user.server";
 import { safeRedirect, validateEmail } from "~/utils";
+import { grabCookieValue } from "~/helpers/cookies";
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -18,8 +19,11 @@ export async function action({ request }: ActionArgs) {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
-  const timezoneOffset = formData.get("timezoneOffset");
   const redirectTo = safeRedirect(formData.get("redirectTo"), `/home`);
+
+  const cookies = request.headers.get("Cookie");
+  if (!cookies) throw new Response("No cookies found", { status: 400 });
+  const tzCookieValue = grabCookieValue("tz", cookies);
 
   if (!validateEmail(email)) {
     return json(
@@ -55,7 +59,7 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  if (typeof timezoneOffset !== "string") {
+  if (typeof tzCookieValue !== "string") {
     return json(
       {
         errors: {
@@ -67,7 +71,7 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  const user = await createUser(email, password, Number(timezoneOffset));
+  const user = await createUser(email, password, tzCookieValue);
 
   return createUserSession({
     request,

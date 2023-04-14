@@ -1,4 +1,4 @@
-import { Link, Form, LiveReload } from "@remix-run/react";
+import { Link, Form, LiveReload, useActionData } from "@remix-run/react";
 import { extractDate, extractTime } from "~/helpers/dueDateFunctions";
 import type { formError } from "~/types";
 import type { TaskContext } from "~/routes/project/$projectId/task/$taskId";
@@ -11,6 +11,7 @@ type editTaskModalProps = {
 };
 
 export default function EditTask({ ...props }: editTaskModalProps) {
+  const actionData = useActionData();
   return (
     <>
       <input
@@ -95,6 +96,11 @@ export default function EditTask({ ...props }: editTaskModalProps) {
           </div>
           <h3 className="w-full text-center text-lg font-bold">Edit Task</h3>
           <Form method="patch">
+            {actionData?.formError ? (
+              <div className="w-full text-center text-red-700">
+                {actionData.formError}
+              </div>
+            ) : null}
             <input type="hidden" name="id" value={props.taskContext.task.id} />
             <input
               type="hidden"

@@ -6,7 +6,7 @@ import { getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { z } from "zod";
 import { badRequest } from "~/utils";
-import { formatDateForUTC } from "~/helpers/dueDateFunctions";
+import { formatUserDate } from "~/helpers/dueDateFunctions";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { grabCookieValue } from "~/helpers/cookies";
@@ -124,9 +124,7 @@ export async function action({ request }: ActionArgs) {
 
     if (dueDate && dueTime && typeof dueDate === "string") {
       const justDate = format(new Date(dueDate), "yyyy-MM-dd");
-      formattedDueDate = formatDateForUTC(justDate, z.string().parse(dueTime));
-      console.log("formattedDueDate", formattedDueDate);
-      console.log("2");
+      formattedDueDate = formatUserDate(justDate, z.string().parse(dueTime));
     }
 
     //TODO: could probably not do a try catch here? Maybe you need to do it for zod though
