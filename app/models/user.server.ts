@@ -4,6 +4,7 @@ import { createTask } from "./task.server";
 import bcrypt from "bcryptjs";
 
 import { prisma } from "~/db.server";
+import { addDays, subDays } from "date-fns";
 
 export type { User } from "@prisma/client";
 
@@ -85,7 +86,7 @@ export async function createUser(email: User["email"], password: string, tz: str
     "Task due next month",
     "",
     2,
-    new Date(new Date().setDate(new Date().getDate() + 33)),
+    addDays(new Date(), 33),
     false,
     tz
   );
@@ -96,7 +97,7 @@ export async function createUser(email: User["email"], password: string, tz: str
     "Overdue task",
     "",
     1,
-    new Date(new Date().setDate(new Date().getDate() - 1)),
+    subDays(new Date(), 3),
     false,
     tz
   );
