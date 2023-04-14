@@ -2,13 +2,22 @@ import { Outlet, useLoaderData } from "@remix-run/react";
 import ProjectNavBar from "~/components/ProjectNavBar";
 import { getProjectById } from "~/models/project.server";
 
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import React from "react";
 import Tasks from "~/components/Tasks";
 import { getProjectTasks } from "~/models/task.server";
 import { getUserId } from "~/session.server";
 import { json } from "@remix-run/node";
+
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    {
+      title:
+        data.name.charAt(0) + data.name.slice(1).toLowerCase() + " project",
+    },
+  ];
+};
 
 export async function loader({ params, request }: LoaderArgs) {
   const projectId = params.projectId;

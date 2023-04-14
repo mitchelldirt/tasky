@@ -1,7 +1,7 @@
 import EditTask from "~/components/EditTask";
 import { LiveReload, useLoaderData } from "@remix-run/react";
 import { getTaskById, updateTask } from "~/models/task.server";
-import { redirect } from "@remix-run/node";
+import { V2_MetaFunction, redirect } from "@remix-run/node";
 import { getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { z } from "zod";
@@ -11,6 +11,10 @@ import { subHours } from "date-fns";
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
 import { format } from "date-fns-tz";
 import { grabCookieValue } from "~/helpers/cookies";
+
+export const meta: V2_MetaFunction = () => {
+  return [{ title: "Edit task" }];
+};
 
 const dataSchema = z.object({
   task: z.object({

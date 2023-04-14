@@ -10,6 +10,17 @@ import type { LoaderArgs } from "@remix-run/node";
 import ProjectsHeader from "~/components/ProjectsHeader";
 import { tasksCompletedToday } from "~/models/task.server";
 import { grabCookieValue } from "~/helpers/cookies";
+import type { V2_MetaFunction } from "@remix-run/node";
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: "Tasky" },
+    {
+      name: "description",
+      content: "Tasky is a task manager for the modern web.",
+    },
+  ];
+};
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
@@ -47,7 +58,7 @@ export default function Home() {
       <LiveReload />
       <main className="flex flex-col items-center">
         <ViewsMenu />
-        <div className="w-fit rounded-md">
+        <div className="flex w-full flex-col items-center rounded-md">
           <ProjectsHeader />
           <Outlet />
           <ProjectList projects={data.projects} noneId={data.noneId} />

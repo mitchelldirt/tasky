@@ -1,3 +1,4 @@
+import { V2_MetaFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { LoaderArgs, redirect } from "@remix-run/server-runtime";
 import { subHours } from "date-fns";
@@ -11,6 +12,20 @@ import {
   getTodayTasks,
 } from "~/models/task.server";
 import { getUserId } from "~/session.server";
+
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+  let viewName = data.viewInfo.name;
+  // * This is a hack to get the title to be "All tasks view" instead of "All tasks tasks view"
+  if (data.viewInfo.name.includes("Tasks")) {
+    viewName = "All";
+  }
+  return [
+    {
+      title:
+        viewName.charAt(0) + viewName.slice(1).toLowerCase() + " tasks view",
+    },
+  ];
+};
 
 export async function loader({ request, params }: LoaderArgs) {
   const filterView = params.view;

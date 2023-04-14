@@ -3,7 +3,7 @@ import {
   useOutletContext,
   useLoaderData,
 } from "@remix-run/react";
-import { redirect } from "@remix-run/node";
+import { V2_MetaFunction, redirect } from "@remix-run/node";
 import NewTaskModal from "~/components/NewTask";
 import { getUserId } from "~/session.server";
 import { getProjects } from "~/models/project.server";
@@ -13,6 +13,10 @@ import { formatUserDate } from "~/helpers/dueDateFunctions";
 import { grabCookieValue } from "~/helpers/cookies";
 
 import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+
+export const meta: V2_MetaFunction = () => {
+  return [{ title: "New task" }];
+};
 
 export async function loader({ request }: LoaderArgs) {
   const userId = await getUserId(request);
