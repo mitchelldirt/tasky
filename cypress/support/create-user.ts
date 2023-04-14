@@ -20,7 +20,7 @@ async function createAndLogin(email: string) {
     throw new Error("All test emails must end in @example.com");
   }
 
-  const user = await createUser(email, "myreallystrongpassword", new Date().getTimezoneOffset());
+  const user = await createUser(email, "myreallystrongpassword", "America/New_York");
 
   const response = await createUserSession({
     request: new Request("test://test"),
