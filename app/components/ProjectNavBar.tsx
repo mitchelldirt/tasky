@@ -1,12 +1,15 @@
 import { Link } from "@remix-run/react";
 
 import type { Project } from "@prisma/client";
+import { calculateTextSize } from "~/helpers/calculateTextSize";
 
 export default function ProjectNavBar({
   name = "Project",
   id = "null",
   color = "red",
 }: Pick<Project, "color" | "name" | "id">) {
+  const titleTextSize = calculateTextSize(name);
+
   return (
     <div className="navbar">
       <div className="navbar-start">
@@ -28,7 +31,7 @@ export default function ProjectNavBar({
         </Link>
 
         <h1
-          className={`ml-12 w-40 break-words text-lg font-bold sm:w-max text-${color}-400`}
+          className={`${titleTextSize} ml-12 w-40 break-words font-bold sm:w-max text-${color}-400`}
         >
           {name}
         </h1>

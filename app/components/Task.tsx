@@ -1,6 +1,5 @@
 import type { Task, Project } from "@prisma/client";
 import { Form, Link } from "@remix-run/react";
-import { useState } from "react";
 import dueDateColor from "~/helpers/dueDateColor";
 import { parseDueDate } from "~/helpers/dueDateFunctions";
 import priorityColor from "~/helpers/priorityColor";

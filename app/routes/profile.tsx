@@ -7,7 +7,6 @@ import {
   getTasksCompletedAllTime,
   getTasksCompletedPerProject,
 } from "~/models/task.server";
-import { Project } from "@prisma/client";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Profile" }];
@@ -37,12 +36,6 @@ export async function loader({ request }: LoaderArgs) {
 export default function Profile() {
   const data = useLoaderData<typeof loader>();
 
-  if (!data.user) throw new Response("User not found", { status: 404 });
-  if (!data.totalTasks)
-    throw new Response("No completed tasks found", { status: 404 });
-  if (!data.projectTasks)
-    throw new Response("No completed tasks found", { status: 404 });
-
   return (
     <>
       <Link className="absolute top-4 left-4 text-green-400" to={`/home`}>
@@ -67,7 +60,7 @@ export default function Profile() {
 
         <h2 className="text-2xl text-white">Lifetime Stats</h2>
         <p className="text-lg text-white">
-          Total Completed Tasks: {data.totalTasks ? data.totalTasks : NaN}
+          Total Completed Tasks: {data.totalTasks ? data.totalTasks : 0}
         </p>
         {Array.isArray(data.projectTasks) && data.projectTasks.length > 0 ? (
           <table>
