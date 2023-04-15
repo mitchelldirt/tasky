@@ -3,6 +3,11 @@ import { getUserById } from "~/models/user.server";
 import { getUserId } from "~/session.server";
 
 import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
+import {
+  getTasksCompletedAllTime,
+  getTasksCompletedPerProject,
+} from "~/models/task.server";
+import { Project } from "@prisma/client";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Profile" }];
@@ -15,11 +20,28 @@ export async function loader({ request }: LoaderArgs) {
     throw new Response();
   }
   const user = await getUserById(userId);
-  return user;
+  const totalCompletedTasks = await getTasksCompletedAllTime({
+    userId: userId,
+  });
+  const completedTasksPerProject = await getTasksCompletedPerProject({
+    userId: userId,
+  });
+
+  return {
+    user: user,
+    totalTasks: totalCompletedTasks,
+    projectTasks: completedTasksPerProject,
+  };
 }
 
 export default function Profile() {
   const data = useLoaderData<typeof loader>();
+
+  if (!data.user) throw new Response("User not found", { status: 404 });
+  if (!data.totalTasks)
+    throw new Response("No completed tasks found", { status: 404 });
+  if (!data.projectTasks)
+    throw new Response("No completed tasks found", { status: 404 });
 
   return (
     <>
@@ -41,9 +63,43 @@ export default function Profile() {
       </Link>
 
       <main className="mt-20 flex h-full w-full flex-col items-center gap-6">
-        <h1 className="text-3xl font-bold">Profile</h1>
-        <p>Email: {data?.email}</p>
+        <h1 className="text-3xl font-bold text-green-400">Profile</h1>
 
+        <h2 className="text-2xl text-white">Lifetime Stats</h2>
+        <p className="text-lg text-white">
+          Total Completed Tasks: {data.totalTasks ? data.totalTasks : NaN}
+        </p>
+        {Array.isArray(data.projectTasks) && data.projectTasks.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th className="text-white" colSpan={2}>
+                  Total Completed Tasks Per Project
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.projectTasks.map((project) => (
+                <tr className="w-full" key={project.id}>
+                  <td
+                    className="border-2 border-gray-400 text-center text-white"
+                    width="50%"
+                  >
+                    {project.name}
+                  </td>
+                  <td
+                    className="border-2 border-gray-400 text-center text-white"
+                    width="50%"
+                  >
+                    {project.total}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : null}
+
+        <p className="text-white">Email: {data?.user?.email}</p>
         <Link to={"changeEmail"}>
           <button className="btn gap-2">
             <svg

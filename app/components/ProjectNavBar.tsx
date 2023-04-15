@@ -27,7 +27,11 @@ export default function ProjectNavBar({
           </svg>
         </Link>
 
-        <h1 className={`ml-14 text-2xl font-bold text-${color}-400`}>{name}</h1>
+        <h1
+          className={`ml-12 w-40 break-words text-lg font-bold sm:w-max text-${color}-400`}
+        >
+          {name}
+        </h1>
       </div>
       <div className="navbar-center"></div>
       <div className="navbar-end">

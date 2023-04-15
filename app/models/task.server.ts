@@ -1,6 +1,7 @@
 import type { User, Project, Task } from "@prisma/client";
 import { addHours, differenceInCalendarDays, differenceInDays, formatISO, subHours, startOfDay, endOfDay, isBefore, subDays, addDays, format } from "date-fns";
 import { zonedTimeToUtc, utcToZonedTime } from "date-fns-tz";
+import { l } from "vitest/dist/index-220c1d70";
 import { prisma } from "~/db.server";
 
 export type { Task } from "@prisma/client";
@@ -229,6 +230,52 @@ export function tasksCompletedToday({ userId }: { userId: User["id"] }, tz: stri
     },
   });
 }
+
+export function getTasksCompletedAllTime({ userId }: { userId: User["id"] }) {
+  return prisma.task.count({
+    where: {
+      user: {
+        id: userId
+      },
+      completed: true,
+    },
+  });
+}
+
+export async function getTasksCompletedPerProject({ userId }: { userId: User["id"] }) {
+  const projects = await prisma.project.findMany({
+    where: {
+      user: {
+        id: userId
+      }
+    },
+    select: {
+      id: true,
+      name: true,
+    }
+  });
+
+  if (projects && projects.length > 0) {
+    let projectsTotals = [];
+
+    for (let project of projects) {
+      if (project.id.includes("none-")) continue;
+      const total = await prisma.task.count({
+        where: {
+          user: {
+            id: userId
+          },
+          projectId: project.id,
+          completed: true,
+        },
+      });
+      projectsTotals.push({ id: project.id, name: project.name, total: total });
+    }
+    return projectsTotals;
+  }
+}
+
+
 
 export function deleteTask(id: string) {
   return prisma.task.delete({
