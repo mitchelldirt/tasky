@@ -75,7 +75,7 @@ export default function Profile() {
               {data.projectTasks.map((project) => (
                 <tr className="w-full" key={project.id}>
                   <td
-                    className="border-2 border-gray-400 text-center text-white"
+                    className="border-2 border-gray-400 text-left text-white"
                     width="50%"
                   >
                     {project.name}
