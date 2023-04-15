@@ -58,7 +58,7 @@ export default function Home() {
       <LiveReload />
       <main className="flex flex-col items-center">
         <ViewsMenu />
-        <div className="flex w-full flex-col items-center rounded-md">
+        <div className="flex w-80 flex-col items-center rounded-md">
           <ProjectsHeader />
           <Outlet />
           <ProjectList projects={data.projects} noneId={data.noneId} />
@@ -66,16 +66,4 @@ export default function Home() {
       </main>
     </>
   );
-}
-
-export function CatchBoundary() {
-  const caught = useCatch();
-
-  if (caught.status === 400) {
-    return (
-      <div>
-        <p>Please log out and log back in. Your userID was invalid.</p>
-      </div>
-    );
-  }
 }

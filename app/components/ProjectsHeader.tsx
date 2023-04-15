@@ -3,7 +3,7 @@ import { LiveReload, Link } from "@remix-run/react";
 export default function ProjectsHeader() {
   return (
     <>
-      <div className="flex w-3/4 flex-row items-center justify-between md:w-1/3 lg:w-1/5">
+      <div className="flex w-80 flex-row items-center justify-between">
         <h2 className="text-xl font-bold text-white">Projects</h2>
         <Link to={"newProject"}>
           <label htmlFor="createProjectModal" className="hover:cursor-pointer">
