@@ -16,10 +16,14 @@ export default function ChangeEmail() {
           Delete Account
         </h2>
 
-        <div className="mt-4 flex flex-row gap-10 mb-6">
-          <button type="button" onClick={(e) => {
-            document.getElementById("delete")?.classList.remove("hidden");
-          }} className="btn-error btn">
+        <div className="mt-4 mb-6 flex flex-row gap-10">
+          <button
+            type="button"
+            onClick={(e) => {
+              document.getElementById("delete")?.classList.remove("hidden");
+            }}
+            className="btn-error btn"
+          >
             DELETE
           </button>
           <Link to={"/profile"} className="btn text-white">

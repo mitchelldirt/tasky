@@ -24,7 +24,9 @@ export function parseDueDate(
   // * new Date() returns the current date and time in the local time zone
   const dueDateDate = utcToZonedTime(dueDate, tz);
 
-  const diffInDays = Math.abs(differenceInCalendarDays(new Date(), dueDateDate));
+  const diffInDays = Math.abs(
+    differenceInCalendarDays(new Date(), dueDateDate)
+  );
   const diffInYears = differenceInCalendarYears(new Date(), dueDateDate);
   const isSameYear = diffInYears === 0;
 
@@ -48,7 +50,7 @@ export function parseDueDate(
       date: "Today",
       time: time,
       isOverdue: true,
-    }
+    };
   } else if (isOverdue === false && diffInDays === 1) {
     return {
       date: "Tomorrow",
@@ -123,7 +125,10 @@ export function formatUserDate(dueDate: string | null, dueTime: string) {
   if (dueDate === null) return null;
 
   const hoursOffset = new Date().getTimezoneOffset() / 60;
-  let date = addHours(parseISO(dueDate + "T" + dueTime + ":00.000Z"), hoursOffset);
+  let date = addHours(
+    parseISO(dueDate + "T" + dueTime + ":00.000Z"),
+    hoursOffset
+  );
 
   return date;
 }

@@ -27,17 +27,15 @@ export function createProject(
     userId: userId,
     name: name.toUpperCase(),
     color: color,
-    id
-  }
+    id,
+  };
 
   if (id) {
-    data.id = id
+    data.id = id;
   }
 
-  console.log('data ' + data)
-
   return prisma.project.create({
-    data: data
+    data: data,
   });
 }
 

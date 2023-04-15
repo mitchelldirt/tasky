@@ -16,7 +16,11 @@ export async function getUserByEmail(email: User["email"]) {
   return prisma.user.findUnique({ where: { email } });
 }
 
-export async function createUser(email: User["email"], password: string, tz: string) {
+export async function createUser(
+  email: User["email"],
+  password: string,
+  tz: string
+) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await prisma.user.create({
@@ -32,7 +36,12 @@ export async function createUser(email: User["email"], password: string, tz: str
 
   const personal = await createProject({ userId: user.id }, "PERSONAL", "blue");
   const work = await createProject({ userId: user.id }, "WORK", "red");
-  const none = await createProject({ userId: user.id }, "NONE", "gray", `none-${user.id}`);
+  const none = await createProject(
+    { userId: user.id },
+    "NONE",
+    "gray",
+    `none-${user.id}`
+  );
 
   // personal tasks
   await createTask(

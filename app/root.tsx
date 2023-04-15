@@ -80,7 +80,6 @@ export default function App() {
       setTotalTasks(data.userTasks.length);
       if (totalTasks && data.userTasks.length > totalTasks) {
         if (toast.current) {
-          console.log(toast.current);
           toast.current.classList.remove("animate-slide-up");
           toast.current.classList.remove("hidden");
           void toast.current.offsetWidth;

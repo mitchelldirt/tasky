@@ -20,8 +20,9 @@ export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
     orderBy: { completedAt: "desc" },
     where: {
       user: {
-        id: userId
-      }, completed: true
+        id: userId,
+      },
+      completed: true,
     },
     include: {
       project: true,
@@ -30,12 +31,9 @@ export function getAllCompletedTasks({ userId }: { userId: User["id"] }) {
 }
 
 // todo: get the users time and use that instead of new Date()
-// ! todo: Make sure that the other date functions are considering the tzOffset of both the user and the server 
+// ! todo: Make sure that the other date functions are considering the tzOffset of both the user and the server
 export function getTodayTasks({ userId }: { userId: User["id"] }, tz: string) {
   const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(tz);
-
-  console.log("startTime", startTime)
-  console.log("endTime", endTime)
 
   return prisma.task.findMany({
     where: {
@@ -43,7 +41,7 @@ export function getTodayTasks({ userId }: { userId: User["id"] }, tz: string) {
       completed: false,
       dueDate: {
         gte: startTime,
-        lte: endTime
+        lte: endTime,
       },
     },
     include: {
@@ -75,11 +73,12 @@ export function getProjectTasks({
   return prisma.project.findMany({
     where: { id, userId },
     select: {
-      name: true, tasks: {
+      name: true,
+      tasks: {
         where: { completed: false },
         include: { project: true },
         orderBy: { dueDate: "asc" },
-      }
+      },
     },
   });
 }
@@ -121,22 +120,16 @@ export function updateTask(
   dueDate: Date | null,
   time: boolean,
   projectId: Project["id"],
-  tz: string,
+  tz: string
 ) {
   let due = null;
-
-  console.log('timezone', tz)
-  console.log('update task dueDate', dueDate)
 
   // TODO: I don't think this is working
   if (dueDate) {
     const UTCDueDate = zonedTimeToUtc(dueDate, tz);
 
-    console.log('UTCDueDate', UTCDueDate)
-    due = formatISO(UTCDueDate)
+    due = formatISO(UTCDueDate);
   }
-
-  console.log('update task due', due)
 
   return prisma.task.update({
     where: { id },
@@ -151,17 +144,24 @@ export function updateTask(
   });
 }
 
-
 function waitforme(millisec: number) {
-  return new Promise(resolve => {
-    setTimeout(() => { resolve('') }, millisec);
-  })
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("");
+    }, millisec);
+  });
 }
 
-export async function completeTask(id: string, userDate: Date, userOffsetMins: number) {
+export async function completeTask(
+  id: string,
+  userDate: Date,
+  userOffsetMins: number
+) {
   let userOffsetHours = Number(userOffsetMins) / 60;
 
-  let dateTime = format(addHours(userDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") + "Z";
+  let dateTime =
+    format(addHours(userDate, userOffsetHours), "yyyy-MM-dd'T'HH:mm:ss.SSS") +
+    "Z";
 
   await waitforme(400);
 
@@ -169,9 +169,9 @@ export async function completeTask(id: string, userDate: Date, userOffsetMins: n
     where: { id },
     data: {
       completed: true,
-      completedAt: dateTime
+      completedAt: dateTime,
     },
-  })
+  });
 }
 
 export function restoreTask(id: string) {
@@ -186,7 +186,10 @@ export function restoreTask(id: string) {
 
 function getStartAndEndOfDayAdjustedForUTC(tz: string) {
   // Convert the server to UTC
-  const utcNow = zonedTimeToUtc(new Date(), Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const utcNow = zonedTimeToUtc(
+    new Date(),
+    Intl.DateTimeFormat().resolvedOptions().timeZone
+  );
 
   // Get today's date in the user's timezone
   const userNow = utcToZonedTime(utcNow, tz);
@@ -200,31 +203,25 @@ function getStartAndEndOfDayAdjustedForUTC(tz: string) {
   const endTime = zonedTimeToUtc(userEndOfDay, tz);
 
   // console log all of the above variables
-  console.log("utcNow", utcNow)
-  console.log("userNow", userNow)
-  console.log("userStartOfDay", userStartOfDay)
-  console.log("userEndOfDay", userEndOfDay)
-  console.log("startTime", startTime)
-  console.log("endTime", endTime)
-  console.log("tz", tz)
 
   return [startTime, endTime];
 }
 
-export function tasksCompletedToday({ userId }: { userId: User["id"] }, tz: string) {
+export function tasksCompletedToday(
+  { userId }: { userId: User["id"] },
+  tz: string
+) {
   const [startTime, endTime] = getStartAndEndOfDayAdjustedForUTC(tz);
-
-  console.log(startTime, endTime)
 
   return prisma.task.count({
     where: {
       user: {
-        id: userId
+        id: userId,
       },
       completed: true,
       completedAt: {
         gte: startTime,
-        lte: endTime
+        lte: endTime,
       },
     },
   });
@@ -234,24 +231,28 @@ export function getTasksCompletedAllTime({ userId }: { userId: User["id"] }) {
   return prisma.task.count({
     where: {
       user: {
-        id: userId
+        id: userId,
       },
       completed: true,
     },
   });
 }
 
-export async function getTasksCompletedPerProject({ userId }: { userId: User["id"] }) {
+export async function getTasksCompletedPerProject({
+  userId,
+}: {
+  userId: User["id"];
+}) {
   const projects = await prisma.project.findMany({
     where: {
       user: {
-        id: userId
-      }
+        id: userId,
+      },
     },
     select: {
       id: true,
       name: true,
-    }
+    },
   });
 
   if (projects && projects.length > 0) {
@@ -262,7 +263,7 @@ export async function getTasksCompletedPerProject({ userId }: { userId: User["id
       const total = await prisma.task.count({
         where: {
           user: {
-            id: userId
+            id: userId,
           },
           projectId: project.id,
           completed: true,
@@ -273,8 +274,6 @@ export async function getTasksCompletedPerProject({ userId }: { userId: User["id
     return projectsTotals;
   }
 }
-
-
 
 export function deleteTask(id: string) {
   return prisma.task.delete({
@@ -287,9 +286,9 @@ export async function duplicateTask(id: string) {
     where: { id },
   });
 
-  if (taskToDuplicate && taskToDuplicate satisfies Task) {
-
-    const { userId, title, description, priority, projectId, dueDate, time } = taskToDuplicate;
+  if (taskToDuplicate && (taskToDuplicate satisfies Task)) {
+    const { userId, title, description, priority, projectId, dueDate, time } =
+      taskToDuplicate;
 
     return prisma.task.create({
       data: {
