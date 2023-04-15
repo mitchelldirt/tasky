@@ -1,8 +1,7 @@
-import { V2_MetaFunction } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { LoaderArgs, redirect } from "@remix-run/server-runtime";
-import { subHours } from "date-fns";
-import { useState } from "react";
+import type { LoaderArgs } from "@remix-run/server-runtime";
+import { redirect } from "@remix-run/server-runtime";
 import NonProjectNavBar from "~/components/NonProjectNavBar";
 import Tasks from "~/components/Tasks";
 import { grabCookieValue } from "~/helpers/cookies";

@@ -36,12 +36,8 @@ export async function createUser(
 
   const personal = await createProject({ userId: user.id }, "PERSONAL", "blue");
   const work = await createProject({ userId: user.id }, "WORK", "red");
-  const none = await createProject(
-    { userId: user.id },
-    "NONE",
-    "gray",
-    `none-${user.id}`
-  );
+
+  await createProject({ userId: user.id }, "NONE", "gray", `none-${user.id}`);
 
   // personal tasks
   await createTask(

@@ -7,7 +7,6 @@ import {
 import type { ActionArgs } from "@remix-run/server-runtime";
 import { redirect } from "react-router";
 import { badRequest } from "~/utils";
-import { useLoaderData } from "@remix-run/react";
 
 export function loader({ params }: { params: { id: string } }) {
   const id = params.id;

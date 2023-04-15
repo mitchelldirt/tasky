@@ -1,8 +1,4 @@
-import {
-  useActionData,
-  useOutletContext,
-  useLoaderData,
-} from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 import NewTaskModal from "~/components/NewTask";
 import { getUserId } from "~/session.server";
@@ -31,7 +27,6 @@ export async function loader({ request }: LoaderArgs) {
 }
 
 export default function NewTask() {
-  const previousRoute = useOutletContext();
   const loaderData = useLoaderData();
   const data = useActionData();
   let taskContext = {

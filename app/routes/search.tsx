@@ -10,7 +10,7 @@ import noResults from "~/assets/undraw_questions_re_1fy7.svg";
 
 import type { Task } from "~/models/task.server";
 import type { LoaderArgs } from "@remix-run/server-runtime";
-import { V2_MetaFunction } from "@remix-run/node";
+import type { V2_MetaFunction } from "@remix-run/node";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Find your task!" }];

@@ -1,5 +1,4 @@
 import { Link } from "@remix-run/react";
-import { useEffect, useState } from "react";
 
 type NonProjectNavBarProps = {
   name: string;
@@ -10,13 +9,6 @@ export default function NonProjectNavBar({
   name,
   color,
 }: NonProjectNavBarProps) {
-  const [path, setPath] = useState("");
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    setPath(window.location.pathname);
-  }, []);
-
   return (
     <div className="navbar">
       <div className="navbar-start">
