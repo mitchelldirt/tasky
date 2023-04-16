@@ -6,12 +6,10 @@ import { getProjects } from "~/models/project.server";
 import { getUserId } from "~/session.server";
 import { z } from "zod";
 import { badRequest } from "~/utils";
-import { formatUserDate } from "~/helpers/dueDateFunctions";
 
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { grabCookieValue } from "~/helpers/cookies";
-import { addHours, format } from "date-fns";
-import { zonedTimeToUtc } from "date-fns-tz";
+import { addHours } from "date-fns";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Edit task" }];
@@ -147,7 +145,6 @@ export async function action({ request }: ActionArgs) {
       time = true;
     }
 
-    //TODO: could probably not do a try catch here? Maybe you need to do it for zod though
     switch (request.method) {
       case "PATCH": {
         await updateTask(

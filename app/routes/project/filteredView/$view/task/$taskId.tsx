@@ -8,8 +8,8 @@ import { z } from "zod";
 import { badRequest } from "~/utils";
 
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
-import { format } from "date-fns-tz";
 import { grabCookieValue } from "~/helpers/cookies";
+import { addHours } from "date-fns";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Edit task" }];
@@ -115,25 +115,36 @@ export async function action({ request }: ActionArgs) {
     let time = false;
     let formattedDueDate = null;
 
-    if (dueDate && dueTime) {
-      const justDate = dueDate?.toString().split("T")[0];
-
-      // * This is a hack to get the date to be in the correct timezone
-      formattedDueDate = new Date(
-        format(new Date(justDate + "T" + dueTime), "yyyy-MM-dd HH:mm z")
+    if (dueDate && dueTime === "") {
+      const serverOffset = new Date().getTimezoneOffset();
+      formattedDueDate = addHours(
+        new Date(dueDate + "T00:00:00.000Z"),
+        serverOffset / 60
       );
-      time = true;
-    } else if (!dueDate && dueTime) {
+      console.log("formatted due date", formattedDueDate);
+    }
+
+    if (!dueDate && dueTime) {
       return badRequest({
         formError: "Please select a date",
       });
-    } else if (dueDate && !dueTime) {
-      formattedDueDate = new Date(
-        format(new Date(z.string().parse(dueDate)), "yyyy-MM-dd HH:mm z")
-      );
     }
 
-    //TODO: Could probably remove try catch but maybe not because of zod
+    if (
+      dueDate &&
+      dueTime &&
+      dueTime.length > 0 &&
+      typeof dueDate === "string"
+    ) {
+      const serverOffset = new Date().getTimezoneOffset();
+      const seconds = dueTime.length === 5 ? ":00" : "";
+      formattedDueDate = addHours(
+        new Date(dueDate + "T" + dueTime + seconds + ".000Z"),
+        serverOffset / 60
+      );
+      time = true;
+    }
+
     switch (request.method) {
       case "PATCH": {
         await updateTask(
