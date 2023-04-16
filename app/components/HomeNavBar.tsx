@@ -29,7 +29,7 @@ export default function HomeNavBar({
       </div>
       <div className="navbar-end">
         <Link to={"/search"}>
-          <button className="btn-ghost btn-circle btn">
+          <button className="btn-ghost btn-circle btn text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-8 w-8"
@@ -64,7 +64,7 @@ export default function HomeNavBar({
         </Link>
         <div className="dropdown-end dropdown">
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
-            <div className="h-8 w-8 rounded-full">
+            <div className="h-8 w-8 rounded-full text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -86,13 +86,15 @@ export default function HomeNavBar({
             className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <li>
-              <Link to={"/profile"} className="justify-between">
+              <Link to={"/profile"} className="justify-between text-white">
                 Profile
               </Link>
             </li>
             <li>
               <Form className="p-0" action="/logout" method="post">
-                <button className="w-full py-2 px-4 text-left">Logout</button>
+                <button className="w-full py-2 px-4 text-left text-white">
+                  Logout
+                </button>
               </Form>
             </li>
           </ul>

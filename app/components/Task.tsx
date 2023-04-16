@@ -111,7 +111,7 @@ export default function TaskView({
 
           <Link
             to={`task/${id.id}`}
-            className="flex w-full flex-row items-center justify-between border-b-2 border-gray-400"
+            className="flex w-10/12 flex-row items-center justify-between border-b-2 border-gray-400 sm:w-11/12"
           >
             <div className="flex flex-col">
               <p className="text-white">{title.title}</p>
@@ -126,7 +126,9 @@ export default function TaskView({
             {/* TODO: Put the none project id here instead of the includes
               remember to do this below in the completed view as well
             */}
-            <span className={`text-${project.color}-500`}>
+            <span
+              className={`text-right text-sm text-white sm:w-2/3 text-${project.color}-400 w-2/5 break-words`}
+            >
               {displayProject === true &&
               project.name.includes("NONE") === false
                 ? project.name

@@ -12,7 +12,7 @@ export default function ChangePassword() {
   return (
     <>
       <Form className="flex w-3/4 flex-col items-center" method="patch">
-        <h2 className="text-bold border-t-2 border-green-200 pt-4 text-center text-2xl">
+        <h2 className="text-bold border-t-2 border-green-200 pt-4 text-center text-2xl text-white">
           Update Password
         </h2>
         <div>
@@ -34,7 +34,7 @@ export default function ChangePassword() {
 
         <div className="form-control w-full max-w-xs">
           <label className="label">
-            <span className="label-text">Current</span>
+            <span className="label-text text-white">Current</span>
           </label>
           <input
             name="currentPassword"
@@ -47,7 +47,7 @@ export default function ChangePassword() {
 
         <div className="form-control w-full max-w-xs">
           <label className="label">
-            <span className="label-text">New</span>
+            <span className="label-text text-white">New</span>
           </label>
           <input
             name="password"
@@ -60,7 +60,7 @@ export default function ChangePassword() {
 
         <div className="form-control w-full max-w-xs">
           <label className="label">
-            <span className="label-text">Confirm</span>
+            <span className="label-text text-white">Confirm</span>
           </label>
           <input
             name="confirmPassword"
@@ -70,7 +70,7 @@ export default function ChangePassword() {
           />
         </div>
 
-        <div className="mt-4 flex flex-row gap-10">
+        <div className="mt-4 mb-6 flex flex-row gap-10">
           <Link to={"/profile"}>
             <button className="btn-error btn">Cancel</button>
           </Link>

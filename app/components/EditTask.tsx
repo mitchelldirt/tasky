@@ -34,7 +34,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="h-6 w-6"
+                      className="h-6 w-6 text-white"
                     >
                       <path
                         strokeLinecap="round"
@@ -86,7 +86,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 <Link to={`${props.previousRoute}` || `/home`}>
                   <label
                     htmlFor="editTaskModal"
-                    className="btn-sm btn-circle btn"
+                    className="btn-sm btn-circle btn text-white"
                   >
                     ✕
                   </label>
@@ -94,7 +94,9 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               </div>
             </div>
           </div>
-          <h3 className="w-full text-center text-lg font-bold">Edit Task</h3>
+          <h3 className="w-full text-center text-lg font-bold text-green-400">
+            Edit Task
+          </h3>
           <Form method="patch">
             {actionData?.formError ? (
               <div className="w-full text-center text-red-700">
@@ -120,7 +122,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
 
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">
+                <span className="label-text text-white">
                   Name
                   <span className="ml-2 text-lg text-red-400">*</span>
                 </span>
@@ -128,7 +130,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               <input
                 type="text"
                 placeholder="Type here"
-                className="input-bordered input w-full"
+                className="input-bordered input w-full  text-white"
                 name="title"
                 defaultValue={props.taskContext.task.title}
                 required
@@ -139,10 +141,10 @@ export default function EditTask({ ...props }: editTaskModalProps) {
 
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Description</span>
+                <span className="label-text text-white">Description</span>
               </label>
               <textarea
-                className="textarea-bordered textarea h-24"
+                className="textarea-bordered textarea h-24 text-white"
                 placeholder="Type here"
                 defaultValue={props.taskContext.task.description}
                 name="description"
@@ -150,13 +152,13 @@ export default function EditTask({ ...props }: editTaskModalProps) {
             </div>
             <div className="flex flex-row justify-between gap-2">
               <div className="form-control w-full max-w-xs">
-                <label className="label">
-                  <span className="label-text">Due date</span>
+                <label className="label text-white">
+                  <span className="label-text text-white">Due date</span>
                 </label>
                 <input
                   type="date"
                   placeholder=""
-                  className="input-bordered input w-full max-w-xs"
+                  className="input-bordered input w-full max-w-xs text-white"
                   defaultValue={
                     props.taskContext.task.dueDate
                       ? extractDate(props.taskContext.task.dueDate)
@@ -168,12 +170,12 @@ export default function EditTask({ ...props }: editTaskModalProps) {
 
               <div className="form-control w-full max-w-xs">
                 <label className="label">
-                  <span className="label-text">Due time</span>
+                  <span className="label-text text-white">Due time</span>
                 </label>
                 <input
                   type="time"
                   placeholder=""
-                  className="input-bordered input w-full max-w-xs"
+                  className="input-bordered input w-full max-w-xs text-white"
                   defaultValue={
                     props.taskContext.task.time &&
                     props.taskContext.task.dueDate
@@ -188,7 +190,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
             <div className="flex flex-row justify-between gap-2">
               <div className="form-control w-1/2 max-w-xs">
                 <label className="label">
-                  <span className="label-text">
+                  <span className="label-text text-white">
                     Project
                     <span className="ml-2 text-lg text-red-400">*</span>
                   </span>
@@ -196,7 +198,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 <select
                   defaultValue={props.taskContext.task.projectId || "none"}
                   name="project"
-                  className="select-bordered select"
+                  className="select-bordered select text-white"
                 >
                   <option value={props.noneId}>NONE</option>
                   {props.taskContext.projects
@@ -213,7 +215,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
 
               <div className="w-full max-w-xs">
                 <label className="label h-11">
-                  <span className="label-text">
+                  <span className="label-text text-white">
                     Priority
                     <span className="ml-2 text-lg text-red-400">*</span>
                   </span>
@@ -224,7 +226,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       type="radio"
                       name="priority"
                       value={4}
-                      className="radio checked:bg-gray-400"
+                      className="radio border-white checked:border-gray-400 checked:bg-gray-400"
                       defaultChecked={props.taskContext.task.priority === 4}
                     />
                   </div>
@@ -234,7 +236,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       type="radio"
                       name="priority"
                       value={3}
-                      className="radio checked:bg-blue-400"
+                      className="radio border-white checked:border-blue-400 checked:bg-blue-400"
                       defaultChecked={props.taskContext.task.priority === 3}
                     />
                   </div>
@@ -244,7 +246,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       type="radio"
                       name="priority"
                       value={2}
-                      className="radio self-center checked:bg-orange-400"
+                      className="radio self-center border-white checked:border-orange-400 checked:bg-orange-400 "
                       defaultChecked={props.taskContext.task.priority === 2}
                     />
                   </div>
@@ -254,7 +256,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       type="radio"
                       name="priority"
                       value={1}
-                      className="radio checked:bg-red-400"
+                      className="radio border-white checked:border-red-400 checked:bg-red-400"
                       defaultChecked={props.taskContext.task.priority === 1}
                     />
                   </div>

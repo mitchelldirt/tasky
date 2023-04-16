@@ -55,7 +55,7 @@ export default function Profile() {
         </svg>
       </Link>
 
-      <main className="mt-20 flex h-full w-full flex-col items-center gap-6">
+      <main className="mb-6 mt-20 flex h-full w-full flex-col items-center gap-6">
         <h1 className="text-3xl font-bold text-green-400">Profile</h1>
 
         <h2 className="text-2xl text-white">Lifetime Stats</h2>
@@ -94,7 +94,7 @@ export default function Profile() {
 
         <p className="text-white">Email: {data?.user?.email}</p>
         <Link to={"changeEmail"}>
-          <button className="btn gap-2">
+          <button className="btn gap-2 text-blue-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -114,7 +114,7 @@ export default function Profile() {
         </Link>
 
         <Link to={"changePassword"}>
-          <button className="btn gap-2">
+          <button className="btn gap-2 text-yellow-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -134,7 +134,7 @@ export default function Profile() {
         </Link>
 
         <Link to={"deleteProfile"}>
-          <button className="btn gap-2">
+          <button className="btn mb-6 gap-2 text-red-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

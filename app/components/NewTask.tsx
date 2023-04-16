@@ -56,12 +56,14 @@ export default function NewTaskModal({
           >
             <label
               htmlFor="createProjectModal"
-              className="btn-sm btn-circle btn absolute right-2 top-2"
+              className="btn-sm btn-circle btn absolute right-2 top-2 text-white"
             >
               ✕
             </label>
           </Link>
-          <h3 className="w-full text-center text-lg font-bold">Create Task</h3>
+          <h3 className="w-full text-center text-lg font-bold text-green-400">
+            Create Task
+          </h3>
           <Form method="post">
             <input type="hidden" name="projectId" value={context.projectId} />
             <input type="hidden" name="noneId" value={context.noneId} />
@@ -78,7 +80,7 @@ export default function NewTaskModal({
 
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text">
+                <span className="label-text text-white">
                   Name
                   <span className="ml-2 text-lg text-red-400">*</span>
                 </span>
@@ -86,7 +88,7 @@ export default function NewTaskModal({
               <input
                 type="text"
                 placeholder="Type here"
-                className="input-bordered input w-full"
+                className="input-bordered input w-full text-white"
                 name="title"
                 required
                 minLength={3}
@@ -96,10 +98,10 @@ export default function NewTaskModal({
 
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Description</span>
+                <span className="label-text text-white">Description</span>
               </label>
               <textarea
-                className="textarea-bordered textarea h-24"
+                className="textarea-bordered textarea h-24 text-white"
                 placeholder="Type here"
                 name="description"
               ></textarea>
@@ -107,12 +109,12 @@ export default function NewTaskModal({
             <div className="flex flex-row justify-between gap-2">
               <div className="form-control w-full max-w-xs">
                 <label className="label">
-                  <span className="label-text">Due date</span>
+                  <span className="label-text text-white">Due date</span>
                 </label>
                 <input
                   type="date"
                   placeholder=""
-                  className="input-bordered input w-full max-w-xs"
+                  className="input-bordered input w-full max-w-xs text-white"
                   defaultValue={format(new Date(), "yyyy-MM-dd")}
                   name="dueDate"
                 />
@@ -120,12 +122,12 @@ export default function NewTaskModal({
 
               <div className="form-control w-full max-w-xs">
                 <label className="label">
-                  <span className="label-text">Due time</span>
+                  <span className="label-text text-white">Due time</span>
                 </label>
                 <input
                   type="time"
                   placeholder=""
-                  className="input-bordered input w-full max-w-xs"
+                  className="input-bordered input w-full max-w-xs text-white"
                   name="dueTime"
                 />
               </div>
@@ -134,7 +136,7 @@ export default function NewTaskModal({
             <div className="flex flex-row justify-between gap-2">
               <div className="form-control w-1/2 max-w-xs">
                 <label className="label">
-                  <span className="label-text">
+                  <span className="label-text text-white">
                     Project
                     <span className="ml-2 text-lg text-red-400">*</span>
                   </span>
@@ -142,7 +144,7 @@ export default function NewTaskModal({
                 <select
                   defaultValue={context.projectId || "none"}
                   name="project"
-                  className="select-bordered select"
+                  className="select-bordered select text-white"
                 >
                   <option value={context.noneId}>NONE</option>
                   {context.projects
@@ -159,7 +161,7 @@ export default function NewTaskModal({
 
               <div className="w-full max-w-xs">
                 <label className="label h-11">
-                  <span className="label-text">
+                  <span className="label-text text-white">
                     Priority
                     <span className="ml-2 text-lg text-red-400">*</span>
                   </span>
@@ -170,7 +172,7 @@ export default function NewTaskModal({
                       type="radio"
                       name="priority"
                       value={4}
-                      className="radio checked:bg-gray-400"
+                      className="radio border-white checked:border-gray-400 checked:bg-gray-400"
                       defaultChecked
                     />
                   </div>
@@ -180,7 +182,7 @@ export default function NewTaskModal({
                       type="radio"
                       name="priority"
                       value={3}
-                      className="radio checked:bg-blue-400"
+                      className="radio border-white checked:border-blue-400 checked:bg-blue-400"
                     />
                   </div>
 
@@ -189,7 +191,7 @@ export default function NewTaskModal({
                       type="radio"
                       name="priority"
                       value={2}
-                      className="radio self-center checked:bg-orange-400"
+                      className="radio self-center border-white checked:border-orange-400 checked:bg-orange-400"
                     />
                   </div>
 
@@ -198,7 +200,7 @@ export default function NewTaskModal({
                       type="radio"
                       name="priority"
                       value={1}
-                      className="radio checked:bg-red-400"
+                      className="radio border-white checked:border-red-400 checked:bg-red-400"
                     />
                   </div>
                 </fieldset>

@@ -9,7 +9,7 @@ export default function ChangeEmail() {
   return (
     <>
       <Form className="flex w-3/4 flex-col items-center" method="patch">
-        <h2 className="text-bold border-t-2 border-green-200 pt-4 text-center text-2xl">
+        <h2 className="text-bold border-t-2 border-green-200 pt-4 text-center text-2xl text-white">
           Delete Account
         </h2>
 
@@ -28,7 +28,7 @@ export default function ChangeEmail() {
             Cancel
           </Link>
         </div>
-        <div id="delete" className="flex-col justify-center gap-4">
+        <div id="delete" className="mb-6 hidden flex-col justify-center gap-4">
           <p className="text-white">
             Are you sure you want to delete your account? This action cannot be
             undone.
