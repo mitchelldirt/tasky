@@ -10,7 +10,8 @@ import { formatUserDate } from "~/helpers/dueDateFunctions";
 
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { grabCookieValue } from "~/helpers/cookies";
-import { format } from "date-fns";
+import { addHours, format } from "date-fns";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 export const meta: V2_MetaFunction = () => {
   return [{ title: "Edit task" }];
@@ -116,19 +117,34 @@ export async function action({ request }: ActionArgs) {
     let time = false;
     let formattedDueDate = null;
 
+    if (dueDate && dueTime === "") {
+      const serverOffset = new Date().getTimezoneOffset();
+      formattedDueDate = addHours(
+        new Date(dueDate + "T00:00:00.000Z"),
+        serverOffset / 60
+      );
+      console.log("formatted due date", formattedDueDate);
+    }
+
     if (!dueDate && dueTime) {
       return badRequest({
         formError: "Please select a date",
       });
     }
 
-    if (dueDate && !dueTime && typeof dueDate === "string") {
-      formattedDueDate = new Date(dueDate + "T00:00:00.000Z");
-    }
-
-    if (dueDate && dueTime && typeof dueDate === "string") {
-      const justDate = format(new Date(dueDate), "yyyy-MM-dd");
-      formattedDueDate = formatUserDate(justDate, z.string().parse(dueTime));
+    if (
+      dueDate &&
+      dueTime &&
+      dueTime.length > 0 &&
+      typeof dueDate === "string"
+    ) {
+      const serverOffset = new Date().getTimezoneOffset();
+      const seconds = dueTime.length === 5 ? ":00" : "";
+      formattedDueDate = addHours(
+        new Date(dueDate + "T" + dueTime + seconds + ".000Z"),
+        serverOffset / 60
+      );
+      time = true;
     }
 
     //TODO: could probably not do a try catch here? Maybe you need to do it for zod though

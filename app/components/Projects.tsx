@@ -12,7 +12,7 @@ type projectList = {
 export default function ProjectList({ projects, noneId }: projectList) {
   return (
     <>
-      <div className="flex flex-col">
+      <div className="mb-24 flex flex-col">
         {projects && projects.length > 1 ? (
           projects
             .filter((project) => project.id !== noneId)

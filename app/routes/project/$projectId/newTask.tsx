@@ -47,7 +47,7 @@ export default function NewTask() {
 export async function action({ request }: ActionArgs) {
   const data = await request.formData();
 
-  const name = data.get("name");
+  const title = data.get("title");
   const projectId = data.get("projectId");
   const project = data.get("project");
   const description = data.get("description");
@@ -72,14 +72,14 @@ export async function action({ request }: ActionArgs) {
     return redirect("/login");
   }
 
-  if (!name || !projectId || !project) {
+  if (!title || !projectId || !project) {
     return badRequest({
       formError: "Please fill out all required fields",
     });
   }
 
   if (
-    typeof name !== "string" ||
+    typeof title !== "string" ||
     typeof projectId !== "string" ||
     typeof project !== "string" ||
     typeof description !== "string" ||
@@ -102,7 +102,7 @@ export async function action({ request }: ActionArgs) {
   await createTask(
     { userId: userId },
     { projectId: project },
-    name,
+    title,
     description,
     Number(priority),
     userLocalTime,

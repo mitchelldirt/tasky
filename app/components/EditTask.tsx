@@ -118,7 +118,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               </span>
             ) : null}
 
-            <div className="form-control w-full max-w-xs">
+            <div className="form-control w-full">
               <label className="label">
                 <span className="label-text">
                   Name
@@ -127,39 +127,14 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               </label>
               <input
                 type="text"
-                defaultValue={props.taskContext.task.title}
                 placeholder="Type here"
-                className="input-bordered input w-full max-w-xs"
+                className="input-bordered input w-full"
                 name="title"
+                defaultValue={props.taskContext.task.title}
                 required
                 minLength={3}
                 maxLength={27}
               />
-            </div>
-
-            <div className="form-control w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">
-                  Project
-                  <span className="ml-2 text-lg text-red-400">*</span>
-                </span>
-              </label>
-              <select
-                defaultValue={props.taskContext.task.projectId || "none"}
-                name="project"
-                className="select-bordered select"
-              >
-                <option value={props.noneId}>NONE</option>
-                {props.taskContext.projects
-                  ?.filter((project) => project.id !== props.noneId)
-                  .map((project) => {
-                    return (
-                      <option value={project.id} key={project.id}>
-                        {project.name}
-                      </option>
-                    );
-                  })}
-              </select>
             </div>
 
             <div className="form-control">
@@ -173,51 +148,78 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 name="description"
               ></textarea>
             </div>
+            <div className="flex flex-row justify-between gap-2">
+              <div className="form-control w-full max-w-xs">
+                <label className="label">
+                  <span className="label-text">Due date</span>
+                </label>
+                <input
+                  type="date"
+                  placeholder=""
+                  className="input-bordered input w-full max-w-xs"
+                  defaultValue={
+                    props.taskContext.task.dueDate
+                      ? extractDate(props.taskContext.task.dueDate)
+                      : ""
+                  }
+                  name="dueDate"
+                />
+              </div>
 
-            <div className="form-control w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">Due date</span>
-              </label>
-              <input
-                type="date"
-                placeholder=""
-                className="input-bordered input w-full max-w-xs"
-                defaultValue={
-                  props.taskContext.task.dueDate
-                    ? extractDate(props.taskContext.task.dueDate)
-                    : ""
-                }
-                name="dueDate"
-              />
+              <div className="form-control w-full max-w-xs">
+                <label className="label">
+                  <span className="label-text">Due time</span>
+                </label>
+                <input
+                  type="time"
+                  placeholder=""
+                  className="input-bordered input w-full max-w-xs"
+                  defaultValue={
+                    props.taskContext.task.time &&
+                    props.taskContext.task.dueDate
+                      ? extractTime(props.taskContext.task.dueDate)
+                      : ""
+                  }
+                  name="dueTime"
+                />
+              </div>
             </div>
 
-            <div className="form-control w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">Due time</span>
-              </label>
-              <input
-                type="time"
-                placeholder=""
-                className="input-bordered input w-full max-w-xs"
-                defaultValue={
-                  props.taskContext.task.time && props.taskContext.task.dueDate
-                    ? extractTime(props.taskContext.task.dueDate)
-                    : ""
-                }
-                name="dueTime"
-              />
-            </div>
-            <div className="form-control w-full max-w-xs">
-              <label className="label">
-                <span className="label-text">Priority</span>
-              </label>
-              <fieldset
-                defaultValue={props.taskContext.task.priority}
-                className="form-control w-full max-w-xs rounded-lg border-2 border-gray-400 border-opacity-20"
-              >
-                <div className="form-control ">
-                  <label className="label cursor-pointer">
-                    <span className="label-text">none</span>
+            <div className="flex flex-row justify-between gap-2">
+              <div className="form-control w-1/2 max-w-xs">
+                <label className="label">
+                  <span className="label-text">
+                    Project
+                    <span className="ml-2 text-lg text-red-400">*</span>
+                  </span>
+                </label>
+                <select
+                  defaultValue={props.taskContext.task.projectId || "none"}
+                  name="project"
+                  className="select-bordered select"
+                >
+                  <option value={props.noneId}>NONE</option>
+                  {props.taskContext.projects
+                    ?.filter((project) => project.id !== props.noneId)
+                    .map((project) => {
+                      return (
+                        <option value={project.id} key={project.id}>
+                          {project.name}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+
+              <div className="w-full max-w-xs">
+                <label className="label h-11">
+                  <span className="label-text">
+                    Priority
+                    <span className="ml-2 text-lg text-red-400">*</span>
+                  </span>
+                </label>
+                <fieldset className="form-control flex h-12 w-full max-w-xs flex-row items-center justify-around rounded-lg border-2 border-gray-400 border-opacity-20">
+                  <div className="tooltip h-6" data-tip="None">
                     <input
                       type="radio"
                       name="priority"
@@ -225,12 +227,9 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       className="radio checked:bg-gray-400"
                       defaultChecked={props.taskContext.task.priority === 4}
                     />
-                  </label>
-                </div>
+                  </div>
 
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <span className="label-text">low</span>
+                  <div className="tooltip h-6" data-tip="Low">
                     <input
                       type="radio"
                       name="priority"
@@ -238,25 +237,19 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       className="radio checked:bg-blue-400"
                       defaultChecked={props.taskContext.task.priority === 3}
                     />
-                  </label>
-                </div>
+                  </div>
 
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <span className="label-text">medium</span>
+                  <div className="tooltip h-6" data-tip="Medium">
                     <input
                       type="radio"
                       name="priority"
                       value={2}
-                      className="radio checked:bg-orange-400"
+                      className="radio self-center checked:bg-orange-400"
                       defaultChecked={props.taskContext.task.priority === 2}
                     />
-                  </label>
-                </div>
+                  </div>
 
-                <div className="form-control">
-                  <label className="label cursor-pointer">
-                    <span className="label-text">high</span>
+                  <div className="tooltip h-6" data-tip="High">
                     <input
                       type="radio"
                       name="priority"
@@ -264,9 +257,9 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                       className="radio checked:bg-red-400"
                       defaultChecked={props.taskContext.task.priority === 1}
                     />
-                  </label>
-                </div>
-              </fieldset>
+                  </div>
+                </fieldset>
+              </div>
             </div>
 
             <button
