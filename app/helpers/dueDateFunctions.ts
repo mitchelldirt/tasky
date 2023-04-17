@@ -125,12 +125,9 @@ export function formatUserDate(dueDate: string | null, dueTime: string) {
   if (dueDate === null) return null;
 
   const hoursOffset = new Date().getTimezoneOffset() / 60;
-  let date = addHours(
-    parseISO(dueDate + "T" + dueTime),
-    hoursOffset
-  );
+  let date = addHours(parseISO(dueDate + "T" + dueTime), hoursOffset);
 
-  console.log("date", date)
+  console.log("date", date);
 
   return date;
 }

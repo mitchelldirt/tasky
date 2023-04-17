@@ -37,6 +37,7 @@ export default function NewTaskModal({
   return (
     <>
       <input
+        aria-label="Create task modal ignore this"
         type="checkbox"
         id="createToDoModal"
         className="modal-toggle"
@@ -61,9 +62,9 @@ export default function NewTaskModal({
               ✕
             </label>
           </Link>
-          <h3 className="w-full text-center text-lg font-bold text-green-400">
+          <h1 className="w-full text-center text-lg font-bold text-green-400">
             Create Task
-          </h3>
+          </h1>
           <Form method="post">
             <input type="hidden" name="projectId" value={context.projectId} />
             <input type="hidden" name="noneId" value={context.noneId} />
@@ -109,9 +110,12 @@ export default function NewTaskModal({
             <div className="flex flex-row justify-between gap-2">
               <div className="form-control w-full max-w-xs">
                 <label className="label">
-                  <span className="label-text text-white">Due date</span>
+                  <span id="newTaskDueDate" className="label-text text-white">
+                    Due date
+                  </span>
                 </label>
                 <input
+                  aria-labelledby="newTaskDueDate"
                   type="date"
                   placeholder=""
                   className="input-bordered input w-full max-w-xs text-white"
@@ -122,9 +126,12 @@ export default function NewTaskModal({
 
               <div className="form-control w-full max-w-xs">
                 <label className="label">
-                  <span className="label-text text-white">Due time</span>
+                  <span id="newTaskDueTime" className="label-text text-white">
+                    Due time
+                  </span>
                 </label>
                 <input
+                  aria-labelledby="newTaskDueTime"
                   type="time"
                   placeholder=""
                   className="input-bordered input w-full max-w-xs text-white"
@@ -167,8 +174,14 @@ export default function NewTaskModal({
                   </span>
                 </label>
                 <fieldset className="form-control flex h-12 w-full max-w-xs flex-row items-center justify-around rounded-lg border-2 border-gray-400 border-opacity-20">
-                  <div className="tooltip h-6" data-tip="None">
+                  <div
+                    className="tooltip h-6"
+                    aria-label="No priority"
+                    id="priorityRadio1"
+                    data-tip="None"
+                  >
                     <input
+                      aria-labelledby="priorityRadio1"
                       type="radio"
                       name="priority"
                       value={4}
@@ -177,8 +190,14 @@ export default function NewTaskModal({
                     />
                   </div>
 
-                  <div className="tooltip h-6" data-tip="Low">
+                  <div
+                    className="tooltip h-6"
+                    aria-label="Low priority"
+                    id="priorityRadio2"
+                    data-tip="Low"
+                  >
                     <input
+                      aria-labelledby="priorityRadio2"
                       type="radio"
                       name="priority"
                       value={3}
@@ -186,8 +205,14 @@ export default function NewTaskModal({
                     />
                   </div>
 
-                  <div className="tooltip h-6" data-tip="Medium">
+                  <div
+                    className="tooltip h-6"
+                    aria-label="Medium priority"
+                    id="priorityRadio3"
+                    data-tip="Medium"
+                  >
                     <input
+                      aria-labelledby="priorityRadio3"
                       type="radio"
                       name="priority"
                       value={2}
@@ -195,8 +220,14 @@ export default function NewTaskModal({
                     />
                   </div>
 
-                  <div className="tooltip h-6" data-tip="High">
+                  <div
+                    className="tooltip h-6"
+                    aria-label="High priority"
+                    id="priorityRadio4"
+                    data-tip="High"
+                  >
                     <input
+                      aria-labelledby="priorityRadio4"
                       type="radio"
                       name="priority"
                       value={1}

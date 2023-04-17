@@ -15,6 +15,7 @@ export default function ChangeEmail() {
 
         <div className="mt-4 mb-6 flex flex-row gap-10">
           <button
+            aria-label="First of two buttons to delete your account"
             type="button"
             onClick={(e) => {
               document.getElementById("delete")?.classList.remove("hidden");
@@ -24,7 +25,11 @@ export default function ChangeEmail() {
           >
             DELETE
           </button>
-          <Link to={"/profile"} className="btn text-white">
+          <Link
+            aria-label="Cancel deletion of profile"
+            to={"/profile"}
+            className="btn text-white"
+          >
             Cancel
           </Link>
         </div>
@@ -33,10 +38,18 @@ export default function ChangeEmail() {
             Are you sure you want to delete your account? This action cannot be
             undone.
           </p>
-          <button type="submit" className="btn-error btn">
+          <button
+            aria-label="Permanently delete your profile"
+            type="submit"
+            className="btn-error btn"
+          >
             DELETE
           </button>
-          <Link to={"/profile"} className="btn text-white">
+          <Link
+            aria-label="Cancel deleting your profile"
+            to={"/profile"}
+            className="btn text-white"
+          >
             Cancel
           </Link>
         </div>

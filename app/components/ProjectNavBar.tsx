@@ -13,7 +13,11 @@ export default function ProjectNavBar({
   return (
     <div className="navbar">
       <div className="navbar-start">
-        <Link className="absolute top-4 left-4 text-green-400" to={`/home`}>
+        <Link
+          aria-label="Navigate back to the home page"
+          className="absolute top-4 left-4 text-green-400"
+          to={`/home`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -38,8 +42,15 @@ export default function ProjectNavBar({
       </div>
       <div className="navbar-center"></div>
       <div className="navbar-end">
-        <Link to={`/search`}>
-          <button className="btn-ghost btn-circle btn text-white">
+        <Link
+          id="projectNavSearchButton"
+          aria-label="Search for a task"
+          to={`/search`}
+        >
+          <button
+            aria-labelledby="projectNavSearchButton"
+            className="btn-ghost btn-circle btn text-white"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-8 w-8"
@@ -56,8 +67,15 @@ export default function ProjectNavBar({
             </svg>
           </button>
         </Link>
-        <Link to={`/project/${id}/newTask`}>
-          <button className="btn-ghost btn-circle btn">
+        <Link
+          id="projectNavNewTaskButton"
+          aria-label="Create a new task"
+          to={`/project/${id}/newTask`}
+        >
+          <button
+            aria-labelledby="projectNavNewTaskButton"
+            className="btn-ghost btn-circle btn"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -74,7 +92,10 @@ export default function ProjectNavBar({
             </svg>
           </button>
         </Link>
-        <div className="dropdown-end dropdown">
+        <button
+          aria-label="Open a menu to edit or delete the project"
+          className="dropdown-end dropdown"
+        >
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
             <div className="h-6 w-6 rounded-full">
               <svg
@@ -99,6 +120,7 @@ export default function ProjectNavBar({
           >
             <li>
               <Link
+                aria-label="Edit the project"
                 to={`/project/${id}/editProject`}
                 className="justify-between"
               >
@@ -107,6 +129,7 @@ export default function ProjectNavBar({
             </li>
             <li>
               <Link
+                aria-label="Delete the project"
                 to={`/project/${id}/deleteProject`}
                 className="justify-between"
               >
@@ -114,7 +137,7 @@ export default function ProjectNavBar({
               </Link>
             </li>
           </ul>
-        </div>
+        </button>
       </div>
     </div>
   );

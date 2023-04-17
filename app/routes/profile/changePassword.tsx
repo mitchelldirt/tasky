@@ -71,10 +71,21 @@ export default function ChangePassword() {
         </div>
 
         <div className="mt-4 mb-6 flex flex-row gap-10">
-          <Link to={"/profile"}>
-            <button className="btn-error btn">Cancel</button>
+          <Link
+            id="changePassword"
+            aria-label="Cancel password change"
+            to={"/profile"}
+          >
+            <button aria-labelledby="changePassword" className="btn-error btn">
+              Cancel
+            </button>
           </Link>
-          <button className="btn-success btn">Save</button>
+          <button
+            aria-label="Save your new password"
+            className="btn-success btn"
+          >
+            Save
+          </button>
         </div>
       </Form>
     </>

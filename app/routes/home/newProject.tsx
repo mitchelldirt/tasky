@@ -12,6 +12,7 @@ export default function NewProjectModal() {
   return (
     <>
       <input
+        aria-label="This is a modal"
         type="checkbox"
         id="createProjectModal"
         className="modal-toggle"
@@ -21,16 +22,16 @@ export default function NewProjectModal() {
       <div className="modal">
         <div className="modal-box relative">
           <Link to={`/home`}>
-            <label
-              htmlFor="createProjectModal"
-              className="btn-sm btn-circle btn absolute right-2 top-2"
+            <button
+              aria-label="Close modal"
+              className="btn-sm btn-circle btn absolute right-2 top-2 text-white"
             >
               ✕
-            </label>
+            </button>
           </Link>
-          <h3 className="w-full text-center text-lg font-bold">
+          <h1 className="w-full text-center text-lg font-bold text-green-400">
             Create Project
-          </h3>
+          </h1>
           <Form method="post">
             {actionData ? (
               <span className="mt-4 flex justify-center">
@@ -45,9 +46,12 @@ export default function NewProjectModal() {
 
             <div className="form-control w-full max-w-xs">
               <label className="label">
-                <span className="label-text">Name</span>
+                <span id="newProjectName" className="label-text text-white">
+                  Name
+                </span>
               </label>
               <input
+                aria-labelledby="newProjectName"
                 type="text"
                 placeholder="Type here"
                 className="input-bordered input w-full max-w-xs"
@@ -59,10 +63,13 @@ export default function NewProjectModal() {
 
             <div className="w-full max-w-xs">
               <label className="label">
-                <span className="label-text">Color</span>
+                <span id="newProjectColor" className="label-text text-white">
+                  Color
+                </span>
               </label>
               <div className="input mb-6 grid w-full grid-cols-5 justify-items-center gap-4">
                 <input
+                  aria-labelledby="newProjectColor"
                   value={"red"}
                   type="radio"
                   name="color"
@@ -71,6 +78,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  aria-label="Blue project color"
                   value={"blue"}
                   type="radio"
                   name="color"
@@ -79,6 +87,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  aria-label="Yellow project color"
                   value={"yellow"}
                   type="radio"
                   name="color"
@@ -87,6 +96,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  aria-label="Green project color"
                   value={"green"}
                   type="radio"
                   name="color"
@@ -95,6 +105,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  aria-label="Purple project color"
                   value={"purple"}
                   type="radio"
                   name="color"
@@ -103,6 +114,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  aria-label="Orange project color"
                   value={"orange"}
                   type="radio"
                   name="color"
@@ -111,6 +123,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  aria-label="Teal project color"
                   value={"teal"}
                   type="radio"
                   name="color"
@@ -119,6 +132,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  aria-label="Pink project color"
                   value={"pink"}
                   type="radio"
                   name="color"
@@ -127,6 +141,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  aria-label="White project color"
                   value={"white"}
                   type="radio"
                   name="color"
@@ -135,6 +150,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  aria-label="Lime green project color"
                   value={"lime"}
                   type="radio"
                   name="color"
@@ -146,6 +162,7 @@ export default function NewProjectModal() {
             </div>
 
             <button
+              aria-label="Create the new project"
               type="submit"
               className="btn w-full text-white hover:bg-green-400"
             >

@@ -57,10 +57,18 @@ export default function ChangeEmail() {
         </div>
 
         <div className="mt-4 mb-6 flex flex-row gap-10">
-          <Link to={"/profile"}>
-            <button className="btn-error btn">Cancel</button>
+          <Link
+            id="changeEmail"
+            aria-label="Cancel email change"
+            to={"/profile"}
+          >
+            <button aria-labelledby="changeEmail" className="btn-error btn">
+              Cancel
+            </button>
           </Link>
-          <button className="btn-success btn">Save</button>
+          <button aria-label="Save new email" className="btn-success btn">
+            Save
+          </button>
         </div>
       </Form>
     </>

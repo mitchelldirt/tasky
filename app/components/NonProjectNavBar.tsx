@@ -12,7 +12,11 @@ export default function NonProjectNavBar({
   return (
     <div className="navbar">
       <div className="navbar-start">
-        <Link className="absolute top-4 left-4 text-green-400" to={`/home`}>
+        <Link
+          aria-label="Navigate back to the home page"
+          className="absolute top-4 left-4 text-green-400"
+          to={`/home`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -33,8 +37,15 @@ export default function NonProjectNavBar({
       </div>
       <div className="navbar-center"></div>
       <div className="navbar-end">
-        <Link to={`/search`}>
-          <button className="btn-ghost btn-circle btn">
+        <Link
+          id="NonProjectNavBarSearch"
+          aria-label="Search for tasks"
+          to={`/search`}
+        >
+          <button
+            aria-labelledby="NonProjectNavBarSearch"
+            className="btn-ghost btn-circle btn"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-8 w-8 text-white"
@@ -51,8 +62,15 @@ export default function NonProjectNavBar({
             </svg>
           </button>
         </Link>
-        <Link to="newTask">
-          <button className="btn-ghost btn-circle btn">
+        <Link
+          id="nonProjectNavBarNewTask"
+          aria-label="Create a new task"
+          to="newTask"
+        >
+          <button
+            aria-labelledby="nonProjectNavBarNewTask"
+            className="btn-ghost btn-circle btn"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

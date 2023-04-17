@@ -5,7 +5,10 @@ export default function ProjectsHeader() {
     <>
       <div className="flex w-80 flex-row items-center justify-between">
         <h2 className="text-xl font-bold text-white">Projects</h2>
-        <Link to={"newProject"}>
+        <Link
+          aria-label="Create a new project to store tasks in"
+          to={"newProject"}
+        >
           <label htmlFor="createProjectModal" className="hover:cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"

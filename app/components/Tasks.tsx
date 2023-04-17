@@ -24,13 +24,15 @@ export default function Tasks({
   return (
     <>
       <main className="flex w-full flex-col items-center">
-        <ol className="flex w-full flex-col items-center md:w-3/4">
-          {/* TODO: Refactor the below to match how completed prop works. That way you can do completed instead of completed.completed */}
-          {(tasks && tasks.length > 0) ||
-          path.includes("completed") === true ||
-          path.includes("search") === true ||
-          path === "" ? (
-            tasks.map((task) => (
+        {tasks.length === 0 &&
+        path.includes("completed") === false &&
+        path.includes("search") === false &&
+        path !== "" ? (
+          <NoTasks />
+        ) : (
+          <ol className="flex w-full flex-col items-center md:w-3/4">
+            {/* TODO: Refactor the below to match how completed prop works. That way you can do completed instead of completed.completed */}
+            {tasks.map((task) => (
               <TaskView
                 title={{ title: task.title || "Error" }}
                 dueDate={{ dueDate: task.dueDate || new Date() }}
@@ -44,11 +46,9 @@ export default function Tasks({
                 key={task.id}
                 displayProject={displayProject}
               />
-            ))
-          ) : (
-            <NoTasks />
-          )}
-        </ol>
+            ))}
+          </ol>
+        )}
         <LiveReload />
       </main>
     </>

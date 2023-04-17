@@ -38,7 +38,11 @@ export default function Profile() {
 
   return (
     <>
-      <Link className="absolute top-4 left-4 text-green-400" to={`/home`}>
+      <Link
+        aria-label="Navigate back to the home page"
+        className="absolute top-4 left-4 text-green-400"
+        to={`/home`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -93,7 +97,7 @@ export default function Profile() {
         ) : null}
 
         <p className="text-white">Email: {data?.user?.email}</p>
-        <Link to={"changeEmail"}>
+        <Link aria-label="Change your email address" to={"changeEmail"}>
           <button className="btn gap-2 text-blue-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +117,7 @@ export default function Profile() {
           </button>
         </Link>
 
-        <Link to={"changePassword"}>
+        <Link aria-label="Change your password" to={"changePassword"}>
           <button className="btn gap-2 text-yellow-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +137,7 @@ export default function Profile() {
           </button>
         </Link>
 
-        <Link to={"deleteProfile"}>
+        <Link aria-label="Delete your account/profile" to={"deleteProfile"}>
           <button className="btn mb-6 gap-2 text-red-500">
             <svg
               xmlns="http://www.w3.org/2000/svg"

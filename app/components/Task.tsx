@@ -82,11 +82,12 @@ export default function TaskView({
   if (completed === false) {
     return (
       <>
-        <div className="mb-2 flex w-4/5 flex-row items-center gap-2">
+        <li className="mb-2 flex w-4/5 flex-row items-center gap-2">
           <Form method="patch" action={`/api/task/${id.id}`}>
             <input type="hidden" name="id" value={id.id} />
             <input type="hidden" name="restore" value={`${completed}`} />
             <button
+              aria-label="Mark task as completed"
               type="submit"
               onClick={(e) => addCompletionAnimation(e.target)}
               className={`h-8 w-8 appearance-none`}
@@ -127,7 +128,7 @@ export default function TaskView({
               remember to do this below in the completed view as well
             */}
             <span
-              className={`text-right text-sm text-white sm:w-2/3 text-${project.color}-400 w-2/5 break-words`}
+              className={`text-right text-sm text-white sm:w-3/5 text-${project.color}-400 w-2/5 break-words`}
             >
               {displayProject === true &&
               project.name.includes("NONE") === false
@@ -135,47 +136,50 @@ export default function TaskView({
                 : null}
             </span>
           </Link>
-        </div>
+        </li>
       </>
     );
   } else if (completed === true) {
     return (
       <>
-        <div className="mb-2 flex w-4/5 flex-row items-center gap-2">
+        <li className="mb-2 flex w-full flex-row items-center gap-2 px-4">
           <Form method="patch" action={`/api/task/${id.id}`}>
             <input type="hidden" name="id" value={id.id} />
             <input type="hidden" name="restore" value={`${completed}`} />
             <button
+              aria-label="Restore task so you can mark it as completed again"
               type="submit"
-              className="btn h-fit w-fit bg-white text-black hover:bg-green-200"
+              className=" btn h-8 w-16 bg-white text-xs text-black hover:bg-green-200 sm:w-24"
             >
               Restore Task
             </button>
           </Form>
 
-          <Link
-            to={`task/${id.id}`}
-            className="flex w-full flex-row justify-between border-b-2 border-gray-400"
-          >
+          <div className="flex w-9/12 flex-row items-center justify-between border-b-2 border-gray-400 sm:w-11/12">
             <div className="flex flex-col">
               <p className="text-white">{title.title}</p>
               {parsedDueDate?.date ? (
-                <div className={`${dueDateTextColor} flex flex-row gap-3`}>
-                  <p>Completed: {parsedDueDate.date}</p>
+                <div className={`${dueDateTextColor} flex flex-row gap-2`}>
+                  <p>
+                    Completed: <br />
+                    {parsedDueDate.date}
+                  </p>
                   <p>{parsedDueDate.time}</p>
                 </div>
               ) : null}
             </div>
             <span>{name.name}</span>
             {/* TODO: Put the none project id here instead of the includes */}
-            <span className={`text-${project.color}-500`}>
+            <span
+              className={`text-right text-sm text-white sm:w-3/5 text-${project.color}-400 w-1/4 break-words`}
+            >
               {displayProject === true &&
               project.name.includes("NONE") === false
                 ? project.name
                 : null}
             </span>
-          </Link>
-        </div>
+          </div>
+        </li>
       </>
     );
   } else {

@@ -29,7 +29,10 @@ export default function HomeNavBar({
       </div>
       <div className="navbar-end">
         <Link to={"/search"}>
-          <button className="btn-ghost btn-circle btn text-white">
+          <button
+            aria-label="search"
+            className="btn-ghost btn-circle btn text-white"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-8 w-8"
@@ -46,7 +49,11 @@ export default function HomeNavBar({
             </svg>
           </button>
         </Link>
-        <Link to={"newTask"} className="btn-ghost btn-circle btn">
+        <Link
+          aria-label="Create a new task"
+          to={"newTask"}
+          className="btn-ghost btn-circle btn"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -86,13 +93,20 @@ export default function HomeNavBar({
             className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <li>
-              <Link to={"/profile"} className="justify-between text-white">
+              <Link
+                aria-label="Profile page with stats"
+                to={"/profile"}
+                className="justify-between text-white"
+              >
                 Profile
               </Link>
             </li>
             <li>
               <Form className="p-0" action="/logout" method="post">
-                <button className="w-full py-2 px-4 text-left text-white">
+                <button
+                  aria-label="Logout of your account"
+                  className="w-full py-2 px-4 text-left text-white"
+                >
                   Logout
                 </button>
               </Form>

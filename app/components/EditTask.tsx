@@ -94,9 +94,9 @@ export default function EditTask({ ...props }: editTaskModalProps) {
               </div>
             </div>
           </div>
-          <h3 className="w-full text-center text-lg font-bold text-green-400">
+          <h1 className="w-full text-center text-lg font-bold text-green-400">
             Edit Task
-          </h3>
+          </h1>
           <Form method="patch">
             {actionData?.formError ? (
               <div className="w-full text-center text-red-700">
@@ -153,9 +153,16 @@ export default function EditTask({ ...props }: editTaskModalProps) {
             <div className="flex flex-row justify-between gap-2">
               <div className="form-control w-full max-w-xs">
                 <label className="label text-white">
-                  <span className="label-text text-white">Due date</span>
+                  <span
+                    id="editTaskDueDate"
+                    aria-label="Change the due date"
+                    className="label-text text-white"
+                  >
+                    Due date
+                  </span>
                 </label>
                 <input
+                  aria-labelledby="editTaskDueDate"
                   type="date"
                   placeholder=""
                   className="input-bordered input w-full max-w-xs text-white"
@@ -170,9 +177,16 @@ export default function EditTask({ ...props }: editTaskModalProps) {
 
               <div className="form-control w-full max-w-xs">
                 <label className="label">
-                  <span className="label-text text-white">Due time</span>
+                  <span
+                    id="editTaskDueTime"
+                    aria-label="Change the due time"
+                    className="label-text text-white"
+                  >
+                    Due time
+                  </span>
                 </label>
                 <input
+                  aria-labelledby="editTaskDueTime"
                   type="time"
                   placeholder=""
                   className="input-bordered input w-full max-w-xs text-white"
@@ -221,8 +235,14 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                   </span>
                 </label>
                 <fieldset className="form-control flex h-12 w-full max-w-xs flex-row items-center justify-around rounded-lg border-2 border-gray-400 border-opacity-20">
-                  <div className="tooltip h-6" data-tip="None">
+                  <div
+                    className="tooltip h-6"
+                    id="editTakePriorityRadio1"
+                    aria-label="No Priority"
+                    data-tip="None"
+                  >
                     <input
+                      aria-labelledby="editTakePriorityRadio1"
                       type="radio"
                       name="priority"
                       value={4}
@@ -231,8 +251,14 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                     />
                   </div>
 
-                  <div className="tooltip h-6" data-tip="Low">
+                  <div
+                    className="tooltip h-6"
+                    id="editTakePriorityRadio2"
+                    aria-label="Low Priority"
+                    data-tip="Low"
+                  >
                     <input
+                      aria-labelledby="editTakePriorityRadio2"
                       type="radio"
                       name="priority"
                       value={3}
@@ -241,8 +267,14 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                     />
                   </div>
 
-                  <div className="tooltip h-6" data-tip="Medium">
+                  <div
+                    className="tooltip h-6"
+                    id="editTakePriorityRadio3"
+                    aria-label="Medium Priority"
+                    data-tip="Medium"
+                  >
                     <input
+                      aria-labelledby="editTakePriorityRadio3"
                       type="radio"
                       name="priority"
                       value={2}
@@ -251,8 +283,14 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                     />
                   </div>
 
-                  <div className="tooltip h-6" data-tip="High">
+                  <div
+                    className="tooltip h-6"
+                    id="editTakePriorityRadio4"
+                    aria-label="High Priority"
+                    data-tip="High"
+                  >
                     <input
+                      aria-labelledby="editTakePriorityRadio4"
                       type="radio"
                       name="priority"
                       value={1}
