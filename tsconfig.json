@@ -1,5 +1,10 @@
 {
-  "exclude": ["./cypress", "./cypress.config.ts"],
+  "exclude": [
+    "./cypress",
+    "./cypress.config.ts",
+    "./e2e-examples",
+    "./playwright"
+  ],
   "include": [
     "remix.env.d.ts",
     "**/*.ts",
