@@ -11,3 +11,6 @@ node_modules
 /prisma/dev.db
 /prisma/db.sqlite
 /app/styles/tailwind.css
+/test-results/
+/playwright-report/
+/playwright/.cache/
