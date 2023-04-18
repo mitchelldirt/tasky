@@ -22,6 +22,9 @@ describe("smoke tests", () => {
     cy.get('[data-cy="joinPassword"]').type(loginForm.password);
     cy.get('[data-cy="joinSubmit"]').click();
 
+    // Not sure if this is the best way to do this
+    cy.wait(1000);
+
     cy.get('[data-cy="todayTasks"]');
     cy.get('[data-cy="completedTasks"]');
     cy.get('[data-cy="allTasks"]').click();
