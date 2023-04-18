@@ -82,7 +82,10 @@ export default function TaskView({
   if (completed === false) {
     return (
       <>
-        <li className="mb-2 flex w-4/5 flex-row items-center gap-2">
+        <li
+          data-cy="task"
+          className="mb-2 flex w-4/5 flex-row items-center gap-2"
+        >
           <Form method="patch" action={`/api/task/${id.id}`}>
             <input type="hidden" name="id" value={id.id} />
             <input type="hidden" name="restore" value={`${completed}`} />

@@ -71,7 +71,10 @@ export default function HomeNavBar({
         </Link>
         <div className="dropdown-end dropdown">
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
-            <div className="h-8 w-8 rounded-full text-white">
+            <div
+              data-cy="profileDropdownButton"
+              className="h-8 w-8 rounded-full text-white"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -94,6 +97,7 @@ export default function HomeNavBar({
           >
             <li>
               <Link
+                data-cy="profileMenuButton"
                 aria-label="Profile page with stats"
                 to={"/profile"}
                 className="justify-between text-white"
@@ -104,6 +108,7 @@ export default function HomeNavBar({
             <li>
               <Form className="p-0" action="/logout" method="post">
                 <button
+                  data-cy="profileLogoutButton"
                   aria-label="Logout of your account"
                   className="w-full py-2 px-4 text-left text-white"
                 >

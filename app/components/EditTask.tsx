@@ -128,6 +128,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 </span>
               </label>
               <input
+                data-cy="editTaskTitle"
                 type="text"
                 placeholder="Type here"
                 className="input-bordered input w-full  text-white"
@@ -144,6 +145,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                 <span className="label-text text-white">Description</span>
               </label>
               <textarea
+                data-cy="editTaskDescription"
                 className="textarea-bordered textarea h-24 text-white"
                 placeholder="Type here"
                 defaultValue={props.taskContext.task.description}
@@ -162,6 +164,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                   </span>
                 </label>
                 <input
+                  data-cy="editTaskDueDate"
                   aria-labelledby="editTaskDueDate"
                   type="date"
                   placeholder=""
@@ -186,6 +189,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                   </span>
                 </label>
                 <input
+                  data-cy="editTaskDueTime"
                   aria-labelledby="editTaskDueTime"
                   type="time"
                   placeholder=""
@@ -210,6 +214,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                   </span>
                 </label>
                 <select
+                  data-cy="editTaskProject"
                   defaultValue={props.taskContext.task.projectId || "none"}
                   name="project"
                   className="select-bordered select text-white"
@@ -242,6 +247,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                     data-tip="None"
                   >
                     <input
+                      data-cy="editTaskPriorityNone"
                       aria-labelledby="editTakePriorityRadio1"
                       type="radio"
                       name="priority"
@@ -258,6 +264,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                     data-tip="Low"
                   >
                     <input
+                      data-cy="editTaskPriorityLow"
                       aria-labelledby="editTakePriorityRadio2"
                       type="radio"
                       name="priority"
@@ -274,6 +281,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                     data-tip="Medium"
                   >
                     <input
+                      data-cy="editTaskPriorityMedium"
                       aria-labelledby="editTakePriorityRadio3"
                       type="radio"
                       name="priority"
@@ -290,6 +298,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                     data-tip="High"
                   >
                     <input
+                      data-cy="editTaskPriorityHigh"
                       aria-labelledby="editTakePriorityRadio4"
                       type="radio"
                       name="priority"
@@ -303,6 +312,7 @@ export default function EditTask({ ...props }: editTaskModalProps) {
             </div>
 
             <button
+              data-cy="editTaskSubmit"
               type="submit"
               className="btn mt-4 w-full text-white hover:bg-green-400"
             >

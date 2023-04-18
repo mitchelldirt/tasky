@@ -4,6 +4,7 @@ export default function ViewsMenu() {
   return (
     <div className="mb-6 flex flex-col">
       <Link
+        data-cy="allTasks"
         to={"/project/filteredView/all"}
         className="btn w-80 justify-start rounded-b-none border-0 border-b-2 border-slate-400 text-white hover:border-slate-200"
       >
@@ -27,6 +28,7 @@ export default function ViewsMenu() {
         </div>
       </Link>
       <Link
+        data-cy="todayTasks"
         to={`/project/filteredView/today`}
         className="btn w-80 justify-start rounded-none border-0 border-b-2 border-slate-400 hover:border-slate-200"
       >
@@ -49,6 +51,7 @@ export default function ViewsMenu() {
         </div>
       </Link>
       <Link
+        data-cy="completedTasks"
         to={"/project/filteredView/completed"}
         className="btn w-80 justify-start rounded-t-none border-0 text-white hover:border-b-2 hover:border-slate-200"
       >
