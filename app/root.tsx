@@ -98,10 +98,6 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
-        <script
-          async
-          src={"https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"}
-        />
         <div
           ref={toast}
           className="toast-center toast toast-top absolute left-1/2 hidden w-3/4 animate-slide-up px-0 sm:w-1/3 lg:w-1/4"

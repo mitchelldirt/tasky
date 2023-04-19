@@ -14,6 +14,7 @@ export default function ProjectNavBar({
     <div className="navbar">
       <div className="navbar-start">
         <Link
+          data-cy="projectNavBarBack"
           aria-label="Navigate back to the home page"
           className="absolute top-4 left-4 text-green-400"
           to={`/home`}

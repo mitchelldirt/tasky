@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { format } from "date-fns";
 
 describe("smoke tests", () => {
   afterEach(() => {
@@ -39,12 +40,55 @@ describe("smoke tests", () => {
     cy.get('[data-cy="indexLogin"]');
   });
 
+  //*DONE
+  it("should allow you to make a task, check for the correct info, edit it, duplicate it, and delete it", () => {
+    const task = {
+      title: faker.lorem.words(1),
+      description: faker.lorem.sentences(1),
+      dueDate: format(faker.date.soon(1), "yyyy-MM-dd"),
+      dueTime: "12:00",
+    };
 
-  it("should allow you to make a task, edit it, delete it, and duplicate it", () => {
     cy.login();
 
+    cy.setCookie("tz", "America/New_York");
     cy.visitAndCheck("/");
 
+    cy.get('[data-cy="indexViewTasks"]').click();
+    cy.get('[data-cy="homeNavBarNewTaskButton"]').click();
+
+    cy.get('[data-cy="newTaskTitle"]').type(task.title);
+    cy.get('[data-cy="newTaskDescription"]').type(task.description);
+    cy.get('[data-cy="newTaskDueDate"]').type(task.dueDate);
+    cy.get('[data-cy="newTaskDueTime"]').type(task.dueTime);
+    cy.get('[data-cy="newTaskProject"]').select("PERSONAL");
+    cy.get('[data-cy="newTaskPriorityLow"]').click();
+    cy.get('[data-cy="newTaskCreate"]').click();
+
+    cy.get('[data-cy="project-PERSONAL"]').click();
+
+    cy.findByText(task.title).parent().parent().children().findByText("Tomorrow").should("exist");
+    cy.findByText(task.title).parent().parent().children().findByText("4:00 PM").should("exist");
+
+    cy.findByText(task.title).should("exist").click();
+
+    const newTaskTitle = "edited task that updates";
+
+    cy.get('[data-cy="editTaskTitle"]').clear().type(newTaskTitle);
+    cy.get('[data-cy="editTaskSubmit"]').click();
+    cy.findByText(newTaskTitle).should("exist").click();
+
+    cy.get('[data-cy="editTaskActionsMenu"]').click();
+    cy.get('[data-cy="editTaskDuplicate"]').click();
+
+    cy.findAllByText(newTaskTitle).should("have.length", 2);
+
+    cy.findAllByText(newTaskTitle).first().click();
+
+    cy.get('[data-cy="editTaskActionsMenu"]').click();
+    cy.get('[data-cy="editTaskDelete"]').click();
+
+    cy.findAllByText(newTaskTitle).should("have.length", 1);
   });
 
   //*DONE
@@ -63,10 +107,43 @@ describe("smoke tests", () => {
     cy.get('[data-cy="task"]').first().should("contain", "PERSONAL");
   });
 
+  //*DONE
   it("Should allow you to complete a task, see the current day completed task count go up by one, and see the task in the completed tasks list", () => {
+    const task = {
+      title: faker.lorem.words(1),
+      description: faker.lorem.sentences(1),
+      dueDate: format(faker.date.future(), "yyyy-MM-dd"),
+      dueTime: "12:00",
+    };
+
     cy.login();
 
+    cy.setCookie("tz", "America/New_York");
     cy.visitAndCheck("/");
+
+    cy.get('[data-cy="indexViewTasks"]').click();
+    cy.get('[data-cy="tasksCompletedToday"]').should("contain", "0");
+    cy.get('[data-cy="homeNavBarNewTaskButton"]').click();
+
+    cy.get('[data-cy="newTaskTitle"]').type(task.title);
+    cy.get('[data-cy="newTaskDescription"]').type(task.description);
+    cy.get('[data-cy="newTaskDueDate"]').type(task.dueDate);
+    cy.get('[data-cy="newTaskDueTime"]').type(task.dueTime);
+    cy.get('[data-cy="newTaskProject"]').select("PERSONAL");
+    cy.get('[data-cy="newTaskPriorityLow"]').click();
+    cy.get('[data-cy="newTaskCreate"]').click();
+
+    cy.get('[data-cy="project-PERSONAL"]').click();
+    cy.findByText(task.title).should("exist");
+    cy.findByText(task.title).parent().parent().parent().children().first().click();
+
+    cy.findByText(task.title).should("not.exist");
+    cy.get('[data-cy="projectNavBarBack"]').click();
+
+    cy.get('[data-cy="tasksCompletedToday"]').should("contain", "1");
+
+    cy.get('[data-cy="completedTasks"]').click();
+    cy.findByText(task.title).should("exist");
   });
 
   it("Should allow you to search for a task and see the results", () => {

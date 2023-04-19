@@ -87,6 +87,7 @@ export default function NewTaskModal({
                 </span>
               </label>
               <input
+                data-cy="newTaskTitle"
                 type="text"
                 placeholder="Type here"
                 className="input-bordered input w-full text-white"
@@ -102,6 +103,7 @@ export default function NewTaskModal({
                 <span className="label-text text-white">Description</span>
               </label>
               <textarea
+                data-cy="newTaskDescription"
                 className="textarea-bordered textarea h-24 text-white"
                 placeholder="Type here"
                 name="description"
@@ -115,6 +117,7 @@ export default function NewTaskModal({
                   </span>
                 </label>
                 <input
+                  data-cy="newTaskDueDate"
                   aria-labelledby="newTaskDueDate"
                   type="date"
                   placeholder=""
@@ -131,6 +134,7 @@ export default function NewTaskModal({
                   </span>
                 </label>
                 <input
+                  data-cy="newTaskDueTime"
                   aria-labelledby="newTaskDueTime"
                   type="time"
                   placeholder=""
@@ -149,6 +153,7 @@ export default function NewTaskModal({
                   </span>
                 </label>
                 <select
+                  data-cy="newTaskProject"
                   defaultValue={context.projectId || "none"}
                   name="project"
                   className="select-bordered select text-white"
@@ -181,6 +186,7 @@ export default function NewTaskModal({
                     data-tip="None"
                   >
                     <input
+                      data-cy="newTaskPriorityNone"
                       aria-labelledby="priorityRadio1"
                       type="radio"
                       name="priority"
@@ -197,6 +203,7 @@ export default function NewTaskModal({
                     data-tip="Low"
                   >
                     <input
+                      data-cy="newTaskPriorityLow"
                       aria-labelledby="priorityRadio2"
                       type="radio"
                       name="priority"
@@ -212,6 +219,7 @@ export default function NewTaskModal({
                     data-tip="Medium"
                   >
                     <input
+                      data-cy="newTaskPriorityMedium"
                       aria-labelledby="priorityRadio3"
                       type="radio"
                       name="priority"
@@ -227,6 +235,7 @@ export default function NewTaskModal({
                     data-tip="High"
                   >
                     <input
+                      data-cy="newTaskPriorityHigh"
                       aria-labelledby="priorityRadio4"
                       type="radio"
                       name="priority"
@@ -239,6 +248,7 @@ export default function NewTaskModal({
             </div>
 
             <button
+              data-cy="newTaskCreate"
               type="submit"
               className="btn mt-4 w-full text-white hover:bg-green-400"
             >

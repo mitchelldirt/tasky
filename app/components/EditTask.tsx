@@ -26,7 +26,11 @@ export default function EditTask({ ...props }: editTaskModalProps) {
           <div className="absolute right-2 top-2">
             <div className="flex flex-row items-center justify-center gap-3">
               <div className="dropdown-end dropdown">
-                <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
+                <label
+                  data-cy="editTaskActionsMenu"
+                  tabIndex={0}
+                  className="btn-ghost btn-circle avatar btn"
+                >
                   <div className="h-6 w-6 rounded-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +63,11 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                         name="id"
                         value={props.taskContext.task.id}
                       />
-                      <button className="h-full w-full" type="submit">
+                      <button
+                        data-cy="editTaskDuplicate"
+                        className="h-full w-full"
+                        type="submit"
+                      >
                         Duplicate
                       </button>
                     </Form>
@@ -75,7 +83,11 @@ export default function EditTask({ ...props }: editTaskModalProps) {
                         name="id"
                         value={props.taskContext.task.id}
                       />
-                      <button className="h-full w-full" type="submit">
+                      <button
+                        data-cy="editTaskDelete"
+                        className="h-full w-full"
+                        type="submit"
+                      >
                         Delete
                       </button>
                     </Form>

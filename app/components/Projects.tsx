@@ -21,6 +21,7 @@ export default function ProjectList({ projects, noneId }: projectList) {
 
               return (
                 <Link
+                  data-cy={`project-${project.name}`}
                   className={`btn w-80 justify-start rounded-none border-0 border-b-2 border-slate-400 first:rounded-t-md last:rounded-b-md hover:border-slate-200`}
                   key={project.id}
                   to={`/project/${project.id}`}
