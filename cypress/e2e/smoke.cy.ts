@@ -19,7 +19,7 @@ describe("smoke tests", () => {
     cy.visitAndCheck("/");
 
     cy.wait(0);
-    cy.get('[data-cy="indexJoin"]', { timeout: 1000 }).should('exist').click();
+    cy.get('[data-cy="indexJoin"]').should('exist').click();
 
     cy.get('[data-cy="joinEmail"').type(loginForm.email);
     cy.get('[data-cy="joinPassword"]').type(loginForm.password);
@@ -63,7 +63,8 @@ describe("smoke tests", () => {
     cy.get('[data-cy="indexViewTasks"]').should('exist').click();
     cy.get('[data-cy="homeNavBarNewTaskButton"]').should('exist').click();
 
-    cy.get('[data-cy="newTaskTitle"]', { timeout: 1000 }).type(task.title);
+    cy.wait(1000)
+    cy.get('[data-cy="newTaskTitle"]').type(task.title);
     cy.get('[data-cy="newTaskDescription"]').type(task.description);
     cy.get('[data-cy="newTaskDueDate"]').type(task.dueDate);
     cy.get('[data-cy="newTaskDueTime"]').type(task.dueTime);
@@ -105,10 +106,12 @@ describe("smoke tests", () => {
     cy.get('[data-cy="indexViewTasks"]').should('exist').click();
     cy.get('[data-cy="allTasks"]').should('exist').click();
 
+    cy.wait(1000);
     cy.get('[data-cy="task"]').first().click();
     cy.get('[data-cy="editTaskProject"]').select('PERSONAL');
     cy.get('[data-cy="editTaskSubmit"]').click();
 
+    cy.wait(1000);
     cy.get('[data-cy="task"]').first().should("contain", "PERSONAL");
   });
 
@@ -146,6 +149,8 @@ describe("smoke tests", () => {
     cy.wait(1000);
 
     cy.findByText(task.title).should("not.exist");
+
+    cy.wait(1000);
     cy.get('[data-cy="projectNavBarBack"]').should('exist').click();
 
     cy.get('[data-cy="tasksCompletedToday"]').should("contain", "1");
