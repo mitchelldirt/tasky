@@ -63,7 +63,7 @@ export default function Profile() {
         <h1 className="text-3xl font-bold text-green-400">Profile</h1>
 
         <h2 className="text-2xl text-white">Lifetime Stats</h2>
-        <p className="text-lg text-white">
+        <p data-cy="totalCompletedTasks" className="text-lg text-white">
           Total Completed Tasks: {data.totalTasks ? data.totalTasks : 0}
         </p>
         {Array.isArray(data.projectTasks) && data.projectTasks.length > 0 ? (

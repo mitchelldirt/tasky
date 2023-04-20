@@ -30,6 +30,7 @@ export default function HomeNavBar({
       <div className="navbar-end">
         <Link to={"/search"}>
           <button
+            data-cy="homeNavBarSearchButton"
             aria-label="search"
             className="btn-ghost btn-circle btn text-white"
           >

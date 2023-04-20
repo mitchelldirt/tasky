@@ -6,6 +6,7 @@ export default function ProjectsHeader() {
       <div className="flex w-80 flex-row items-center justify-between">
         <h2 className="text-xl font-bold text-white">Projects</h2>
         <Link
+          data-cy="createProjectButton"
           aria-label="Create a new project to store tasks in"
           to={"newProject"}
         >

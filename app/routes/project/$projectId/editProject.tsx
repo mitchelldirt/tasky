@@ -57,6 +57,7 @@ export default function NewProjectModal() {
                 <span className="label-text">Name</span>
               </label>
               <input
+                data-cy="editProjectName"
                 type="text"
                 placeholder="Type here"
                 className="input-bordered input w-full max-w-xs"
@@ -166,6 +167,7 @@ export default function NewProjectModal() {
             </div>
 
             <button
+              data-cy="editProjectSubmit"
               type="submit"
               className="btn w-full text-white hover:bg-green-400"
             >

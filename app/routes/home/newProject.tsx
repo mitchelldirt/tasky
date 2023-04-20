@@ -51,6 +51,7 @@ export default function NewProjectModal() {
                 </span>
               </label>
               <input
+                data-cy="newProjectName"
                 aria-labelledby="newProjectName"
                 type="text"
                 placeholder="Type here"
@@ -96,6 +97,7 @@ export default function NewProjectModal() {
                 />
 
                 <input
+                  data-cy="newProjectGreen"
                   aria-label="Green project color"
                   value={"green"}
                   type="radio"
@@ -162,6 +164,7 @@ export default function NewProjectModal() {
             </div>
 
             <button
+              data-cy="newProjectCreate"
               aria-label="Create the new project"
               type="submit"
               className="btn w-full text-white hover:bg-green-400"

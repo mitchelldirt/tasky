@@ -63,6 +63,7 @@ export default function NewProjectModal() {
             </Link>
 
             <button
+              data-cy="deleteProjectConfirm"
               type="submit"
               className="btn w-full text-red-400 hover:border-red-400"
             >

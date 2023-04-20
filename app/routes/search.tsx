@@ -62,6 +62,7 @@ export default function Search() {
       <SearchNavBar previousRoute={previousRoute} />
       <div className="flex w-full flex-col items-center">
         <input
+          data-cy="searchInput"
           type="text"
           name="search"
           placeholder="Search"

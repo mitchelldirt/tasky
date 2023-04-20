@@ -6,7 +6,6 @@ describe("smoke tests", () => {
     cy.cleanupUser();
   });
 
-  //*DONE
   it("should allow you to register and login, see the default tasks, and confirm the first one is correct", () => {
     const loginForm = {
       email: `${faker.internet.userName()}@example.com`,
@@ -40,12 +39,18 @@ describe("smoke tests", () => {
     cy.get('[data-cy="indexLogin"]');
   });
 
-  //*DONE
   it("should allow you to make a task, check for the correct info, edit it, duplicate it, and delete it", () => {
+    // Get today's date
+    const today = new Date();
+
+    // Set tomorrow's date by adding 1 day to today's date
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
     const task = {
       title: faker.lorem.words(1),
       description: faker.lorem.sentences(1),
-      dueDate: format(faker.date.soon(1), "yyyy-MM-dd"),
+      dueDate: format(faker.date.between(tomorrow, tomorrow), "yyyy-MM-dd"),
       dueTime: "12:00",
     };
 
@@ -91,7 +96,6 @@ describe("smoke tests", () => {
     cy.findAllByText(newTaskTitle).should("have.length", 1);
   });
 
-  //*DONE
   it("Should allow you to move a task to a different project", () => {
     cy.login();
 
@@ -107,7 +111,6 @@ describe("smoke tests", () => {
     cy.get('[data-cy="task"]').first().should("contain", "PERSONAL");
   });
 
-  //*DONE
   it("Should allow you to complete a task, see the current day completed task count go up by one, and see the task in the completed tasks list", () => {
     const task = {
       title: faker.lorem.words(1),
@@ -137,6 +140,9 @@ describe("smoke tests", () => {
     cy.findByText(task.title).should("exist");
     cy.findByText(task.title).parent().parent().parent().children().first().click();
 
+    // wait for the task to be marked as completed in the database
+    cy.wait(1000);
+
     cy.findByText(task.title).should("not.exist");
     cy.get('[data-cy="projectNavBarBack"]').click();
 
@@ -150,21 +156,79 @@ describe("smoke tests", () => {
     cy.login();
 
     cy.visitAndCheck("/");
+
+    cy.get('[data-cy="indexViewTasks"]').click();
+
+    cy.get('[data-cy="homeNavBarSearchButton"]').click();
+
+    cy.get('[data-cy="searchInput"]').type("task");
+    cy.get('[data-cy="task"]').should("have.length.at.least", 5);
   });
 
   it("should allow you to make a project, edit it, and delete it", () => {
     const testProject = {
-      title: faker.lorem.words(1),
-      body: faker.lorem.sentences(1),
+      title: faker.lorem.words(2),
     };
+
     cy.login();
 
     cy.visitAndCheck("/");
+
+    cy.get('[data-cy="indexViewTasks"]').click();
+
+    cy.get('[data-cy="createProjectButton"]').click();
+
+    cy.get('[data-cy="newProjectName"]').type(testProject.title);
+    cy.get('[data-cy="newProjectGreen"]').click();
+    cy.get('[data-cy="newProjectCreate"]').click();
+
+    cy.get(`[data-cy="project-${testProject.title.toUpperCase()}"]`).click();
+
+    cy.get(`[data-cy="projectNavEditButton"]`).click();
+    cy.get(`[data-cy="editProject"]`).click();
+
+    cy.get(`[data-cy="editProjectName"]`).clear().type("edited project");
+
+    cy.get(`[data-cy="editProjectSubmit"]`).click();
+
+    cy.get(`[data-cy="projectNavEditButton"]`).click();
+    cy.get(`[data-cy="deleteProject"]`).click();
+    cy.get(`[data-cy="deleteProjectConfirm"]`).click();
+
+
+    cy.findByText("EDITED PROJECT").should("not.exist");
   });
 
   it("Should allow you to complete two tasks in the two default projects and see the profile page show the correct number of completed tasks", () => {
     cy.login();
 
     cy.visitAndCheck("/");
+
+    cy.get('[data-cy="indexViewTasks"]').click();
+    cy.get('[data-cy="tasksCompletedToday"]').should("contain", "0");
+
+    cy.get('[data-cy="project-PERSONAL"]').click();
+    cy.get('[data-cy="task"]').first().children().first().click();
+
+    // wait for the task to be marked as completed in the database
+    cy.wait(1000);
+
+    cy.get('[data-cy="projectNavBarBack"]').click();
+
+    cy.get('[data-cy="project-WORK"]').click();
+    cy.get('[data-cy="task"]').first().children().first().click();
+
+    // wait for the task to be marked as completed in the database
+    cy.wait(1000);
+
+    cy.get('[data-cy="projectNavBarBack"]').click();
+
+    cy.get('[data-cy="tasksCompletedToday"]').should("contain", "2");
+
+    cy.get('[data-cy="profileDropdownButton"]').click();
+    cy.get('[data-cy="profileMenuButton"]').click();
+
+    cy.get('[data-cy="totalCompletedTasks"]').should("contain", "2");
+    cy.findAllByText("1").should("have.length", 2);
   });
 });

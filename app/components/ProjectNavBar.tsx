@@ -94,6 +94,7 @@ export default function ProjectNavBar({
           </button>
         </Link>
         <button
+          data-cy="projectNavEditButton"
           aria-label="Open a menu to edit or delete the project"
           className="dropdown-end dropdown"
         >
@@ -121,6 +122,7 @@ export default function ProjectNavBar({
           >
             <li>
               <Link
+                data-cy="editProject"
                 aria-label="Edit the project"
                 to={`/project/${id}/editProject`}
                 className="justify-between"
@@ -130,6 +132,7 @@ export default function ProjectNavBar({
             </li>
             <li>
               <Link
+                data-cy="deleteProject"
                 aria-label="Delete the project"
                 to={`/project/${id}/deleteProject`}
                 className="justify-between"
