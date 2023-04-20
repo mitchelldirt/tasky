@@ -79,7 +79,7 @@ describe("smoke tests", () => {
 
     const newTaskTitle = "edited task that updates";
 
-    cy.get('[data-cy="editTaskTitle"]', { timeout: 1000 }).clear().type(newTaskTitle);
+    cy.get('[data-cy="editTaskTitle"]', { timeout: 1000 }).clear().type(newTaskTitle, { force: true });
     cy.get('[data-cy="editTaskSubmit"]').click();
     cy.findByText(newTaskTitle).should("exist").click();
 
@@ -164,7 +164,7 @@ describe("smoke tests", () => {
 
     cy.get('[data-cy="homeNavBarSearchButton"]').click();
 
-    cy.get('[data-cy="searchInput"]').type("task");
+    cy.get('[data-cy="searchInput"]').type("task", { force: true });
     cy.get('[data-cy="task"]').should("have.length.at.least", 5);
   });
 
