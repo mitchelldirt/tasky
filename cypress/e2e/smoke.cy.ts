@@ -16,6 +16,7 @@ describe("smoke tests", () => {
 
     cy.visitAndCheck("/");
 
+    cy.wait(0);
     cy.get('[data-cy="indexJoin"]').should('exist').click();
 
     cy.get('[data-cy="joinEmail"').type(loginForm.email);
@@ -56,6 +57,7 @@ describe("smoke tests", () => {
     cy.setCookie("tz", "America/New_York");
     cy.visitAndCheck("/");
 
+    cy.wait(0);
     cy.get('[data-cy="indexViewTasks"]').should('exist').click();
     cy.get('[data-cy="homeNavBarNewTaskButton"]').should('exist').click();
 
@@ -97,6 +99,7 @@ describe("smoke tests", () => {
 
     cy.visitAndCheck("/");
 
+    cy.wait(0);
     cy.get('[data-cy="indexViewTasks"]').should('exist').click();
     cy.get('[data-cy="allTasks"]').should('exist').click();
 
@@ -120,6 +123,7 @@ describe("smoke tests", () => {
     cy.setCookie("tz", "America/New_York");
     cy.visitAndCheck("/");
 
+    cy.wait(0);
     cy.get('[data-cy="indexViewTasks"]').should('exist').click();
     cy.get('[data-cy="tasksCompletedToday"]').should("contain", "0");
     cy.get('[data-cy="homeNavBarNewTaskButton"]').click();
@@ -153,6 +157,7 @@ describe("smoke tests", () => {
 
     cy.visitAndCheck("/");
 
+    cy.wait(0);
     cy.get('[data-cy="indexViewTasks"]').should('exist').click();
 
     cy.get('[data-cy="homeNavBarSearchButton"]').click();
@@ -170,6 +175,7 @@ describe("smoke tests", () => {
 
     cy.visitAndCheck("/");
 
+    cy.wait(0);
     cy.get('[data-cy="indexViewTasks"]').should('exist').click();
 
     cy.get('[data-cy="createProjectButton"]').should('exist').click();
@@ -199,6 +205,7 @@ describe("smoke tests", () => {
 
     cy.visitAndCheck("/");
 
+    cy.wait(0);
     cy.get('[data-cy="indexViewTasks"]').should('exist').click();
     cy.get('[data-cy="tasksCompletedToday"]').should("contain", "0");
 
