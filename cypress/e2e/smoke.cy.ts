@@ -16,6 +16,9 @@ describe("smoke tests", () => {
 
     cy.visitAndCheck("/");
 
+    // Test failed here because detached from DOM
+    cy.wait(1000);
+
     cy.get('[data-cy="indexJoin"]').click();
 
     cy.get('[data-cy="joinEmail"').type(loginForm.email);
@@ -123,6 +126,9 @@ describe("smoke tests", () => {
 
     cy.setCookie("tz", "America/New_York");
     cy.visitAndCheck("/");
+
+    // Test failed here because detached from DOM
+    cy.wait(1000);
 
     cy.get('[data-cy="indexViewTasks"]').click();
     cy.get('[data-cy="tasksCompletedToday"]').should("contain", "0");
