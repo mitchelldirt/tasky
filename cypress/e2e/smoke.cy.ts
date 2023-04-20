@@ -1,6 +1,8 @@
 import { faker } from "@faker-js/faker";
 import { format } from "date-fns";
 
+//TODO: If you're looking for an element on initial page load, add a timeout 1000ms or so to allow the page to load 
+
 describe("smoke tests", () => {
   afterEach(() => {
     cy.cleanupUser();
@@ -17,7 +19,7 @@ describe("smoke tests", () => {
     cy.visitAndCheck("/");
 
     cy.wait(0);
-    cy.get('[data-cy="indexJoin"]').should('exist').click();
+    cy.get('[data-cy="indexJoin"]', { timeout: 1000 }).should('exist').click();
 
     cy.get('[data-cy="joinEmail"').type(loginForm.email);
     cy.get('[data-cy="joinPassword"]').type(loginForm.password);
@@ -61,7 +63,7 @@ describe("smoke tests", () => {
     cy.get('[data-cy="indexViewTasks"]').should('exist').click();
     cy.get('[data-cy="homeNavBarNewTaskButton"]').should('exist').click();
 
-    cy.get('[data-cy="newTaskTitle"]').type(task.title);
+    cy.get('[data-cy="newTaskTitle"]', { timeout: 1000 }).type(task.title);
     cy.get('[data-cy="newTaskDescription"]').type(task.description);
     cy.get('[data-cy="newTaskDueDate"]').type(task.dueDate);
     cy.get('[data-cy="newTaskDueTime"]').type(task.dueTime);
@@ -69,7 +71,7 @@ describe("smoke tests", () => {
     cy.get('[data-cy="newTaskPriorityLow"]').click();
     cy.get('[data-cy="newTaskCreate"]').click();
 
-    cy.get('[data-cy="project-PERSONAL"]').should('exist').click();
+    cy.get('[data-cy="project-PERSONAL"]', { timeout: 1000 }).should('exist').click();
 
     cy.findByText(task.title).parent().parent().children().findByText("Tomorrow").should("exist");
 
@@ -77,7 +79,7 @@ describe("smoke tests", () => {
 
     const newTaskTitle = "edited task that updates";
 
-    cy.get('[data-cy="editTaskTitle"]').clear().type(newTaskTitle);
+    cy.get('[data-cy="editTaskTitle"]', { timeout: 1000 }).clear().type(newTaskTitle);
     cy.get('[data-cy="editTaskSubmit"]').click();
     cy.findByText(newTaskTitle).should("exist").click();
 
