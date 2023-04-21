@@ -191,6 +191,7 @@ describe("smoke tests", () => {
     cy.get('[data-cy="newProjectGreen"]').click();
     cy.get('[data-cy="newProjectCreate"]').click();
 
+    cy.wait(1000);
     cy.get(`[data-cy="project-${testProject.title.toUpperCase()}"]`).should('exist').click();
 
     cy.get(`[data-cy="projectNavEditButton"]`).should('exist').click();
