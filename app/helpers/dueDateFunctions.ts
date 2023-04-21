@@ -102,7 +102,7 @@ export function parseDueDate(
   };
 }
 
-function isBeforeNow(dueDate: Date, accountForTime: boolean): boolean {
+export function isBeforeNow(dueDate: Date, accountForTime: boolean): boolean {
   if (accountForTime) return isBefore(dueDate, new Date());
 
   if (dueDate == new Date()) return false;
