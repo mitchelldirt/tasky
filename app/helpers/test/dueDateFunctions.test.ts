@@ -12,11 +12,13 @@ describe("Due Date Functions", () => {
 
   // ! Not a fan of this test, but it works for now
   it("Gives me the correct time string without the date", () => {
-    const serverOffset = new Date().getTimezoneOffset() / 60 + 1;
+    const serverOffset = new Date().getTimezoneOffset() / 60;
     console.log("serverOffset", serverOffset)
 
     const date = "2021-01-01T07:00:00.000Z";
     const formattedDate = extractTime(date);
+
+    console.log("formattedDate", formattedDate)
 
     let hours = (Number(date.split("T")[1].split(":")[0]) - serverOffset).toString();
 
@@ -28,7 +30,7 @@ describe("Due Date Functions", () => {
       hours = `0${hours}`;
     }
 
-    expect(formattedDate).toBe(`${hours}:00:00`);
+    expect(formattedDate).toBe(`${hours}:00:00`)
   });
 
   it("Returns true if the date is before now", () => {
