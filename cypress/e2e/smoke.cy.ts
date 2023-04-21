@@ -187,7 +187,7 @@ describe("smoke tests", () => {
 
     cy.get('[data-cy="createProjectButton"]').should('exist').click();
 
-    cy.get('[data-cy="newProjectName"]').type(testProject.title);
+    cy.get('[data-cy="newProjectName"]').type(testProject.title, { force: true });
     cy.get('[data-cy="newProjectGreen"]').click();
     cy.get('[data-cy="newProjectCreate"]').click();
 
