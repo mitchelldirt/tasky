@@ -87,11 +87,11 @@ export async function action({ request }: ActionArgs) {
   }
 
   if (!dueTime) {
-    dueTime = "00:00";
+    dueTime = "00:00:00.000Z";
     time = false;
   }
 
-  let userLocalTime = formatUserDate(dueDate, dueTime);
+  let userLocalTime = formatUserDate(dueDate, dueTime, tzCookieValue);
 
   await createTask(
     { userId: userId },

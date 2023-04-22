@@ -102,7 +102,7 @@ export async function action({ request }: ActionArgs) {
     time = false;
   }
 
-  let userLocalTime = formatUserDate(dueDate, dueTime);
+  let userLocalTime = formatUserDate(dueDate, dueTime, tzCookieValue);
 
   const newTask = await createTask(
     { userId: userId },

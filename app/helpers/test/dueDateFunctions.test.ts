@@ -1,5 +1,6 @@
 import { addDays, addHours, format, subDays, subHours } from "date-fns";
 import { extractDate, extractTime, formatUserDate, isBeforeNow, parseDueDate } from "../dueDateFunctions";
+import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 describe("Due Date Functions", () => {
 
@@ -18,8 +19,6 @@ describe("Due Date Functions", () => {
 
     const date = "2021-01-01T07:00:00.000Z";
     const formattedDate = extractTime(date);
-
-    console.log("formattedDate", formattedDate)
 
     let hours = (Number(date.split("T")[1].split(":")[0]) - serverOffset).toString();
 
@@ -60,17 +59,17 @@ describe("Due Date Functions", () => {
     expect(isBeforeNow(dateMinusOneDay, false)).toBe(true);
   });
 
-  // ! This passes, but I'm not sure if it's correct
   it("Returns the the date and time in the correct format", () => {
-    const tzOffset = new Date().getTimezoneOffset() / 60;
-    const date = format(new Date(), "yyyy-MM-dd");
-    let formattedDate = formatUserDate(date, "12:00:00.000Z");
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const utcTime = zonedTimeToUtc(new Date(), tz);
+    const date = format(utcTime, "yyyy-MM-dd");
+    const time = format(utcTime, "HH:mm:ss") + ".000Z";
 
-    if (formattedDate) {
-      formattedDate = subHours(formattedDate, tzOffset);
-    }
+    let formattedDate = formatUserDate(date, time, tz);
 
-    expect(formattedDate?.toISOString()).toBe(`${date}T12:00:00.000Z`);
+    const expectedDate = formatInTimeZone(new Date(), tz, "yyyy-MM-dd'T'HH:mm:ss.000") + "Z";
+
+    expect(formattedDate?.toISOString()).toBe(expectedDate);
   });
 
   it("Returns the the date and time in the correct format for parseDueDate function", () => {
