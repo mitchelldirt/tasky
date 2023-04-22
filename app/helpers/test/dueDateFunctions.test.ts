@@ -11,26 +11,14 @@ describe("Due Date Functions", () => {
     expect(formattedDate).toBe("2021-01-01");
   });
 
-  // ! Not a fan of this test, but it works for now
-  // ! This says that it fails, but if you fix it by adding an hour it fails on CI
   it("Gives me the correct time string without the date", () => {
-    const serverOffset = new Date("2021-01-01T07:00:00.000Z").getTimezoneOffset() / 60;
-    console.log("serverOffset", serverOffset)
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const utcDate = zonedTimeToUtc(new Date(), tz).toISOString();
+    const extractedTime = extractTime(utcDate);
 
-    const date = "2021-01-01T07:00:00.000Z";
-    const formattedDate = extractTime(date);
+    const expectedTime = format(new Date(), "HH:mm:ss");
 
-    let hours = (Number(date.split("T")[1].split(":")[0]) - serverOffset).toString();
-
-    if (Number(hours) < 0) {
-      hours = (24 + Number(hours)).toString();
-    }
-
-    if (Number(hours) < 10) {
-      hours = `0${hours}`;
-    }
-
-    expect(formattedDate).toBe(`${hours}:00:00`)
+    expect(extractedTime).toBe(expectedTime);
   });
 
   it("Returns true if the date is before now", () => {
