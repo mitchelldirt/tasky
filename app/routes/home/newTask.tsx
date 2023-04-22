@@ -91,7 +91,7 @@ export async function action({ request }: ActionArgs) {
     time = false;
   }
 
-  let userLocalTime = formatUserDate(dueDate, dueTime, tzCookieValue);
+  let utcDate = formatUserDate(dueDate, dueTime, tzCookieValue);
 
   await createTask(
     { userId: userId },
@@ -99,7 +99,7 @@ export async function action({ request }: ActionArgs) {
     title,
     description,
     Number(priority),
-    userLocalTime,
+    utcDate,
     time,
     tzCookieValue
   );

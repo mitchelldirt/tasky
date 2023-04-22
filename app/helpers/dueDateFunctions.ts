@@ -124,7 +124,7 @@ export function extractTime(date: string) {
 export function formatUserDate(dueDate: string | null, dueTime: string, tz: string) {
   if (dueDate === null) return null;
 
-  const date = utcToZonedTime(dueDate + "T" + dueTime, tz);
+  const date = zonedTimeToUtc(dueDate + "T" + dueTime, tz);
 
   return date;
 }

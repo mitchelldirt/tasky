@@ -89,15 +89,10 @@ export function createTask(
   title: string,
   description: string,
   priority: number,
-  dueDate: Date | null,
+  utcDueDate: Date | null,
   time: boolean,
   tz: string
 ) {
-  let due = null;
-
-  if (dueDate) {
-    due = zonedTimeToUtc(dueDate, tz);
-  }
 
   return prisma.task.create({
     data: {
@@ -106,7 +101,7 @@ export function createTask(
       description: description,
       priority: priority,
       projectId: projectId,
-      dueDate: due,
+      dueDate: utcDueDate,
       time: time,
     },
   });
