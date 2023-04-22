@@ -1,9 +1,13 @@
-import { addDays, addHours, format, subDays, subHours } from "date-fns";
-import { extractDate, extractTime, formatUserDate, isBeforeNow, parseDueDate } from "../dueDateFunctions";
-import { formatInTimeZone, utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import { addHours, format, subDays } from "date-fns";
+import {
+  extractDate,
+  extractTime,
+  formatUserDate,
+  isBeforeNow,
+} from "../dueDateFunctions";
+import { formatInTimeZone, zonedTimeToUtc } from "date-fns-tz";
 
 describe("Due Date Functions", () => {
-
   it("Gives me the correct date string without the time", () => {
     const date = "2021-01-01T12:00:00.000Z";
     const formattedDate = extractDate(date);
@@ -29,7 +33,7 @@ describe("Due Date Functions", () => {
   });
 
   it("Returns false if the date is after now", () => {
-    const date = addHours(new Date(), 1)
+    const date = addHours(new Date(), 1);
     const isBefore = isBeforeNow(date, false);
 
     expect(isBefore).toBe(false);
@@ -39,7 +43,7 @@ describe("Due Date Functions", () => {
     const date = new Date();
     const dateMinusOneDay = subDays(date, 1);
 
-    console.log("date", date)
+    console.log("date", date);
 
     const isBefore = isBeforeNow(date, false);
 
@@ -55,20 +59,9 @@ describe("Due Date Functions", () => {
 
     let formattedDate = formatUserDate(date, time, tz);
 
-    const expectedDate = formatInTimeZone(new Date(), tz, "yyyy-MM-dd'T'HH:mm:ss.000") + "Z";
+    const expectedDate =
+      formatInTimeZone(new Date(), tz, "yyyy-MM-dd'T'HH:mm:ss.000") + "Z";
 
     expect(formattedDate?.toISOString()).toBe(expectedDate);
   });
-
-  it("Returns the the date and time in the correct format for parseDueDate function", () => {
-    // const overdueTaskWithTime = parseDueDate("2021-01-01T12:00:00.000Z", true, false, 'America/New_York');
-    // const taskDueTodayNoTime = parseDueDate(new Date().toISOString(), false, false, 'America/New_York');
-    // const taskDueTomorrowWithTime = parseDueDate(addDays(new Date(), 1).toISOString(), true, false, 'America/New_York');
-    // const taskDueNextMonthNoTime = parseDueDate("2021-1-01T12:00:00.000Z", false, false, 'America/New_York');
-    // const tomorrowWithTimeNLTZ = parseDueDate(addDays(new Date(), 1).toISOString(), true, false, 'America/New_York');
-
-
-    expect(true).toBe(true);
-  });
-
 });

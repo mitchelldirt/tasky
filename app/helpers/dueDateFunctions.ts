@@ -2,10 +2,8 @@ import {
   differenceInCalendarDays,
   differenceInCalendarYears,
   isBefore,
-  parseISO,
   startOfDay,
   format,
-  addHours,
 } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
@@ -121,7 +119,11 @@ export function extractTime(date: string) {
   return format(new Date(date), "HH:mm:ss");
 }
 
-export function formatUserDate(dueDate: string | null, dueTime: string, tz: string) {
+export function formatUserDate(
+  dueDate: string | null,
+  dueTime: string,
+  tz: string
+) {
   if (dueDate === null) return null;
 
   const date = zonedTimeToUtc(dueDate + "T" + dueTime, tz);

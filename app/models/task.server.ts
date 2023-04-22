@@ -93,7 +93,6 @@ export function createTask(
   time: boolean,
   tz: string
 ) {
-
   return prisma.task.create({
     data: {
       userId: userId,

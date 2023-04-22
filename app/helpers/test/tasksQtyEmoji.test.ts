@@ -1,7 +1,6 @@
 import { tasksQtyEmoji } from "../tasksQtyEmoji";
 
 describe("tasksQtyEmoji", () => {
-
   it("Should return a shrugging emoji", () => {
     expect(tasksQtyEmoji(0)).toBe("🤷‍♂️");
   });
@@ -25,5 +24,4 @@ describe("tasksQtyEmoji", () => {
     expect(tasksQtyEmoji(20)).toBe("🤯");
     expect(tasksQtyEmoji(100)).toBe("🤯");
   });
-
 });
