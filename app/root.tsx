@@ -81,7 +81,7 @@ export default function App() {
     if (
       data.userTasks &&
       data.userTasks.hasOwnProperty("length") === true &&
-      runCount > 0
+      runCount > 1
     ) {
       setTotalTasks(data.userTasks.length);
       if (totalTasks && data.userTasks.length > totalTasks) {
