@@ -1,8 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { format } from "date-fns";
 
-//TODO: If you're looking for an element on initial page load, add a timeout 1000ms or so to allow the page to load 
-
 describe("smoke tests", () => {
   afterEach(() => {
     cy.cleanupUser();

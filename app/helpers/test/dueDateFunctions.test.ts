@@ -1,4 +1,4 @@
-import { addDays, addHours, subDays, subHours } from "date-fns";
+import { addDays, addHours, format, subDays, subHours } from "date-fns";
 import { extractDate, extractTime, formatUserDate, isBeforeNow, parseDueDate } from "../dueDateFunctions";
 
 describe("Due Date Functions", () => {
@@ -11,8 +11,9 @@ describe("Due Date Functions", () => {
   });
 
   // ! Not a fan of this test, but it works for now
+  // ! This says that it fails, but if you fix it by adding an hour it fails on CI
   it("Gives me the correct time string without the date", () => {
-    const serverOffset = new Date().getTimezoneOffset() / 60;
+    const serverOffset = new Date("2021-01-01T07:00:00.000Z").getTimezoneOffset() / 60;
     console.log("serverOffset", serverOffset)
 
     const date = "2021-01-01T07:00:00.000Z";
@@ -62,14 +63,14 @@ describe("Due Date Functions", () => {
   // ! This passes, but I'm not sure if it's correct
   it("Returns the the date and time in the correct format", () => {
     const tzOffset = new Date().getTimezoneOffset() / 60;
-    const date = "2021-01-01";
+    const date = format(new Date(), "yyyy-MM-dd");
     let formattedDate = formatUserDate(date, "12:00:00.000Z");
 
     if (formattedDate) {
       formattedDate = subHours(formattedDate, tzOffset);
     }
 
-    expect(formattedDate?.toISOString()).toBe("2021-01-01T12:00:00.000Z");
+    expect(formattedDate?.toISOString()).toBe(`${date}T12:00:00.000Z`);
   });
 
   it("Returns the the date and time in the correct format for parseDueDate function", () => {

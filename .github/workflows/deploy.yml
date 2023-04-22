@@ -80,6 +80,9 @@ jobs:
       - name: ⚡ Run vitest
         run: npm run test -- --coverage
 
+      - name: Vitest Nederland
+        run: npm run test:nederland -- --coverage
+
   cypress:
     name: 🌲 Cypress
     runs-on: ubuntu-latest
