@@ -140,7 +140,9 @@ describe("smoke tests", () => {
     cy.get('[data-cy="tasksCompletedToday"]').should("contain", "0");
     cy.get('[data-cy="homeNavBarNewTaskButton"]').click();
 
-    cy.get('[data-cy="newTaskTitle"]').type(task.title);
+    cy.wait(1000);
+
+    cy.get('[data-cy="newTaskTitle"]').type(task.title, { force: true });
     cy.get('[data-cy="newTaskDescription"]').type(task.description);
     cy.get('[data-cy="newTaskDueDate"]').type(task.dueDate);
     cy.get('[data-cy="newTaskDueTime"]').type(task.dueTime);
