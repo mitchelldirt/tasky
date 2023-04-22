@@ -48,7 +48,8 @@ export default function App() {
 
   const toast = useRef<HTMLDivElement>(null);
 
-  const [totalTasks, setTotalTasks] = useState(10000000000000);
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [runCount, setRunCount] = useState(0);
 
   // set the timezone cookie
   useEffect(() => {
@@ -76,7 +77,12 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (data.userTasks && data.userTasks.hasOwnProperty("length")) {
+    setRunCount(runCount + 1);
+    if (
+      data.userTasks &&
+      data.userTasks.hasOwnProperty("length") === true &&
+      runCount > 0
+    ) {
       setTotalTasks(data.userTasks.length);
       if (totalTasks && data.userTasks.length > totalTasks) {
         if (toast.current) {
@@ -87,7 +93,7 @@ export default function App() {
         }
       }
     }
-  }, [data.userTasks, totalTasks]);
+  }, [data.userTasks, totalTasks, runCount]);
 
   return (
     <html data-theme="dark" lang="en" className="h-full bg-black">

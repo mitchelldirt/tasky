@@ -94,9 +94,9 @@ export default function Index() {
                 href: "https://tailwindcss.com",
               },
               {
-                src: "https://seeklogo.com/images/P/playwright-logo-22FA8B9E63-seeklogo.com.png",
-                alt: "Playwright",
-                href: "https://playwright.dev/",
+                src: "https://user-images.githubusercontent.com/1500684/157764454-48ac8c71-a2a9-4b5e-b19c-edef8b8953d6.svg",
+                alt: "Cypress",
+                href: "https://www.cypress.io",
               },
               {
                 src: "https://user-images.githubusercontent.com/1500684/157772447-00fccdce-9d12-46a3-8bb4-fac612cdc949.svg",
